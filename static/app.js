@@ -24,6 +24,10 @@ const voiceSelect = document.getElementById('voice-select');
 const languageSelect = document.getElementById('language-select');
 const correctionsSeg = document.getElementById('corrections-seg');
 const dialogSeg = document.getElementById('dialog-seg');
+const approachSelect = document.getElementById('approach-select');
+const mixRow = document.getElementById('mix-row');
+const posRow = document.getElementById('pos-row');
+const posChecks = document.getElementById('pos-checks');
 
 let history = [];
 let recorder = null;
@@ -70,6 +74,30 @@ function applyDialogMode(mode) {
 
 initSeg(dialogSeg, applyDialogMode);
 initSeg(correctionsSeg, null);
+
+// ── Approach selector ─────────────────────────────────────────────
+const APPROACH_DESC = {
+    free_mix:     'Words from both languages blended freely. The slider controls the ratio.',
+    pos:          'Swaps some words into the target language by part of speech. Pick which ones.',
+    sentence_alt: 'Sentences alternate: one in English, one in the target language, and so on.',
+    immersion:    'Replies entirely in the target language, with English hints in [brackets] for harder words.',
+    translation:  'Every English sentence is immediately followed by its translation.',
+};
+
+const approachDescEl = document.getElementById('approach-desc');
+
+function applyApproach(val) {
+    mixRow.hidden = (val !== 'free_mix');
+    posRow.hidden = (val !== 'pos');
+    approachDescEl.textContent = APPROACH_DESC[val] || '';
+}
+
+approachSelect.addEventListener('change', () => applyApproach(approachSelect.value));
+applyApproach(approachSelect.value);
+
+function getPosSelections() {
+    return Array.from(posChecks.querySelectorAll('input:checked')).map(cb => cb.value);
+}
 
 // Apply initial dialog mode
 applyDialogMode(segValue(dialogSeg));
@@ -205,6 +233,8 @@ async function handleUserText(text) {
         fd.append('correction_on', correctionsMode !== 'off');
         fd.append('language', languageSelect.value);
         fd.append('conversation_history', JSON.stringify(history));
+        fd.append('approach', approachSelect.value);
+        fd.append('pos_selections', JSON.stringify(getPosSelections()));
 
         const t0 = performance.now();
         const res = await fetch('/api/respond', { method: 'POST', body: fd });
@@ -297,14 +327,27 @@ function setState(s) {
 function setStatus(text) { statusEl.textContent = text; }
 
 // ── TTS ───────────────────────────────────────────────────────────
+function prepTtsText(text) {
+    const approach = approachSelect.value;
+    if (approach === 'immersion') {
+        // Strip [English hint] brackets
+        text = text.replace(/\s*\[.*?\]/g, '');
+    } else if (approach === 'translation') {
+        // Strip *asterisks* used for italics
+        text = text.replace(/\*/g, '');
+    }
+    return text.trim();
+}
+
 function speak(text, onEnd) {
     if (currentAudio) { currentAudio.pause(); currentAudio = null; }
     if ('speechSynthesis' in window) speechSynthesis.cancel();
 
+    const ttsText = prepTtsText(text);
     if (voiceSelect.value === 'browser') {
-        speakBrowser(text, onEnd);
+        speakBrowser(ttsText, onEnd);
     } else {
-        speakAI(text, onEnd);
+        speakAI(ttsText, onEnd);
     }
 }
 

@@ -1,0 +1,50 @@
+[
+  {
+    "combo": "nouns",
+    "avg_accuracy": 26.5,
+    "avg_gen_ms": 3005.5,
+    "avg_rewrite_ms": 1101.5
+  },
+  {
+    "combo": "verbs",
+    "avg_accuracy": 30.0,
+    "avg_gen_ms": 3268.0,
+    "avg_rewrite_ms": 1093.25
+  },
+  {
+    "combo": "adjectives",
+    "avg_accuracy": 39.25,
+    "avg_gen_ms": 3405.0,
+    "avg_rewrite_ms": 1492.0
+  },
+  {
+    "combo": "adverbs",
+    "avg_accuracy": 45.0,
+    "avg_gen_ms": 2834.5,
+    "avg_rewrite_ms": 984.25
+  },
+  {
+    "combo": "nouns + verbs",
+    "avg_accuracy": 25.0,
+    "avg_gen_ms": 3216.25,
+    "avg_rewrite_ms": 1414.0
+  },
+  {
+    "combo": "nouns + adjectives",
+    "avg_accuracy": 30.0,
+    "avg_gen_ms": 2861.25,
+    "avg_rewrite_ms": 1244.25
+  },
+  {
+    "combo": "nouns + verbs + adjectives",
+    "avg_accuracy": 29.5,
+    "avg_gen_ms": 3378.25,
+    "avg_rewrite_ms": 1483.25
+  },
+  {
+    "combo": "nouns + verbs + adjectives + adverbs",
+    "avg_accuracy": 22.0,
+    "avg_gen_ms": 3491.75,
+    "avg_rewrite_ms": 1573.5
+  }
+]

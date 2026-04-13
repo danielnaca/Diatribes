@@ -28,50 +28,72 @@ PROMPTS = [
 
 APPROACHES = {
 
-    "percentage_50": {
-        "name": "Word percentage (50%)",
-        "description": "50% of all words must be French, 50% English, mixed within sentences.",
-        "system": (
-            "LANGUAGE RULE (highest priority): Respond in a genuine half-and-half mix — "
-            "French and English roughly equal, blended naturally within sentences. "
-            "Neither language should dominate."
+    "pos_nouns_2pass": {
+        "name": "POS: nouns in French (2-pass)",
+        "description": "Natural response first, then replace every noun with French.",
+        "system": "You are a friendly conversational partner. Respond naturally in 2-3 sentences.",
+        "rewrite_system": (
+            "You are a linguistics post-processor. You will be given a completed English text.\n"
+            "Your job is to identify every noun in the text, then replace each one with its French equivalent.\n"
+            "Leave every other word (verbs, adjectives, adverbs, pronouns, articles, prepositions) completely unchanged.\n"
+            "Think through the sentence carefully before making changes — scan the whole thing first.\n"
+            "Example:\n"
+            "  Input:  'I love going to the market on weekends — the vegetables are always so fresh!'\n"
+            "  Nouns identified: market→marché, weekends→week-ends, vegetables→légumes\n"
+            "  Output: 'I love going to the marché on week-ends — the légumes are always so fresh!'\n"
+            "Return ONLY the final transformed text, no explanation."
         ),
         "judge_question": (
-            "Count the French words and the English words separately. "
-            "Is the split roughly 50/50? "
-            "Reply with JSON: {\"french_pct\": <number>, \"followed\": <true/false>, \"notes\": \"...\"}"
+            "Check carefully: are ALL nouns in French, and are all other words (verbs, adjectives, "
+            "adverbs, pronouns, articles, prepositions) in English? List any nouns still in English "
+            "and any non-nouns incorrectly in French. "
+            "Reply with JSON: {\"followed\": <true/false>, \"english_nouns\": [...], \"wrong_french\": [...], \"accuracy_pct\": <0-100>}"
         ),
     },
 
-    "pos_nouns": {
-        "name": "POS: nouns in French",
-        "description": "All nouns in French, everything else in English.",
-        "system": (
-            "LANGUAGE RULE (highest priority): Write in English but replace EVERY noun "
-            "with its French equivalent. All verbs, adjectives, adverbs, pronouns, "
-            "prepositions, and articles stay in English. Only nouns switch to French. "
-            "Example: 'I love going to the marché on weekends — the légumes are always so fresh!'"
+    "pos_nouns_verbs_2pass": {
+        "name": "POS: nouns + verbs in French (2-pass)",
+        "description": "Natural response first, then replace every noun and verb with French.",
+        "system": "You are a friendly conversational partner. Respond naturally in 2-3 sentences.",
+        "rewrite_system": (
+            "You are a linguistics post-processor. You will be given a completed English text.\n"
+            "Your job: identify every noun and every verb, replace each with its French equivalent.\n"
+            "Keep all adjectives, adverbs, pronouns, articles, and prepositions in English.\n"
+            "For verbs, preserve tense and person (e.g. 'loves' → 'aime', 'went' → 'est allé').\n"
+            "Think through the whole sentence first before making changes.\n"
+            "Example:\n"
+            "  Input:  'I love going to the market on weekends — the vegetables are always fresh!'\n"
+            "  Nouns: market→marché, weekends→week-ends, vegetables→légumes\n"
+            "  Verbs: love→adore, going→aller, are→sont\n"
+            "  Output: 'I adore aller to the marché on week-ends — the légumes sont always fresh!'\n"
+            "Return ONLY the final transformed text, no explanation."
         ),
         "judge_question": (
-            "Check: are all nouns (and only nouns) in French, with everything else in English? "
-            "List any violations. "
-            "Reply with JSON: {\"nouns_french\": <true/false>, \"violations\": [...], \"followed\": <true/false>}"
+            "Check: are all nouns AND verbs in French, with adjectives/adverbs/pronouns/articles/prepositions in English? "
+            "List violations in each category. "
+            "Reply with JSON: {\"followed\": <true/false>, \"english_nouns\": [...], \"english_verbs\": [...], \"wrong_french\": [...], \"accuracy_pct\": <0-100>}"
         ),
     },
 
-    "pos_verbs_nouns": {
-        "name": "POS: nouns + verbs in French",
-        "description": "All nouns and verbs in French, everything else in English.",
-        "system": (
-            "LANGUAGE RULE (highest priority): Write in English but replace EVERY noun AND "
-            "every verb with its French equivalent. Keep all adjectives, adverbs, pronouns, "
-            "prepositions, and articles in English. "
-            "Example: 'I adore aller to the marché — the légumes sont always so fresh!'"
+    "pos_adjectives_2pass": {
+        "name": "POS: adjectives in French (2-pass)",
+        "description": "Natural response first, then replace every adjective with French.",
+        "system": "You are a friendly conversational partner. Respond naturally in 2-3 sentences.",
+        "rewrite_system": (
+            "You are a linguistics post-processor. You will be given a completed English text.\n"
+            "Your job: identify every adjective in the text, replace each with its French equivalent.\n"
+            "Leave every other word (nouns, verbs, adverbs, pronouns, articles, prepositions) completely unchanged.\n"
+            "Think through the whole sentence first before making any changes.\n"
+            "Example:\n"
+            "  Input:  'I love the beautiful, quiet park near my house — it feels so peaceful!'\n"
+            "  Adjectives: beautiful→beau, quiet→silencieux, peaceful→paisible\n"
+            "  Output: 'I love the beau, silencieux park near my house — it feels so paisible!'\n"
+            "Return ONLY the final transformed text, no explanation."
         ),
         "judge_question": (
-            "Check: are all nouns and verbs in French, with adjectives/adverbs/pronouns/articles in English? "
+            "Check: are all adjectives in French, and are nouns/verbs/articles/pronouns in English? "
             "List violations. "
-            "Reply with JSON: {\"followed\": <true/false>, \"violations\": [...], \"accuracy_pct\": <0-100>}"
+            "Reply with JSON: {\"followed\": <true/false>, \"english_adjectives\": [...], \"wrong_french\": [...], \"accuracy_pct\": <0-100>}"
         ),
     },
 
@@ -154,16 +176,13 @@ def generate_response(system: str, prompt: str) -> tuple[str, int]:
 
 
 def rewrite_response(text: str, system: str) -> tuple[str, int]:
-    """Second pass: rewrite to better follow the mixing rule."""
+    """Second pass: post-process a finished text to apply the mixing rule."""
     t0 = time.monotonic()
     r = client.messages.create(
         model=MODEL_FAST,
         max_tokens=300,
-        system=(
-            f"Rewrite the following text to strictly follow this rule:\n{system}\n\n"
-            "Preserve the meaning exactly. Return ONLY the rewritten text."
-        ),
-        messages=[{"role": "user", "content": text}],
+        system=system,
+        messages=[{"role": "user", "content": f"Here is the text to transform:\n\n{text}"}],
     )
     ms = round((time.monotonic() - t0) * 1000)
     return r.content[0].text.strip(), ms
@@ -188,6 +207,9 @@ def test_approach(key: str, approach: dict) -> dict:
     print(f"APPROACH: {approach['name']}")
     print(f"{'='*60}")
 
+    # Use dedicated rewrite_system if provided (2-pass POS approaches)
+    rewrite_sys = approach.get("rewrite_system", approach["system"])
+
     results = []
     for prompt in PROMPTS:
         # Single pass
@@ -195,8 +217,8 @@ def test_approach(key: str, approach: dict) -> dict:
         verdict_1 = judge(response_1, approach["judge_question"])
         followed_1 = verdict_1.get("followed", None)
 
-        # Second pass
-        response_2, ms_2 = rewrite_response(response_1, approach["system"])
+        # Second pass (using rewrite_system if defined)
+        response_2, ms_2 = rewrite_response(response_1, rewrite_sys)
         verdict_2 = judge(response_2, approach["judge_question"])
         followed_2 = verdict_2.get("followed", None)
 
@@ -244,7 +266,8 @@ def main():
     print("Testing language mixing approaches...")
     all_results = []
 
-    for key, approach in APPROACHES.items():
+    pos_only = {k: v for k, v in APPROACHES.items() if k.startswith("pos")}
+    for key, approach in pos_only.items():
         r = test_approach(key, approach)
         all_results.append(r)
 

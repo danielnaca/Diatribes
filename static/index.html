@@ -48,16 +48,6 @@
                 </div>
 
                 <div class="setting-row">
-                    <span class="setting-label">Mix</span>
-                    <div class="slider-group">
-                        <span class="slider-end">EN</span>
-                        <input type="range" id="slider" min="0" max="100" value="30" step="5">
-                        <span class="slider-end">FR</span>
-                        <span id="slider-value">30%</span>
-                    </div>
-                </div>
-
-                <div class="setting-row">
                     <span class="setting-label">Answers</span>
                     <div class="slider-group">
                         <span class="slider-end">Brief</span>
@@ -94,6 +84,44 @@
                         <button class="seg-btn" data-value="voice">Voice</button>
                         <button class="seg-btn" data-value="text">Text</button>
                         <button class="seg-btn active" data-value="both">Text &amp; voice</button>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Approach selector + dynamic controls -->
+                <div class="setting-row">
+                    <span class="setting-label">Approach</span>
+                    <select id="approach-select">
+                        <option value="free_mix" selected>Free mix</option>
+                        <option value="pos">POS swap</option>
+                        <option value="sentence_alt">Alternating</option>
+                        <option value="immersion">Immersion</option>
+                        <option value="translation">Translations</option>
+                    </select>
+                </div>
+
+                <p id="approach-desc" class="approach-desc"></p>
+
+                <!-- Free mix controls -->
+                <div id="mix-row" class="setting-row">
+                    <span class="setting-label">Mix</span>
+                    <div class="slider-group">
+                        <span class="slider-end">EN</span>
+                        <input type="range" id="slider" min="0" max="100" value="30" step="5">
+                        <span class="slider-end">FR</span>
+                        <span id="slider-value">30%</span>
+                    </div>
+                </div>
+
+                <!-- POS swap controls -->
+                <div id="pos-row" class="setting-row" hidden>
+                    <span class="setting-label">Swap</span>
+                    <div class="pos-checks" id="pos-checks">
+                        <label><input type="checkbox" value="nouns" checked> Nouns</label>
+                        <label><input type="checkbox" value="verbs"> Verbs</label>
+                        <label><input type="checkbox" value="adjectives"> Adjs</label>
+                        <label><input type="checkbox" value="adverbs"> Advs</label>
                     </div>
                 </div>
 

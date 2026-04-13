@@ -1,4 +1,5 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 :root {
     --bg: #111;
@@ -185,9 +186,9 @@ h1 {
     color: #fff;
 }
 
-/* ── Voice select ── */
+/* ── Selects ── */
 
-#voice-select {
+select {
     flex: 1;
     background: var(--bg);
     border: 1px solid var(--border);
@@ -199,7 +200,47 @@ h1 {
     outline: none;
 }
 
-#voice-select:focus { border-color: var(--primary); }
+select:focus { border-color: var(--primary); }
+
+/* ── Approach description ── */
+
+.approach-desc {
+    font-size: 12px;
+    color: var(--text-faint);
+    line-height: 1.4;
+    padding-left: 90px;
+    margin-top: -4px;
+}
+
+/* ── POS checkboxes ── */
+
+.pos-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1;
+}
+
+.pos-checks label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.pos-checks label:has(input:checked) {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.pos-checks input[type="checkbox"] { display: none; }
 
 /* ── Divider ── */
 

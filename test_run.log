@@ -1,0 +1,297 @@
+Diatribes Exhaustive Approach Tests
+Languages: French, Spanish
+Started: 23:31:48
+============================================================
+
+============================================================
+APPROACH: free_mix
+============================================================
+
+  [French] free_mix / 25%
+    → What do you like to do on weekends?... 80%
+    → Tell me about your favorite food.... 55%
+    → Do you prefer the city or the countryside?... 80%
+    → What kind of music do you enjoy?... 55%
+    → What's a hobby you've recently picked up?... 0%
+    → How do you usually unwind after a long day?... 70%
+    → Describe your ideal vacation destination in as much detail a... 80%
+    → What does your perfect morning look like from the moment you... 0%
+    → Describe the most beautiful place you've ever been or can im... 80%
+    → Paint me a vivid picture of your favorite season and why you... 0%
+    → Tell me a short story about an unexpected encounter with a s... 80%
+    → Describe a meal you'll never forget — where, what, and why i... 80%
+    → Tell me about a moment when something completely changed you... 0%
+    → [dialogue] Paris trip planning avg 52%
+    ✓ avg accuracy: 51%
+
+  [Spanish] free_mix / 25%
+    → What do you like to do on weekends?... 0%
+    → Tell me about your favorite food.... 80%
+    → Do you prefer the city or the countryside?... 80%
+    → What kind of music do you enjoy?... 80%
+    → What's a hobby you've recently picked up?... 80%
+    → How do you usually unwind after a long day?... 70%
+    → Describe your ideal vacation destination in as much detail a... 70%
+    → What does your perfect morning look like from the moment you... 60%
+    → Describe the most beautiful place you've ever been or can im... 80%
+    → Paint me a vivid picture of your favorite season and why you... 60%
+    → Tell me a short story about an unexpected encounter with a s... 60%
+    → Describe a meal you'll never forget — where, what, and why i... 60%
+    → Tell me about a moment when something completely changed you... 0%
+    → [dialogue] Paris trip planning avg 49%
+    ✓ avg accuracy: 60%
+
+  [French] free_mix / 50%
+    → What do you like to do on weekends?... 85%
+    → Tell me about your favorite food.... 100%
+    → Do you prefer the city or the countryside?... 40%
+    → What kind of music do you enjoy?... 80%
+    → What's a hobby you've recently picked up?... 80%
+    → How do you usually unwind after a long day?... 0%
+    → Describe your ideal vacation destination in as much detail a... 0%
+    → What does your perfect morning look like from the moment you... 65%
+    → Describe the most beautiful place you've ever been or can im... 40%
+    → Paint me a vivid picture of your favorite season and why you... 20%
+    → Tell me a short story about an unexpected encounter with a s... 0%
+    → Describe a meal you'll never forget — where, what, and why i... 100%
+    → Tell me about a moment when something completely changed you... 0%
+    → [dialogue] Paris trip planning avg 47%
+    ✓ avg accuracy: 47%
+
+  [Spanish] free_mix / 50%
+    → What do you like to do on weekends?... 70%
+    → Tell me about your favorite food.... 100%
+    → Do you prefer the city or the countryside?... 55%
+    → What kind of music do you enjoy?... 80%
+    → What's a hobby you've recently picked up?... 20%
+    → How do you usually unwind after a long day?... 60%
+    → Describe your ideal vacation destination in as much detail a... 80%
+    → What does your perfect morning look like from the moment you... 100%
+    → Describe the most beautiful place you've ever been or can im... 80%
+    → Paint me a vivid picture of your favorite season and why you... 60%
+    → Tell me a short story about an unexpected encounter with a s... 40%
+    → Describe a meal you'll never forget — where, what, and why i... 40%
+    → Tell me about a moment when something completely changed you... 20%
+    → [dialogue] Paris trip planning avg 47%
+    ✓ avg accuracy: 62%
+
+  [French] free_mix / 75%
+    → What do you like to do on weekends?... 80%
+    → Tell me about your favorite food.... 0%
+    → Do you prefer the city or the countryside?... 0%
+    → What kind of music do you enjoy?... 80%
+    → What's a hobby you've recently picked up?... 60%
+    → How do you usually unwind after a long day?... 80%
+    → Describe your ideal vacation destination in as much detail a... 40%
+    → What does your perfect morning look like from the moment you... 0%
+    → Describe the most beautiful place you've ever been or can im... 100%
+    → Paint me a vivid picture of your favorite season and why you... 60%
+    → Tell me a short story about an unexpected encounter with a s... 0%
+    → Describe a meal you'll never forget — where, what, and why i... 80%
+    → Tell me about a moment when something completely changed you... 100%
+    → [dialogue] Paris trip planning avg 13%
+    ✓ avg accuracy: 52%
+
+  [Spanish] free_mix / 75%
+    → What do you like to do on weekends?... 75%
+    → Tell me about your favorite food.... 75%
+    → Do you prefer the city or the countryside?... 100%
+    → What kind of music do you enjoy?... 60%
+    → What's a hobby you've recently picked up?... 40%
+    → How do you usually unwind after a long day?... 75%
+    → Describe your ideal vacation destination in as much detail a... 0%
+    → What does your perfect morning look like from the moment you... 100%
+    → Describe the most beautiful place you've ever been or can im... 0%
+    → Paint me a vivid picture of your favorite season and why you... 80%
+    → Tell me a short story about an unexpected encounter with a s... 0%
+    → Describe a meal you'll never forget — where, what, and why i... 0%
+    → Tell me about a moment when something completely changed you... 80%
+    → [dialogue] Paris trip planning avg 80%
+    ✓ avg accuracy: 53%
+
+  [French] free_mix / 100%
+    → What do you like to do on weekends?... 100%
+    → Tell me about your favorite food.... 100%
+    → Do you prefer the city or the countryside?... 100%
+    → What kind of music do you enjoy?... 100%
+    → What's a hobby you've recently picked up?... 100%
+    → How do you usually unwind after a long day?... 100%
+    → Describe your ideal vacation destination in as much detail a... 100%
+    → What does your perfect morning look like from the moment you... 100%
+    → Describe the most beautiful place you've ever been or can im... 100%
+    → Paint me a vivid picture of your favorite season and why you... 100%
+    → Tell me a short story about an unexpected encounter with a s... 100%
+    → Describe a meal you'll never forget — where, what, and why i... 100%
+    → Tell me about a moment when something completely changed you... 100%
+    → [dialogue] Paris trip planning avg 67%
+    ✓ avg accuracy: 100%
+
+  [Spanish] free_mix / 100%
+    → What do you like to do on weekends?... 100%
+    → Tell me about your favorite food.... 0%
+    → Do you prefer the city or the countryside?... 100%
+    → What kind of music do you enjoy?... 100%
+    → What's a hobby you've recently picked up?... 100%
+    → How do you usually unwind after a long day?... 0%
+    → Describe your ideal vacation destination in as much detail a... 100%
+    → What does your perfect morning look like from the moment you... 100%
+    → Describe the most beautiful place you've ever been or can im... 60%
+    → Paint me a vivid picture of your favorite season and why you... 64%
+    → Tell me a short story about an unexpected encounter with a s... 100%
+    → Describe a meal you'll never forget — where, what, and why i... 100%
+    → Tell me about a moment when something completely changed you... 0%
+    → [dialogue] Paris trip planning avg 45%
+    ✓ avg accuracy: 71%
+
+============================================================
+APPROACH: pos
+============================================================
+
+  [French] pos / Nouns only
+    → What do you like to do on weekends?... 0%
+    → Tell me about your favorite food.... 0%
+    → Do you prefer the city or the countryside?... 90%
+    → What kind of music do you enjoy?... 0%
+    → What's a hobby you've recently picked up?... 0%
+    → How do you usually unwind after a long day?... 80%
+    → Describe your ideal vacation destination in as much detail a... 0%
+    → What does your perfect morning look like from the moment you... 25%
+    → Describe the most beautiful place you've ever been or can im... 0%
+    → Paint me a vivid picture of your favorite season and why you... 0%
+    → Tell me a short story about an unexpected encounter with a s... 60%
+    → Describe a meal you'll never forget — where, what, and why i... 0%
+    → Tell me about a moment when something completely changed you... 0%
+    → [dialogue] Paris trip planning avg 7%
+    ✓ avg accuracy: 20%
+
+  [Spanish] pos / Nouns only
+    → What do you like to do on weekends?... 20%
+    → Tell me about your favorite food.... 20%
+    → Do you prefer the city or the countryside?... 10%
+    → What kind of music do you enjoy?... 5%
+    → What's a hobby you've recently picked up?... 80%
+    → How do you usually unwind after a long day?... 40%
+    → Describe your ideal vacation destination in as much detail a... 20%
+    → What does your perfect morning look like from the moment you... 50%
+    → Describe the most beautiful place you've ever been or can im... 5%
+    → Paint me a vivid picture of your favorite season and why you... 20%
+    → Tell me a short story about an unexpected encounter with a s... 0%
+    → Describe a meal you'll never forget — where, what, and why i... 30%
+    → Tell me about a moment when something completely changed you... 90%
+    → [dialogue] Paris trip planning avg 15%
+    ✓ avg accuracy: 30%
+
+  [French] pos / Verbs only
+    → What do you like to do on weekends?... 0%
+    → Tell me about your favorite food.... 0%
+    → Do you prefer the city or the countryside?... 90%
+    → What kind of music do you enjoy?... 0%
+    → What's a hobby you've recently picked up?... 0%
+    → How do you usually unwind after a long day?... 10%
+    → Describe your ideal vacation destination in as much detail a... 0%
+    → What does your perfect morning look like from the moment you... 0%
+    → Describe the most beautiful place you've ever been or can im... 0%
+    → Paint me a vivid picture of your favorite season and why you... 10%
+    → Tell me a short story about an unexpected encounter with a s... 0%
+    → Describe a meal you'll never forget — where, what, and why i... 60%
+    → Tell me about a moment when something completely changed you... 70%
+    → [dialogue] Paris trip planning avg 20%
+    ✓ avg accuracy: 18%
+
+  [Spanish] pos / Verbs only
+    → What do you like to do on weekends?... 0%
+    → Tell me about your favorite food.... 0%
+    → Do you prefer the city or the countryside?... 70%
+    → What kind of music do you enjoy?... 50%
+    → What's a hobby you've recently picked up?... 0%
+    → How do you usually unwind after a long day?... 20%
+    → Describe your ideal vacation destination in as much detail a... 10%
+    → What does your perfect morning look like from the moment you... 0%
+    → Describe the most beautiful place you've ever been or can im... 0%
+    → Paint me a vivid picture of your favorite season and why you... 20%
+    → Tell me a short story about an unexpected encounter with a s... 10%
+    → Describe a meal you'll never forget — where, what, and why i... 0%
+    → Tell me about a moment when something completely changed you... 80%
+    → [dialogue] Paris trip planning avg 40%
+    ✓ avg accuracy: 20%
+
+  [French] pos / Adjectives only
+    → What do you like to do on weekends?... 80%
+    → Tell me about your favorite food.... 10%
+    → Do you prefer the city or the countryside?... 70%
+    → What kind of music do you enjoy?... 20%
+    → What's a hobby you've recently picked up?... 40%
+    → How do you usually unwind after a long day?... 70%
+    → Describe your ideal vacation destination in as much detail a... 0%
+    → What does your perfect morning look like from the moment you... 60%
+    → Describe the most beautiful place you've ever been or can im... 0%
+    → Paint me a vivid picture of your favorite season and why you... 10%
+    → Tell me a short story about an unexpected encounter with a s... 0%
+    → Describe a meal you'll never forget — where, what, and why i... 40%
+    → Tell me about a moment when something completely changed you... 80%
+    → [dialogue] Paris trip planning avg 53%
+    ✓ avg accuracy: 37%
+
+  [Spanish] pos / Adjectives only
+    → What do you like to do on weekends?... 90%
+    → Tell me about your favorite food.... 0%
+    → Do you prefer the city or the countryside?... 80%
+    → What kind of music do you enjoy?... 0%
+    → What's a hobby you've recently picked up?... 80%
+    → How do you usually unwind after a long day?... 30%
+    → Describe your ideal vacation destination in as much detail a... 27%
+    → What does your perfect morning look like from the moment you... 60%
+    → Describe the most beautiful place you've ever been or can im... 60%
+    → Paint me a vivid picture of your favorite season and why you... 0%
+    → Tell me a short story about an unexpected encounter with a s... 0%
+    → Describe a meal you'll never forget — where, what, and why i... 80%
+    → Tell me about a moment when something completely changed you... 10%
+    → [dialogue] Paris trip planning avg 30%
+    ✓ avg accuracy: 40%
+
+  [French] pos / Adverbs only
+    → What do you like to do on weekends?... 90%
+    → Tell me about your favorite food.... 0%
+    → Do you prefer the city or the countryside?... 100%
+    → What kind of music do you enjoy?... 100%
+    → What's a hobby you've recently picked up?... 90%
+    → How do you usually unwind after a long day?... 0%
+    → Describe your ideal vacation destination in as much detail a... 80%
+    → What does your perfect morning look like from the moment you... 80%
+    → Describe the most beautiful place you've ever been or can im... 10%
+    → Paint me a vivid picture of your favorite season and why you... 0%
+    → Tell me a short story about an unexpected encounter with a s... 100%
+    → Describe a meal you'll never forget — where, what, and why i... 90%
+    → Tell me about a moment when something completely changed you... 100%
+    → [dialogue] Paris trip planning avg 53%
+    ✓ avg accuracy: 65%
+
+  [Spanish] pos / Adverbs only
+    → What do you like to do on weekends?... 80%
+    → Tell me about your favorite food.... 80%
+    → Do you prefer the city or the countryside?...     ⚠ Error (Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}, 'request_id': 'req_011Ca1wxutHqdsFdWQiLEw9y'}), retrying in 5s...
+    ⚠ Error (Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}, 'request_id': 'req_011Ca1wyt6fPS55eCxQFkDBQ'}), retrying in 5s...
+30%
+    → What kind of music do you enjoy?... 0%
+    → What's a hobby you've recently picked up?... 80%
+    → How do you usually unwind after a long day?...     ⚠ Error (Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}, 'request_id': 'req_011Ca1x4Ngjb2hobnGbi53dW'}), retrying in 5s...
+90%
+    → Describe your ideal vacation destination in as much detail a... 60%
+    → What does your perfect morning look like from the moment you... 0%
+    → Describe the most beautiful place you've ever been or can im... 70%
+    → Paint me a vivid picture of your favorite season and why you... 70%
+    → Tell me a short story about an unexpected encounter with a s... 60%
+    → Describe a meal you'll never forget — where, what, and why i... 80%
+    → Tell me about a moment when something completely changed you... 90%
+    → [dialogue] Paris trip planning avg 53%
+    ✓ avg accuracy: 61%
+
+  [French] pos / Nouns + Verbs
+    → What do you like to do on weekends?... 0%
+    → Tell me about your favorite food.... 0%
+    → Do you prefer the city or the countryside?...     ⚠ Error (Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}, 'request_id': 'req_011Ca1xHgFXp5Sfsg4LeN9Zo'}), retrying in 5s...
+0%
+    → What kind of music do you enjoy?... 0%
+    → What's a hobby you've recently picked up?... 0%
+    → How do you usually unwind after a long day?... 40%
+    → Describe your ideal vacation destination in as much detail a... 

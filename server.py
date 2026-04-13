@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import tempfile
 import time
 from datetime import datetime
@@ -62,6 +63,9 @@ ALLOWED_VOICES = {"alloy", "echo", "fable", "onyx", "nova", "shimmer"}
 async def speak(text: str = Form(...), voice: str = Form(default="nova"), language: str = Form(default="French")):
     if voice not in ALLOWED_VOICES:
         voice = "nova"
+    # Strip bracket hints (immersion mode) and asterisks (translation pairs) that shouldn't be spoken
+    text = re.sub(r'\s*\[.*?\]', '', text).strip()
+    text = text.replace('*', '')
     try:
         t0 = time.monotonic()
         response = openai_client.audio.speech.create(
@@ -93,8 +97,11 @@ async def respond(
     correction_on: bool = Form(default=True),
     language: str = Form(default="French"),
     conversation_history: str = Form(default="[]"),
+    approach: str = Form(default="free_mix"),
+    pos_selections: str = Form(default="[]"),
 ):
     history = json.loads(conversation_history)
+    pos_list: list[str] = json.loads(pos_selections)
 
     if correction_on:
         correction_block = (
@@ -153,17 +160,45 @@ async def respond(
                 f"You are a native {L} speaker responding naturally in your language."
             )
 
-    system_prompt = f"""LANGUAGE RULE (highest priority — follow this above all else):
-{mix_instruction(slider_value)}
+    # Build language rule based on approach
+    L = language
+    if approach == "free_mix":
+        lang_rule = f"LANGUAGE RULE (highest priority — follow this above all else):\n{mix_instruction(slider_value)}"
+    elif approach == "pos":
+        lang_rule = "Respond naturally in English. Have a genuine, engaging conversation."
+    elif approach == "sentence_alt":
+        lang_rule = (
+            f"LANGUAGE RULE (highest priority): Alternate languages sentence by sentence. "
+            f"The FIRST sentence must be in English. The SECOND in {L}. "
+            f"The THIRD in English. And so on, strictly alternating. "
+            f"Never mix languages within a single sentence."
+        )
+    elif approach == "immersion":
+        lang_rule = (
+            f"LANGUAGE RULE (highest priority): Respond entirely in {L}. "
+            f"After any word that might be unfamiliar to an intermediate learner, "
+            f"add its English translation in square brackets immediately after. "
+            f"Example: 'Je vais au marché [market] ce soir pour acheter des légumes [vegetables] frais [fresh].'"
+        )
+    elif approach == "translation":
+        lang_rule = (
+            f"LANGUAGE RULE (highest priority): After every English sentence you write, "
+            f"immediately follow it with the {L} translation in italics (use *asterisks*). "
+            f"Pattern: English sentence. *{L} translation.* English sentence. *{L} translation.*"
+        )
+    else:
+        lang_rule = "Respond naturally in English."
 
-You are a friendly conversational partner helping someone practice {language}. Have genuine, interesting conversations — be curious and engaged. This is NOT a language class, it's a real conversation.
+    system_prompt = f"""{lang_rule}
+
+You are a friendly conversational partner helping someone practice {language}. Have genuine, interesting conversations — be curious and engaged.
 
 LENGTH: {length_instructions[max(1, min(5, length_value))]}
 
 {correction_block}
 
 Respond ONLY with valid JSON, no markdown fences:
-{{"correction": "corrected full message or null", "response": "your mixed-language reply", "trouble_words": ["words"] or null}}"""
+{{"correction": "corrected full message or null", "response": "your reply", "trouble_words": ["words"] or null}}"""
 
     messages = history + [{"role": "user", "content": user_text}]
 
@@ -190,9 +225,10 @@ Respond ONLY with valid JSON, no markdown fences:
             if w.lower() not in [tw.lower() for tw in trouble_words]:
                 trouble_words.append(w)
 
-    # Second pass: rewrite to hit the target mix ratio
+    # Second pass rewrite based on approach
     rewrite_ms = None
-    if slider_value > 0:
+
+    if approach == "free_mix" and slider_value > 0:
         t1 = time.monotonic()
         rewrite = anthropic_client.messages.create(
             model="claude-haiku-4-5-20251001",
@@ -205,6 +241,30 @@ Respond ONLY with valid JSON, no markdown fences:
                 f"Return ONLY the rewritten text — no explanation, no quotes, nothing else."
             ),
             messages=[{"role": "user", "content": result["response"]}],
+        )
+        rewrite_ms = round((time.monotonic() - t1) * 1000)
+        result["response"] = rewrite.content[0].text.strip()
+
+    elif approach == "pos" and pos_list:
+        pos_str = " and ".join(pos_list)
+        pos_bullets = "\n".join(
+            f"- Replace every {p} with its {language} equivalent" for p in pos_list
+        )
+        keep = [p for p in ["nouns", "verbs", "adjectives", "adverbs"] if p not in pos_list]
+        keep_str = ", ".join(keep) if keep else "nothing"
+        t1 = time.monotonic()
+        rewrite = anthropic_client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=512,
+            system=(
+                f"You are a linguistics post-processor. You will receive a completed English text.\n"
+                f"Your task: identify all {pos_str} in the text and replace each with its {language} equivalent.\n"
+                f"{pos_bullets}\n"
+                f"Keep everything else in English: {keep_str}, plus articles, pronouns, prepositions, conjunctions.\n\n"
+                f"Work through the sentence carefully — scan the whole thing before making changes.\n\n"
+                f"Return ONLY the final transformed text. No explanation."
+            ),
+            messages=[{"role": "user", "content": f"Text to transform:\n\n{result['response']}"}],
         )
         rewrite_ms = round((time.monotonic() - t1) * 1000)
         result["response"] = rewrite.content[0].text.strip()

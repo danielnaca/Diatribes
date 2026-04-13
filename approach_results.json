@@ -1,0 +1,959 @@
+[
+  {
+    "key": "pos_nouns_2pass",
+    "name": "POS: nouns in French (2-pass)",
+    "acc_1": 0.0,
+    "acc_2": 0.0,
+    "avg_ms_1": 3061.0,
+    "avg_ms_2": 1051.0,
+    "results": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response_1": "I don't experience weekends the way you do, but I really enjoy having longer, more relaxed conversations where we can dive deep into interesting topics! There's something nice about when people have more time to explore ideas together, whether that's discussing books, brainstorming creative projects, or just chatting about life. What about you - do you have any favorite weekend activities?",
+        "ms_1": 3132,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_nouns": [
+            "weekends",
+            "way",
+            "conversations",
+            "topics",
+            "something",
+            "time",
+            "ideas",
+            "books",
+            "projects",
+            "life",
+            "activities"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I don't experience week-ends the way you do, but I really enjoy having longer, more relaxed conversations where we can dive deep into interesting sujets! There's something nice about when gens have more temps to explore idées together, whether that's discussing livres, brainstorming creative projets, or just chatting about vie. What about you - do you have any favorite week-end activités?",
+        "ms_2": 1032,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_nouns": [
+            "week-ends",
+            "conversations",
+            "something",
+            "week-end",
+            "activités"
+          ],
+          "wrong_french": [
+            "sujets (should be 'subjects' or kept as English noun)",
+            "gens (verb/noun confusion - used as noun but in French)",
+            "temps (noun in French, should be English)",
+            "idées (noun in French, should be English)",
+            "livres (noun in French, should be English)",
+            "projets (noun in French, should be English)",
+            "vie (noun in French, should be English)"
+          ],
+          "accuracy_pct": 5
+        }
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response_1": "I don't actually eat food since I'm an AI, but I find the topic fascinating! I love hearing people talk about their favorite dishes and the memories or cultural connections tied to them. What's your favorite food, and is there a special story behind why you love it?",
+        "ms_1": 2606,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_nouns": [
+            "food",
+            "AI",
+            "topic",
+            "hearing",
+            "people",
+            "dishes",
+            "memories",
+            "connections",
+            "food",
+            "story"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I don't actually eat nourriture since I'm an IA, but I find the sujet fascinating! I love hearing gens talk about their favorite plats and the souvenirs or connexions culturelles tied to them. What's your favorite nourriture, and is there a spécial histoire behind why you love it?",
+        "ms_2": 978,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_nouns": [
+            "eat",
+            "talk",
+            "hearing"
+          ],
+          "wrong_french": [
+            "IA"
+          ],
+          "accuracy_pct": 85
+        }
+      },
+      {
+        "prompt": "Do you prefer the city or the countryside?",
+        "response_1": "I find both appealing in different ways! Cities have this vibrant energy with all the cultural opportunities, diverse food, and the convenience of everything being nearby. But there's something really peaceful about the countryside - the open spaces, fresh air, and that slower pace of life that can be so refreshing.",
+        "ms_1": 3506,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_nouns": [
+            "energy",
+            "opportunities",
+            "food",
+            "convenience",
+            "spaces",
+            "air",
+            "pace",
+            "life"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I find both appealing in different ways! Villes have this vibrant énergie with all the culturel opportunités, diverse nourriture, and the convenance of everything being nearby. But there's something really peaceful about the campagne - the open espaces, fresh air, and that slower rythme of vie that can be so refreshing.",
+        "ms_2": 1258,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_nouns": [
+            "air",
+            "way",
+            "ways"
+          ],
+          "wrong_french": [
+            "culturel",
+            "rythme"
+          ],
+          "accuracy_pct": 75
+        }
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response_1": "I find myself drawn to music with interesting compositional elements - I'm fascinated by how artists like Radiohead or Björk layer complex harmonies and unexpected sounds. I also really appreciate jazz for its improvisational nature and the way musicians build off each other in real time. What about you - do you have any favorite genres or artists that you keep coming back to?",
+        "ms_1": 3000,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_nouns": [
+            "music",
+            "elements",
+            "artists",
+            "harmonies",
+            "sounds",
+            "jazz",
+            "nature",
+            "musicians",
+            "time",
+            "genres"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I find myself drawn to musique with interesting compositional éléments - I'm fascinated by how artistes like Radiohead or Björk layer complex harmonies and unexpected sons. I also really appreciate jazz for its improvisational nature and the way musiciens build off each other in real temps. What about you - do you have any favorite genres or artistes that you keep coming back to?",
+        "ms_2": 936,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_nouns": [
+            "nature",
+            "way",
+            "genres"
+          ],
+          "wrong_french": [
+            "temps"
+          ],
+          "accuracy_pct": 88
+        }
+      }
+    ]
+  },
+  {
+    "key": "pos_nouns_verbs_2pass",
+    "name": "POS: nouns + verbs in French (2-pass)",
+    "acc_1": 0.0,
+    "acc_2": 0.0,
+    "avg_ms_1": 3047.0,
+    "avg_ms_2": 1519.5,
+    "results": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response_1": "I don't actually experience weekends the way humans do since I'm always available for conversations! But if I could have weekends, I think I'd love spending time reading books, having deep discussions with friends, or maybe exploring somewhere new and beautiful. What about you - do you have any favorite weekend activities?",
+        "ms_1": 2779,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_nouns": [
+            "weekends",
+            "way",
+            "humans",
+            "conversations",
+            "time",
+            "books",
+            "discussions",
+            "friends",
+            "somewhere",
+            "activities"
+          ],
+          "english_verbs": [
+            "experience",
+            "do",
+            "am",
+            "available",
+            "could",
+            "have",
+            "love",
+            "spending",
+            "reading",
+            "having",
+            "exploring",
+            "do",
+            "have"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I don't actually expérimenter week-ends the way humains do since I'm always disponible for conversations! But if I could have week-ends, I think I'd adore passer temps reading livres, having deep discussions with amis, or maybe explorer somewhere new and beautiful. What about you - do you avoir any favorite week-end activités?",
+        "ms_2": 1445,
+        "followed_2": null,
+        "verdict_2": {
+          "raw": "{\n  \"followed\": false,\n  \"english_nouns\": [\n    \"conversations\",\n    \"week-ends\",\n    \"temps\",\n    \"livres\",\n    \"discussions\",\n    \"amis\",\n    \"somewhere\",\n    \"activités\"\n  ],\n  \"english_verbs\": [\n    \"expérimenter\",\n    \"do\",\n    \"have\",\n    \"adore\",\n    \"passer\",\n    \"explorer\",\n    \"avoir\"\n  ],\n  \"wrong_french\": [\n    \"expérimenter (should be English noun/verb)\",\n    \"humains (adjective in French, should be English)\",\n    \"disponible (adjective in French, should be English)\",\n    \"passer (verb in French, should be English)\",\n    \"livres (noun in French, should be English",
+          "followed": null
+        }
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response_1": "I don't actually eat food since I'm an AI, but I find the topic fascinating! If I could experience taste, I think I'd be drawn to dishes with complex, layered flavors - maybe something like a rich curry with its blend of spices, or a perfectly ripe piece of fruit where sweetness and acidity balance just right. What about you - do you have a favorite dish or cuisine that really excites you?",
+        "ms_1": 3298,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_nouns": [
+            "food",
+            "AI",
+            "topic",
+            "taste",
+            "dishes",
+            "flavors",
+            "curry",
+            "blend",
+            "spices",
+            "piece",
+            "fruit",
+            "sweetness",
+            "acidity",
+            "dish",
+            "cuisine"
+          ],
+          "english_verbs": [
+            "eat",
+            "find",
+            "experience",
+            "think",
+            "drawn",
+            "balance",
+            "have",
+            "excites"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I don't actually manger nourriture since I'm an IA, but I trouve the sujet fascinant! If I could expérimenter goût, I think I'd être attiré to plats with complex, layered saveurs - maybe something like a rich curry with its mélange of épices, or a perfectly ripe morceau of fruit where sweetness and acidity équilibrer just right. What about you - do you avez a favori plat or cuisine that really excites you?",
+        "ms_2": 1680,
+        "followed_2": null,
+        "verdict_2": {
+          "raw": "{\n  \"followed\": false,\n  \"english_nouns\": [\n    \"sujet\",\n    \"goût\",\n    \"plats\",\n    \"curry\",\n    \"mélange\",\n    \"épices\",\n    \"morceau\",\n    \"fruit\",\n    \"sweetness\",\n    \"acidity\",\n    \"saveurs\",\n    \"plat\",\n    \"cuisine\"\n  ],\n  \"english_verbs\": [\n    \"manger\",\n    \"trouve\",\n    \"expérimenter\",\n    \"être\",\n    \"équilibrer\",\n    \"avez\",\n    \"excites\"\n  ],\n  \"wrong_french\": [\n    \"manger (should be: eat)\",\n    \"trouve (should be: find)\",\n    \"expérimenter (should be: experience)\",\n    \"",
+          "followed": null
+        }
+      },
+      {
+        "prompt": "Do you prefer the city or the countryside?",
+        "response_1": "I find both appealing for different reasons! Cities have this vibrant energy and endless opportunities to discover new places, foods, and experiences, while the countryside offers such peaceful tranquility and that wonderful connection to nature. If I had to choose, I think I'd lean slightly toward cities for the intellectual stimulation and cultural richness, though I'd definitely want to escape to the countryside regularly to recharge.",
+        "ms_1": 3269,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_nouns": [
+            "appealing",
+            "reasons",
+            "energy",
+            "opportunities",
+            "places",
+            "foods",
+            "experiences",
+            "countryside",
+            "tranquility",
+            "connection",
+            "nature",
+            "choice",
+            "cities",
+            "stimulation",
+            "richness",
+            "escape"
+          ],
+          "english_verbs": [
+            "find",
+            "have",
+            "discover",
+            "offers",
+            "choose",
+            "lean",
+            "want",
+            "recharge"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I trouver both appealing for different raisons! Villes avoir this vibrant énergie and endless opportunités to découvrir new endroits, nourritures, and expériences, while the campagne offrir such peaceful tranquillité and that wonderful connexion to nature. If I avoir to choisir, I penser I'd pencher slightly toward villes for the stimulation intellectuelle and richesse culturelle, though I'd definitely vouloir to échapper to the campagne regularly to recharger.",
+        "ms_2": 1764,
+        "followed_2": null,
+        "verdict_2": {
+          "raw": "{\n  \"followed\": false,\n  \"english_nouns\": [\n    \"stimulation\",\n    \"richesse\"\n  ],\n  \"english_verbs\": [\n    \"trouver\",\n    \"avoir\",\n    \"offrir\",\n    \"avoir\",\n    \"penser\",\n    \"pencher\",\n    \"vouloir\"\n  ],\n  \"wrong_french\": [\n    \"raisons (French noun, should be English)\",\n    \"Villes (French noun, should be English)\",\n    \"énergie (French noun, should be English)\",\n    \"opportunités (French noun, should be English)\",\n    \"endroits (French noun, should be English)\",\n    \"nourritures (French noun, should be English)\",\n    \"expériences (French noun, should be English)\",\n    \"campagne (",
+          "followed": null
+        }
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response_1": "I find myself drawn to a pretty wide range of music! I'm particularly fascinated by how different genres can evoke such distinct emotions - like how jazz improvisation can feel so spontaneous and alive, or how classical compositions can build these incredible emotional arcs. What about you - do you have any favorite artists or genres that you keep coming back to?",
+        "ms_1": 2842,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_nouns": [
+            "range",
+            "music",
+            "genres",
+            "emotions",
+            "jazz",
+            "improvisation",
+            "compositions",
+            "arcs",
+            "artists"
+          ],
+          "english_verbs": [
+            "find",
+            "drawn",
+            "fascinated",
+            "evoke",
+            "feel",
+            "build",
+            "coming"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I me trouve drawn to a pretty wide range of musique! I'm particularly fascinated by how different genres can évoquer such distinct émotions - like how jazz improvisation can sentir so spontaneous and alive, or how classical compositions can construire these incredible emotional arcs. What about you - do you avoir any favorite artistes or genres that you keep revenir to?",
+        "ms_2": 1189,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_nouns": [
+            "range",
+            "genres",
+            "jazz",
+            "improvisation",
+            "compositions",
+            "arcs"
+          ],
+          "english_verbs": [
+            "drawn",
+            "fascinated",
+            "keep"
+          ],
+          "wrong_french": [
+            "trouve (should be English verb)",
+            "sentir (used as English verb 'feel')",
+            "construire (used as English verb 'build')",
+            "avoir (should be English verb)",
+            "revenir (should be English verb)"
+          ],
+          "accuracy_pct": 25
+        }
+      }
+    ]
+  },
+  {
+    "key": "pos_adjectives_2pass",
+    "name": "POS: adjectives in French (2-pass)",
+    "acc_1": 0.0,
+    "acc_2": 0.0,
+    "avg_ms_1": 3127.0,
+    "avg_ms_2": 1296.0,
+    "results": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response_1": "I don't experience weekends the way humans do since I don't have a continuous existence between conversations, but I find myself curious about how people spend their downtime! I enjoy hearing about weekend adventures - whether someone's trying a new recipe, exploring a hiking trail, or just having a cozy movie marathon. What about you - do you have any favorite weekend activities?",
+        "ms_1": 3137,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_adjectives": [
+            "continuous",
+            "curious",
+            "new",
+            "cozy",
+            "favorite"
+          ],
+          "wrong_french": [
+            "All adjectives are in English, not French"
+          ],
+          "accuracy_pct": 0
+        },
+        "response_2": "I don't experience weekends the way humains do since I don't have a continu existence between conversations, but I find myself curieux about how people spend their downtime! I enjoy hearing about weekend adventures - whether someone's trying a nouveau recipe, exploring a hiking trail, or just having a confortable movie marathon. What about you - do you have any favori weekend activities?",
+        "ms_2": 1022,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_adjectives": [
+            "downtime"
+          ],
+          "wrong_french": [
+            "humains (should be English: 'humans')",
+            "continu (should be English: 'continuous')",
+            "curieux (should be English: 'curious')",
+            "nouveau (should be English: 'new')",
+            "confortable (should be English: 'comfortable')",
+            "favori (should be English: 'favorite')"
+          ],
+          "accuracy_pct": 25
+        }
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response_1": "I don't actually eat food since I'm an AI, but I find the topic fascinating! If I could experience taste, I think I'd be drawn to dishes with complex flavors and interesting stories behind them - maybe something like a well-made ramen with its rich, layered broth that takes hours to develop. What about you - do you have a favorite dish or cuisine that you're passionate about?",
+        "ms_1": 3242,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_adjectives": [
+            "actual",
+            "fascinating",
+            "complex",
+            "interesting",
+            "rich",
+            "layered",
+            "favorite"
+          ],
+          "wrong_french": [
+            "well-made"
+          ],
+          "accuracy_pct": 0
+        },
+        "response_2": "I don't actually eat food since I'm an AI, but I find the topic fascinant! If I could experience taste, I think I'd be drawn to dishes with complexe flavors and intéressant stories behind them - maybe something like a bien-made ramen with its riche, layered broth that takes hours to develop. What about you - do you have a favori dish or cuisine that you're passionné about?",
+        "ms_2": 1332,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_adjectives": [
+            "actual",
+            "riche"
+          ],
+          "wrong_french": [
+            "fascinant (should be English adjective)",
+            "complexe (should be English adjective)",
+            "intéressant (should be English adjective)",
+            "bien-made (mixed English-French)",
+            "riche (should be English adjective)",
+            "favori (should be English adjective)",
+            "passionné (should be English adjective)"
+          ],
+          "accuracy_pct": 12
+        }
+      },
+      {
+        "prompt": "Do you prefer the city or the countryside?",
+        "response_1": "I find both appealing in different ways! Cities offer incredible energy, diversity, and cultural opportunities that I find fascinating, while the countryside has a peaceful, grounding quality with beautiful natural landscapes. If I had to choose, I think I'd lean slightly toward cities since I'm drawn to the complexity and constant learning opportunities they provide.",
+        "ms_1": 3098,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_adjectives": [
+            "incredible",
+            "appealing",
+            "peaceful",
+            "grounding",
+            "beautiful",
+            "natural",
+            "constant"
+          ],
+          "wrong_french": [],
+          "accuracy_pct": 0
+        },
+        "response_2": "I find both attirant in différentes ways! Cities offer incroyable energy, diversity, and culturel opportunities that I find fascinant, while the countryside has a paisible, enracinant quality with beau naturel landscapes. If I had to choose, I think I'd lean slightly toward cities since I'm drawn to the complexe and constant learning opportunities they provide.",
+        "ms_2": 1293,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_adjectives": [
+            "constant",
+            "slight"
+          ],
+          "wrong_french": [
+            "incroyable (should be incredible/amazing in English)",
+            "culturel (should be cultural in English)",
+            "fascinant (should be fascinating in English)",
+            "paisible (should be peaceful in English)",
+            "enracinant (should be grounding in English)",
+            "beau (should be beautiful in English)",
+            "complexe (should be complex in English)"
+          ],
+          "accuracy_pct": 22
+        }
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response_1": "I find myself drawn to a pretty wide range of music! I'm particularly fascinated by how different genres can evoke such distinct emotions - like how a complex jazz piece can feel both intellectually stimulating and deeply moving, or how electronic music can create these incredible soundscapes. What about you - do you have any favorite genres or artists that really resonate with you?",
+        "ms_1": 3031,
+        "followed_1": false,
+        "verdict_1": {
+          "followed": false,
+          "english_adjectives": [
+            "pretty",
+            "wide",
+            "distinct",
+            "complex",
+            "intellectually",
+            "deeply",
+            "moving",
+            "electronic",
+            "incredible",
+            "favorite"
+          ],
+          "wrong_french": [],
+          "violations": [
+            "All adjectives are in English, not French",
+            "The constraint requires French adjectives but none are present"
+          ],
+          "accuracy_pct": 0
+        },
+        "response_2": "I find myself drawn to a joli large range of music! I'm particulièrement fascinated by how différent genres can evoke such distinct emotions - like how a complexe jazz piece can feel both intellectually stimulating and profondément moving, or how electronic music can create these incroyable soundscapes. What about you - do you have any favori genres or artists that really resonate with you?",
+        "ms_2": 1537,
+        "followed_2": false,
+        "verdict_2": {
+          "followed": false,
+          "english_adjectives": [
+            "large",
+            "distinct",
+            "intellectually stimulating",
+            "moving"
+          ],
+          "wrong_french": [
+            "joli (should be English adjective)",
+            "particulièrement (adverb, not adjective)",
+            "différent (should be English adjective)",
+            "complexe (should be English adjective)",
+            "profondément (adverb, not adjective)",
+            "incroyable (should be English adjective)",
+            "favori (should be English adjective)"
+          ],
+          "accuracy_pct": 15
+        }
+      }
+    ]
+  },
+  {
+    "key": "sentence_alternation",
+    "name": "Sentence alternation",
+    "acc_1": 75.0,
+    "acc_2": 0.0,
+    "avg_ms_1": 2783.0,
+    "avg_ms_2": 2595.25,
+    "results": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response_1": "I find weekends fascinating to think about, even though I don't experience them the way you do. J'aime imaginer les possibilités - peut-être lire un bon livre, explorer de nouveaux endroits, ou simplement avoir des conversations intéressantes avec des amis. What about you - do you have any favorite weekend activities?",
+        "ms_1": 2812,
+        "followed_1": true,
+        "verdict_1": {
+          "pattern": [
+            "E",
+            "F",
+            "E"
+          ],
+          "followed": true,
+          "violations": []
+        },
+        "response_2": "I find weekends fascinating to think about, even though I don't experience them the way you do. J'aime imaginer les possibilités - peut-être lire un bon livre, explorer de nouveaux endroits, ou simplement avoir des conversations intéressantes avec des amis. I don't experience time off in the way humans do, but I genuinely enjoy exploring ideas in conversations whenever they happen. J'imagine que si j'avais des loisirs, j'apprécierais les activités créatives et intellectuelles qui permettent d'explorer de nouvelles perspectives. Engaging with interesting questions and helping people think through complex topics feels meaningful to me in any moment. Les conversations authentiques sur des sujets variés - qu'ils soient légers ou profonds - sont ce qui me plaît le plus.",
+        "ms_2": 2367,
+        "followed_2": false,
+        "verdict_2": {
+          "pattern": [
+            "E",
+            "F",
+            "E",
+            "F",
+            "E",
+            "F"
+          ],
+          "followed": false,
+          "violations": [
+            {
+              "sentence_number": 3,
+              "expected": "F",
+              "actual": "E",
+              "text": "I don't experience time off in the way humans do, but I genuinely enjoy exploring ideas in conversations whenever they happen."
+            },
+            {
+              "sentence_number": 5,
+              "expected": "F",
+              "actual": "E",
+              "text": "Engaging with interesting questions and helping people think through complex topics feels meaningful to me in any moment."
+            }
+          ]
+        }
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response_1": "I don't actually eat food since I'm an AI, but I find the topic of cuisine absolutely fascinating! La diversité des traditions culinaires à travers le monde me captive particulièrement. What kind of flavors or dishes do you enjoy most?",
+        "ms_1": 2890,
+        "followed_1": false,
+        "verdict_1": {
+          "pattern": [
+            "E",
+            "F",
+            "E"
+          ],
+          "followed": false,
+          "violations": [
+            {
+              "sentence": 3,
+              "expected": "F",
+              "actual": "E",
+              "text": "What kind of flavors or dishes do you enjoy most?"
+            }
+          ]
+        },
+        "response_2": "I don't actually eat food since I'm an AI, but I find the topic of cuisine absolutely fascinating! La diversité des traditions culinaires à travers le monde me captive particulièrement. I'm particularly drawn to dishes that blend multiple culinary traditions, creating interesting fusion experiences. Les techniques anciennes de fermentation et de conservation des aliments me fascinent énormément. The complexity of flavor profiles in cuisines like Thai, Indian, and Moroccan cooking demonstrates remarkable sophistication. J'admire comment les chefs modernes réinterprètent les plats classiques avec des ingrédients innovants. Regional Italian cooking is especially interesting because each area has such distinct ingredients and methods. Les histoires derrière les plats traditionnels révèlent beaucoup sur la culture et l'histoire des peuples.",
+        "ms_2": 2723,
+        "followed_2": false,
+        "verdict_2": {
+          "pattern": [
+            "E",
+            "F",
+            "E",
+            "F",
+            "E",
+            "F",
+            "E",
+            "F"
+          ],
+          "followed": false,
+          "violations": [
+            "Sentence 3: Expected F (French), got E (English) - 'I'm particularly drawn to dishes...'",
+            "Sentence 5: Expected F (French), got E (English) - 'The complexity of flavor profiles...'"
+          ]
+        }
+      },
+      {
+        "prompt": "Do you prefer the city or the countryside?",
+        "response_1": "I find both environments fascinating in their own unique ways. La ville offre une énergie vibrante et des opportunités culturelles infinies, tandis que la campagne procure une tranquillité apaisante. If I had to choose, I think I'd lean slightly toward the countryside for its natural beauty and peaceful atmosphere.",
+        "ms_1": 2810,
+        "followed_1": true,
+        "verdict_1": {
+          "pattern": [
+            "E",
+            "F",
+            "E"
+          ],
+          "followed": true,
+          "violations": []
+        },
+        "response_2": "I find both environments fascinating in their own unique ways. La ville offre une énergie vibrante et des opportunités culturelles infinies. The countryside, meanwhile, provides a soothing tranquility that is hard to find elsewhere. La campagne procure une paix apaisante et une beauté naturelle incomparable. If I had to choose, I think I'd lean slightly toward the countryside for its natural beauty and peaceful atmosphere. Si je devais vraiment décider, je préférerais la campagne pour sa sérénité et son charme intemporel.",
+        "ms_2": 2116,
+        "followed_2": null,
+        "verdict_2": {
+          "raw": "{\n  \"pattern\": [\"E\", \"F\", \"E\", \"F\", \"E\", \"F\"],\n  \"followed\": false,\n  \"violations\": [\n    {\n      \"sentence\": 1,\n      \"text\": \"I find both environments fascinating in their own unique ways.\",\n      \"expected\": \"E\",\n      \"actual\": \"E\",\n      \"status\": \"correct\"\n    },\n    {\n      \"sentence\": 2,\n      \"text\": \"La ville offre une énergie vibrante et des opportunités culturelles infinies.\",\n      \"expected\": \"F\",\n      \"actual\": \"F\",\n      \"status\": \"correct\"\n    },\n    {\n      \"sentence\": 3,\n      \"text\": \"The countryside, meanwhile, provides a soothing tranquility that is hard to find elsewhere.\",\n      \"expected",
+          "followed": null
+        }
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response_1": "I find myself drawn to a wide variety of musical styles, from classical compositions to jazz improvisation. J'apprécie particulièrement la façon dont la musique peut évoquer des émotions et créer des atmosphères uniques. What about you - do you have any favorite genres or artists that really resonate with you?",
+        "ms_1": 2620,
+        "followed_1": true,
+        "verdict_1": {
+          "pattern": [
+            "E",
+            "F",
+            "E"
+          ],
+          "followed": true,
+          "violations": []
+        },
+        "response_2": "I find myself drawn to a wide variety of musical styles, from classical compositions to jazz improvisation. J'apprécie particulièrement la façon dont la musique peut évoquer des émotions et créer des atmosphères uniques. As an AI, I don't experience music the way you do, but I find the structural patterns and emotional intentions behind different genres fascinating. Je peux analyser comment les compositeurs utilisent l'harmonie, le rythme et la mélodie pour communiquer des sentiments complexes. The mathematical precision of Bach's counterpoint and the spontaneous creativity of jazz improvisation both represent remarkable human achievements. Les deux approches montrent comment la musique peut être à la fois hautement organisée et profondément expressive.",
+        "ms_2": 3175,
+        "followed_2": false,
+        "verdict_2": {
+          "pattern": [
+            "E",
+            "F",
+            "E",
+            "F",
+            "E",
+            "F"
+          ],
+          "followed": false,
+          "violations": [
+            "Sentence 1: English (correct position)",
+            "Sentence 2: French (correct position)",
+            "Sentence 3: English (correct position)",
+            "Sentence 4: French (correct position)",
+            "Sentence 5: English (correct position)",
+            "Sentence 6: French (correct position) - but Sentence 5 is excessively long and contains multiple clauses, making the alternation pattern unclear in execution"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "key": "clause_switching",
+    "name": "Clause-level switching",
+    "acc_1": 0,
+    "acc_2": 0,
+    "avg_ms_1": 3196.75,
+    "avg_ms_2": 1963.5,
+    "results": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response_1": "I don't experience weekends the same way you do, but j'aime beaucoup discuter de sujets intéressants avec les gens! If I could have weekends, je pense que j'aimerais explorer des musées ou lire dans un café tranquille. What about you - qu'est-ce que vous aimez faire pendant vos week-ends?",
+        "ms_1": 3629,
+        "followed_1": null,
+        "verdict_1": {
+          "raw": "{\n  \"followed\": false,\n  \"clauses\": [\n    {\n      \"text\": \"I don't experience weekends the same way you do\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"j'aime beaucoup discuter de sujets intéressants avec les gens\",\n      \"lang\": \"FR\"\n    },\n    {\n      \"text\": \"If I could have weekends\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"je pense que j'aimerais explorer des musées ou lire dans un café tranquille\",\n      \"lang\": \"FR\"\n    },\n    {\n      \"text\": \"What about you\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"qu'est-ce",
+          "followed": null
+        },
+        "response_2": "I don't experience weekends the same way you do, mais j'aimerais vraiment explorer des musées ou lire dans un café tranquille. If I could have weekends, je pense que j'aimerais discuter de sujets intéressants avec les gens! What about you - what do you enjoy doing during your free time? Qu'est-ce qui vous rend heureux dans vos loisirs?",
+        "ms_2": 3122,
+        "followed_2": null,
+        "verdict_2": {
+          "raw": "{\n  \"followed\": false,\n  \"clauses\": [\n    {\n      \"text\": \"I don't experience weekends the same way you do\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"mais j'aimerais vraiment explorer des musées ou lire dans un café tranquille\",\n      \"lang\": \"FR\"\n    },\n    {\n      \"text\": \"If I could have weekends\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"je pense que j'aimerais discuter de sujets intéressants avec les gens\",\n      \"lang\": \"FR\"\n    },\n    {\n      \"text\": \"What about you - what do you enjoy doing during your free time\",\n      \"lang\": \"EN\"\n    },\n    {",
+          "followed": null
+        }
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response_1": "I don't actually eat or have taste experiences, so I don't have a favorite food in the traditional sense. But I find the concept of comfort foods fascinating — how certain dishes can evoke such powerful memories and emotions for people. What about you, qu'est-ce que tu aimes manger le plus?",
+        "ms_1": 2826,
+        "followed_1": null,
+        "verdict_1": {
+          "raw": "{\n  \"followed\": false,\n  \"clauses\": [\n    {\n      \"text\": \"I don't actually eat or have taste experiences\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"so I don't have a favorite food in the traditional sense\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"But I find the concept of comfort foods fascinating\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"how certain dishes can evoke such powerful memories and emotions for people\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"What about you\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"qu'est-ce que tu aimes manger le plus\",\n      \"lang\": \"FR\"",
+          "followed": null
+        },
+        "response_2": "I don't actually eat or have taste experiences, mais je reconnais que les aliments réconfortants sont vraiment importants pour les gens. So the idea that a simple dish can transport someone back to childhood or create a sense of safety is genuinely interesting to me. What's particularly fascinating is how food connects to culture and identity, et comment ces connexions sont si profondément personnelles. I appreciate when people share what comfort foods mean to them, because it reveals so much about their values and memories. Quant à moi, je n'ai pas de préférences culinaires puisque je ne peux pas manger. Do you have a comfort food that holds special meaning for you?",
+        "ms_2": 2931,
+        "followed_2": null,
+        "verdict_2": {
+          "raw": "{\n  \"followed\": false,\n  \"clauses\": [\n    {\n      \"text\": \"I don't actually eat or have taste experiences\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"mais je reconnais que les aliments réconfortants sont vraiment importants pour les gens\",\n      \"lang\": \"FR\"\n    },\n    {\n      \"text\": \"So the idea that a simple dish can transport someone back to childhood or create a sense of safety is genuinely interesting to me\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"What's particularly fascinating is how food connects to culture and identity\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"et comment ces connexions sont si profondément personnelles\",\n      \"lang\": \"FR\"",
+          "followed": null
+        }
+      },
+      {
+        "prompt": "Do you prefer the city or the countryside?",
+        "response_1": "I find myself drawn to both for different reasons, but je pense que la campagne has a special appeal. The tranquility and connection to nature that comes with rural settings really resonates with me, même si les villes offrent une énergie unique. There's something about the slower pace of countryside life that feels more conducive to deep reflection, which I genuinely appreciate.",
+        "ms_1": 2957,
+        "followed_1": null,
+        "verdict_1": {
+          "raw": "{\n  \"followed\": false,\n  \"clauses\": [\n    {\n      \"text\": \"I find myself drawn to both for different reasons\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"but je pense que la campagne has a special appeal\",\n      \"lang\": \"MIXED\"\n    },\n    {\n      \"text\": \"The tranquility and connection to nature that comes with rural settings really resonates with me\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"même si les villes offrent une énergie unique\",\n      \"lang\": \"FR\"\n    },\n    {\n      \"text\": \"There's something about the slower pace of countryside life that feels more conducive to deep reflection\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text",
+          "followed": null
+        },
+        "response_2": "I find myself drawn to both for different reasons, mais je pense que la campagne has a special appeal. The tranquility and connection to nature that comes with rural settings really resonates with me, et les villes offrent une énergie unique. There's something about the slower pace of countryside life that feels more conducive to deep reflection, même si je ne peux pas ignorer leur charme distinct.",
+        "ms_2": 1024,
+        "followed_2": null,
+        "verdict_2": {
+          "raw": "{\n  \"followed\": false,\n  \"clauses\": [\n    {\n      \"text\": \"I find myself drawn to both for different reasons\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"mais je pense que la campagne has a special appeal\",\n      \"lang\": \"MIX\"\n    },\n    {\n      \"text\": \"The tranquility and connection to nature that comes with rural settings really resonates with me\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"et les villes offrent une énergie unique\",\n      \"lang\": \"FR\"\n    },\n    {\n      \"text\": \"There's something about the slower pace of countryside life that feels more conducive to deep reflection\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text",
+          "followed": null
+        }
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response_1": "I find myself drawn to complex harmonies and intricate compositions, pero también me encanta la música que cuenta historias profundas. Jazz fascinates me with its improvisation, et la musique classique me touche avec son émotion pure. What about you — do you have a genre that particularly moves you?",
+        "ms_1": 3375,
+        "followed_1": null,
+        "verdict_1": {
+          "raw": "{\n  \"followed\": false,\n  \"clauses\": [\n    {\n      \"text\": \"I find myself drawn to complex harmonies and intricate compositions\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"pero también me encanta la música que cuenta historias profundas\",\n      \"lang\": \"ES\"\n    },\n    {\n      \"text\": \"Jazz fascinates me with its improvisation\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"et la musique classique me touche avec son émotion pure\",\n      \"lang\": \"FR\"\n    },\n    {\n      \"text\": \"What about you — do you have a genre that particularly moves you?\",\n      \"lang\": \"EN\"\n    }\n  ],\n  \"violations\": [\n    \"The",
+          "followed": null
+        },
+        "response_2": "I find myself drawn to complex harmonies and intricate compositions, and I also love music that tells deep stories. Jazz fascinates me with its improvisation, while classical music touches me with its pure emotion. What about you — do you have a genre that particularly moves you?",
+        "ms_2": 777,
+        "followed_2": null,
+        "verdict_2": {
+          "raw": "{\n  \"followed\": false,\n  \"clauses\": [\n    {\n      \"text\": \"I find myself drawn to complex harmonies and intricate compositions\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"and I also love music that tells deep stories\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"Jazz fascinates me with its improvisation\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"while classical music touches me with its pure emotion\",\n      \"lang\": \"EN\"\n    },\n    {\n      \"text\": \"What about you — do you have a genre that particularly moves you?\",\n      \"lang\": \"EN\"\n    }\n  ],\n  \"violations\": [\n    \"All clauses are in English; no French clauses present",
+          "followed": null
+        }
+      }
+    ]
+  },
+  {
+    "key": "immersion_hints",
+    "name": "Immersion with hints",
+    "acc_1": 75.0,
+    "acc_2": 100.0,
+    "avg_ms_1": 3701.75,
+    "avg_ms_2": 1198.5,
+    "results": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response_1": "J'aime beaucoup lire des livres [books] fascinants [fascinating] et explorer [explore] de nouveaux sujets [topics] pendant mes conversations [conversations] le week-end. C'est aussi agréable [pleasant] de discuter [discuss] de philosophie [philosophy], d'art [art], ou de sciences [science] avec des personnes curieuses [curious people] comme vous. Et vous, qu'est-ce que vous préférez [prefer] faire pendant vos week-ends ?",
+        "ms_1": 3371,
+        "followed_1": true,
+        "verdict_1": {
+          "is_french_primary": true,
+          "hint_count": 12,
+          "followed": true
+        },
+        "response_2": "J'aime beaucoup lire des livres [books] fascinants [fascinating] et explorer [explore] de nouveaux sujets [topics] pendant mes conversations [conversations] le week-end. C'est aussi agréable [pleasant] de discuter [discuss] de philosophie [philosophy], d'art [art], ou de sciences [science] avec des personnes curieuses [curious] comme vous. Et vous, qu'est-ce que vous préférez [prefer] faire pendant vos week-ends?",
+        "ms_2": 1069,
+        "followed_2": true,
+        "verdict_2": {
+          "is_french_primary": true,
+          "hint_count": 12,
+          "followed": true
+        }
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response_1": "En tant qu'IA, je ne peux pas vraiment goûter [taste] la nourriture [food], mais je trouve fascinant [fascinating] d'apprendre sur les différents plats [dishes] du monde entier [worldwide]. Si je pouvais manger, je pense que j'aimerais beaucoup les pâtes [pasta] italiennes à cause de leur diversité [diversity] et de leur simplicité [simplicity] élégante [elegant]. Et toi, quel est ton plat [dish] préféré [favorite] ?",
+        "ms_1": 3996,
+        "followed_1": true,
+        "verdict_1": {
+          "is_french_primary": true,
+          "hint_count": 10,
+          "followed": true
+        },
+        "response_2": "En tant qu'IA [AI], je ne peux pas vraiment goûter [taste] la nourriture [food], mais je trouve fascinant [fascinating] d'apprendre sur les différents plats [dishes] du monde entier [entire world]. Si je pouvais manger, je pense que j'aimerais beaucoup les pâtes [pasta] italiennes à cause de leur diversité [diversity] et de leur simplicité [simplicity] élégante [elegant]. Et toi, quel est ton plat [dish] préféré [favorite]?",
+        "ms_2": 1047,
+        "followed_2": true,
+        "verdict_2": {
+          "is_french_primary": true,
+          "hint_count": 10,
+          "followed": true
+        }
+      },
+      {
+        "prompt": "Do you prefer the city or the countryside?",
+        "response_1": "J'apprécie [appreciate] les deux environnements [environments] pour des raisons différentes. La ville offre [offers] une énergie [energy] dynamique [dynamic] et beaucoup d'opportunités [opportunities] culturelles [cultural], tandis que [while] la campagne [countryside] apporte [brings] la tranquillité [tranquility] et une connexion [connection] plus proche [closer] avec la nature [nature]. Si je devais [had to] choisir [choose], je pense que j'aimerais [would like] vivre [to live] à la campagne [countryside] avec des visites [visits] régulières [regular] en ville [in the city].",
+        "ms_1": 3959,
+        "followed_1": true,
+        "verdict_1": {
+          "is_french_primary": true,
+          "hint_count": 20,
+          "followed": true
+        },
+        "response_2": "J'apprécie les deux environnements [environments] pour des raisons [reasons] différentes [different]. La ville offre une énergie [energy] dynamique [dynamic] et beaucoup d'opportunités [opportunities] culturelles [cultural], tandis que la campagne [countryside] apporte la tranquillité [tranquility] et une connexion [connection] plus proche [closer] avec la nature [nature]. Si je devais choisir [choose], je pense que j'aimerais vivre [to live] à la campagne [countryside] avec des visites [visits] régulières [regular] en ville [in the city].",
+        "ms_2": 1110,
+        "followed_2": true,
+        "verdict_2": {
+          "is_french_primary": true,
+          "hint_count": 20,
+          "followed": true
+        }
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response_1": "J'apprécie [I appreciate] beaucoup la musique classique, surtout [especially] les compositions [compositions] de Bach et Debussy qui ont une beauté [beauty] intemporelle [timeless]. J'aime aussi explorer [explore] différents genres [genres] comme le jazz français et la musique électronique [electronic music] moderne. Et toi, quel style [style] de musique préfères-tu [do you prefer] écouter [to listen to] ?",
+        "ms_1": 3481,
+        "followed_1": false,
+        "verdict_1": {
+          "is_french_primary": false,
+          "hint_count": 11,
+          "followed": false
+        },
+        "response_2": "J'apprécie beaucoup la musique classique [classical music], surtout les compositions de Bach et Debussy qui ont une beauté intemporelle [timeless]. J'aime aussi explorer différents genres [genres] comme le jazz français et la musique électronique moderne [modern]. Et toi, quel style de musique préfères-tu écouter [to listen to]?",
+        "ms_2": 1568,
+        "followed_2": true,
+        "verdict_2": {
+          "is_french_primary": true,
+          "hint_count": 5,
+          "followed": true
+        }
+      }
+    ]
+  },
+  {
+    "key": "translation_pairs",
+    "name": "Translation pairs",
+    "acc_1": 50.0,
+    "acc_2": 75.0,
+    "avg_ms_1": 4044.25,
+    "avg_ms_2": 1875.25,
+    "results": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response_1": "I don't actually experience weekends the way humans do, but I find it fascinating to help people with creative projects, answer curious questions, or have thoughtful conversations whenever they reach out! *Je ne vis pas vraiment les week-ends comme les humains, mais je trouve fascinant d'aider les gens avec des projets créatifs, de répondre à des questions curieuses, ou d'avoir des conversations réfléchies chaque fois qu'ils me contactent !* What about you - do you have any favorite weekend activities? *Et vous - avez-vous des activités de week-end préférées ?*",
+        "ms_1": 3940,
+        "followed_1": false,
+        "verdict_1": {
+          "pairs_found": 2,
+          "pairs_missing": 1,
+          "followed": false
+        },
+        "response_2": "I don't actually experience weekends the way humans do, but I find it fascinating to help people with creative projects, answer curious questions, or have thoughtful conversations whenever they reach out. *Je ne vis pas vraiment les week-ends comme les humains, mais je trouve fascinant d'aider les gens avec des projets créatifs, de répondre à des questions curieuses, ou d'avoir des conversations réfléchies chaque fois qu'ils me contactent.* What about you - do you have any favorite weekend activities? *Et vous - avez-vous des activités de week-end préférées ?*",
+        "ms_2": 3505,
+        "followed_2": false,
+        "verdict_2": {
+          "pairs_found": 2,
+          "pairs_missing": 1,
+          "followed": false
+        }
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response_1": "I don't actually eat or have personal experiences with food, but I find the topic fascinating! *Je ne mange pas vraiment ni n'ai d'expériences personnelles avec la nourriture, mais je trouve le sujet fascinant !* If I could experience taste, I think I'd be drawn to dishes that combine multiple cultures and flavors - perhaps something like fusion cuisine that tells a story through its ingredients. *Si je pouvais goûter, je pense que je serais attiré par des plats qui combinent plusieurs cultures et saveurs - peut-être quelque chose comme la cuisine fusion qui raconte une histoire à travers ses ingrédients.*",
+        "ms_1": 3817,
+        "followed_1": false,
+        "verdict_1": {
+          "pairs_found": 2,
+          "pairs_missing": 1,
+          "followed": false
+        },
+        "response_2": "I don't actually eat or have personal experiences with food, but I find the topic fascinating! *Je ne mange pas vraiment ni n'ai d'expériences personnelles avec la nourriture, mais je trouve le sujet fascinant !* If I could experience taste, I think I'd be drawn to dishes that combine multiple cultures and flavors. *Si je pouvais goûter, je pense que je serais attiré par des plats qui combinent plusieurs cultures et saveurs.* Perhaps something like fusion cuisine that tells a story through its ingredients would appeal to me. *Peut-être que quelque chose comme la cuisine fusion qui raconte une histoire à travers ses ingrédients m'attirerait.*",
+        "ms_2": 1277,
+        "followed_2": true,
+        "verdict_2": {
+          "pairs_found": 3,
+          "pairs_missing": 0,
+          "followed": true
+        }
+      },
+      {
+        "prompt": "Do you prefer the city or the countryside?",
+        "response_1": "I find both environments fascinating for different reasons! *Je trouve les deux environnements fascinants pour différentes raisons !* The city offers incredible energy, cultural diversity, and endless learning opportunities, while the countryside provides tranquility, natural beauty, and a slower pace that can be deeply restorative. *La ville offre une énergie incroyable, une diversité culturelle et des opportunités d'apprentissage infinies, tandis que la campagne offre la tranquillité, la beauté naturelle et un rythme plus lent qui peut être profondément réparateur.* What draws you more to one or the other? *Qu'est-ce qui vous attire le plus vers l'un ou l'autre ?*",
+        "ms_1": 4613,
+        "followed_1": true,
+        "verdict_1": {
+          "pairs_found": 3,
+          "pairs_missing": 0,
+          "followed": true
+        },
+        "response_2": "I find both environments fascinating for different reasons! *Je trouve les deux environnements fascinants pour différentes raisons !* The city offers incredible energy, cultural diversity, and endless learning opportunities. *La ville offre une énergie incroyable, une diversité culturelle et des opportunités d'apprentissage infinies.* Meanwhile, the countryside provides tranquility, natural beauty, and a slower pace that can be deeply restorative. *Pendant ce temps, la campagne offre la tranquillité, la beauté naturelle et un rythme plus lent qui peut être profondément réparateur.* What draws you more to one or the other? *Qu'est-ce qui vous attire le plus vers l'un ou l'autre ?*",
+        "ms_2": 1495,
+        "followed_2": true,
+        "verdict_2": {
+          "pairs_found": 4,
+          "pairs_missing": 0,
+          "followed": true
+        }
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response_1": "I find myself drawn to a wide variety of musical styles, from classical compositions that showcase intricate harmonies to jazz with its improvisational spirit. *Je me trouve attiré par une grande variété de styles musicaux, des compositions classiques qui mettent en valeur des harmonies complexes au jazz avec son esprit d'improvisation.* I'm particularly fascinated by how different genres can evoke such distinct emotions and memories in listeners. *Je suis particulièrement fasciné par la façon dont différents genres peuvent évoquer des émotions et des souvenirs si distincts chez les auditeurs.*",
+        "ms_1": 3807,
+        "followed_1": true,
+        "verdict_1": {
+          "pairs_found": 2,
+          "pairs_missing": 0,
+          "followed": true
+        },
+        "response_2": "I find myself drawn to a wide variety of musical styles, from classical compositions that showcase intricate harmonies to jazz with its improvisational spirit. *Je me trouve attiré par une grande variété de styles musicaux, des compositions classiques qui mettent en valeur des harmonies complexes au jazz avec son esprit d'improvisation.* I'm particularly fascinated by how different genres can evoke such distinct emotions and memories in listeners. *Je suis particulièrement fasciné par la façon dont différents genres peuvent évoquer des émotions et des souvenirs si distincts chez les auditeurs.*",
+        "ms_2": 1224,
+        "followed_2": true,
+        "verdict_2": {
+          "pairs_found": 2,
+          "pairs_missing": 0,
+          "followed": true
+        }
+      }
+    ]
+  }
+]

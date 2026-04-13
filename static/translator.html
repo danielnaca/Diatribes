@@ -325,6 +325,16 @@
         td.col-tr.verb, th.verb-h + th { border-right: 1px solid var(--border); }
         td.col-tr.adj,  th.adj-h + th  { border-right: 1px solid var(--border); }
 
+        .todo-notice {
+            font-size: 11px;
+            color: #fb923c;
+            background: rgba(251,146,60,0.08);
+            border: 1px solid rgba(251,146,60,0.2);
+            border-radius: 6px;
+            padding: 5px 10px;
+            margin-bottom: 12px;
+        }
+
         /* ── Legend ── */
         .legend {
             display: flex;
@@ -413,6 +423,7 @@
                 <h2>Vocabulary</h2>
                 <span id="word-count"></span>
             </div>
+            <div class="todo-notice">⚠ Todo: grow dictionary</div>
             <div class="inv-scroll">
                 <table id="inv-table">
                     <thead>

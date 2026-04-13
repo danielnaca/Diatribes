@@ -292,6 +292,7 @@ async def get_build_time():
 
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/shared", StaticFiles(directory="shared"), name="shared")
 
 
 @app.get("/")

@@ -1,241 +1,10 @@
-// ── Dictionary ────────────────────────────────────────────────────────────────
-const DICT = {
-  // NOUNS
-  food:       { pos: 'noun', es: 'comida',       fr: 'nourriture' },
-  water:      { pos: 'noun', es: 'agua',          fr: 'eau' },
-  music:      { pos: 'noun', es: 'música',        fr: 'musique' },
-  book:       { pos: 'noun', es: 'libro',         fr: 'livre' },
-  time:       { pos: 'noun', es: 'tiempo',        fr: 'temps' },
-  day:        { pos: 'noun', es: 'día',           fr: 'jour' },
-  night:      { pos: 'noun', es: 'noche',         fr: 'nuit' },
-  morning:    { pos: 'noun', es: 'mañana',        fr: 'matin' },
-  evening:    { pos: 'noun', es: 'tarde',         fr: 'soir' },
-  city:       { pos: 'noun', es: 'ciudad',        fr: 'ville' },
-  country:    { pos: 'noun', es: 'país',          fr: 'pays' },
-  house:      { pos: 'noun', es: 'casa',          fr: 'maison' },
-  home:       { pos: 'noun', es: 'hogar',         fr: 'foyer' },
-  family:     { pos: 'noun', es: 'familia',       fr: 'famille' },
-  friend:     { pos: 'noun', es: 'amigo',         fr: 'ami' },
-  school:     { pos: 'noun', es: 'escuela',       fr: 'école' },
-  life:       { pos: 'noun', es: 'vida',          fr: 'vie' },
-  world:      { pos: 'noun', es: 'mundo',         fr: 'monde' },
-  year:       { pos: 'noun', es: 'año',           fr: 'an' },
-  story:      { pos: 'noun', es: 'historia',      fr: 'histoire' },
-  door:       { pos: 'noun', es: 'puerta',        fr: 'porte' },
-  room:       { pos: 'noun', es: 'habitación',    fr: 'chambre' },
-  car:        { pos: 'noun', es: 'coche',         fr: 'voiture' },
-  road:       { pos: 'noun', es: 'camino',        fr: 'route' },
-  table:      { pos: 'noun', es: 'mesa',          fr: 'table' },
-  garden:     { pos: 'noun', es: 'jardín',        fr: 'jardin' },
-  tree:       { pos: 'noun', es: 'árbol',         fr: 'arbre' },
-  flower:     { pos: 'noun', es: 'flor',          fr: 'fleur' },
-  dog:        { pos: 'noun', es: 'perro',         fr: 'chien' },
-  cat:        { pos: 'noun', es: 'gato',          fr: 'chat' },
-  bread:      { pos: 'noun', es: 'pan',           fr: 'pain' },
-  wine:       { pos: 'noun', es: 'vino',          fr: 'vin' },
-  coffee:     { pos: 'noun', es: 'café',          fr: 'café' },
-  sea:        { pos: 'noun', es: 'mar',           fr: 'mer' },
-  mountain:   { pos: 'noun', es: 'montaña',       fr: 'montagne' },
-  river:      { pos: 'noun', es: 'río',           fr: 'rivière' },
-  sun:        { pos: 'noun', es: 'sol',           fr: 'soleil' },
-  moon:       { pos: 'noun', es: 'luna',          fr: 'lune' },
-  star:       { pos: 'noun', es: 'estrella',      fr: 'étoile' },
-  sky:        { pos: 'noun', es: 'cielo',         fr: 'ciel' },
-  rain:       { pos: 'noun', es: 'lluvia',        fr: 'pluie' },
-  love:       { pos: 'noun', es: 'amor',          fr: 'amour' },
-  heart:      { pos: 'noun', es: 'corazón',       fr: 'cœur' },
-  mind:       { pos: 'noun', es: 'mente',         fr: 'esprit' },
-  dream:      { pos: 'noun', es: 'sueño',         fr: 'rêve' },
-  hope:       { pos: 'noun', es: 'esperanza',     fr: 'espoir' },
-  voice:      { pos: 'noun', es: 'voz',           fr: 'voix' },
-  face:       { pos: 'noun', es: 'cara',          fr: 'visage' },
-  eye:        { pos: 'noun', es: 'ojo',           fr: 'œil' },
-  hair:       { pos: 'noun', es: 'pelo',          fr: 'cheveux' },
-  name:       { pos: 'noun', es: 'nombre',        fr: 'nom' },
-  memory:     { pos: 'noun', es: 'recuerdo',      fr: 'souvenir' },
-  moment:     { pos: 'noun', es: 'momento',       fr: 'moment' },
-  idea:       { pos: 'noun', es: 'idea',          fr: 'idée' },
-  question:   { pos: 'noun', es: 'pregunta',      fr: 'question' },
-  answer:     { pos: 'noun', es: 'respuesta',     fr: 'réponse' },
-  problem:    { pos: 'noun', es: 'problema',      fr: 'problème' },
-  game:       { pos: 'noun', es: 'juego',         fr: 'jeu' },
-  movie:      { pos: 'noun', es: 'película',      fr: 'film' },
-  song:       { pos: 'noun', es: 'canción',       fr: 'chanson' },
-  art:        { pos: 'noun', es: 'arte',          fr: 'art' },
-  color:      { pos: 'noun', es: 'color',         fr: 'couleur' },
-  sound:      { pos: 'noun', es: 'sonido',        fr: 'son' },
-  light:      { pos: 'noun', es: 'luz',           fr: 'lumière' },
-  journey:    { pos: 'noun', es: 'viaje',         fr: 'voyage' },
-  nature:     { pos: 'noun', es: 'naturaleza',    fr: 'nature' },
-  money:      { pos: 'noun', es: 'dinero',        fr: 'argent' },
-  health:     { pos: 'noun', es: 'salud',         fr: 'santé' },
-  language:   { pos: 'noun', es: 'idioma',        fr: 'langue' },
-  word:       { pos: 'noun', es: 'palabra',       fr: 'mot' },
-  street:     { pos: 'noun', es: 'calle',         fr: 'rue' },
-  picture:    { pos: 'noun', es: 'foto',          fr: 'image' },
-  person:     { pos: 'noun', es: 'persona',       fr: 'personne' },
-  man:        { pos: 'noun', es: 'hombre',        fr: 'homme' },
-  woman:      { pos: 'noun', es: 'mujer',         fr: 'femme' },
-  child:      { pos: 'noun', es: 'niño',          fr: 'enfant' },
-  people:     { pos: 'noun', es: 'gente',         fr: 'gens' },
+// Dictionary loaded from shared/dict/en_es_fr.json
+let DICT = {};
 
-  // VERBS
-  run:        { pos: 'verb', es: 'correr',        fr: 'courir' },
-  walk:       { pos: 'verb', es: 'caminar',       fr: 'marcher' },
-  talk:       { pos: 'verb', es: 'hablar',        fr: 'parler' },
-  eat:        { pos: 'verb', es: 'comer',         fr: 'manger' },
-  drink:      { pos: 'verb', es: 'beber',         fr: 'boire' },
-  sleep:      { pos: 'verb', es: 'dormir',        fr: 'dormir' },
-  work:       { pos: 'verb', es: 'trabajar',      fr: 'travailler' },
-  play:       { pos: 'verb', es: 'jugar',         fr: 'jouer' },
-  read:       { pos: 'verb', es: 'leer',          fr: 'lire' },
-  write:      { pos: 'verb', es: 'escribir',      fr: 'écrire' },
-  sing:       { pos: 'verb', es: 'cantar',        fr: 'chanter' },
-  dance:      { pos: 'verb', es: 'bailar',        fr: 'danser' },
-  swim:       { pos: 'verb', es: 'nadar',         fr: 'nager' },
-  fly:        { pos: 'verb', es: 'volar',         fr: 'voler' },
-  drive:      { pos: 'verb', es: 'conducir',      fr: 'conduire' },
-  fall:       { pos: 'verb', es: 'caer',          fr: 'tomber' },
-  jump:       { pos: 'verb', es: 'saltar',        fr: 'sauter' },
-  look:       { pos: 'verb', es: 'mirar',         fr: 'regarder' },
-  see:        { pos: 'verb', es: 'ver',           fr: 'voir' },
-  hear:       { pos: 'verb', es: 'escuchar',      fr: 'entendre' },
-  feel:       { pos: 'verb', es: 'sentir',        fr: 'sentir' },
-  think:      { pos: 'verb', es: 'pensar',        fr: 'penser' },
-  know:       { pos: 'verb', es: 'saber',         fr: 'savoir' },
-  understand: { pos: 'verb', es: 'entender',      fr: 'comprendre' },
-  remember:   { pos: 'verb', es: 'recordar',      fr: 'se souvenir' },
-  forget:     { pos: 'verb', es: 'olvidar',       fr: 'oublier' },
-  learn:      { pos: 'verb', es: 'aprender',      fr: 'apprendre' },
-  teach:      { pos: 'verb', es: 'enseñar',       fr: 'enseigner' },
-  ask:        { pos: 'verb', es: 'preguntar',     fr: 'demander' },
-  help:       { pos: 'verb', es: 'ayudar',        fr: 'aider' },
-  want:       { pos: 'verb', es: 'querer',        fr: 'vouloir' },
-  find:       { pos: 'verb', es: 'encontrar',     fr: 'trouver' },
-  lose:       { pos: 'verb', es: 'perder',        fr: 'perdre' },
-  buy:        { pos: 'verb', es: 'comprar',       fr: 'acheter' },
-  open:       { pos: 'verb', es: 'abrir',         fr: 'ouvrir' },
-  close:      { pos: 'verb', es: 'cerrar',        fr: 'fermer' },
-  start:      { pos: 'verb', es: 'empezar',       fr: 'commencer' },
-  stop:       { pos: 'verb', es: 'parar',         fr: 'arrêter' },
-  come:       { pos: 'verb', es: 'venir',         fr: 'venir' },
-  go:         { pos: 'verb', es: 'ir',            fr: 'aller' },
-  bring:      { pos: 'verb', es: 'traer',         fr: 'apporter' },
-  show:       { pos: 'verb', es: 'mostrar',       fr: 'montrer' },
-  tell:       { pos: 'verb', es: 'contar',        fr: 'raconter' },
-  say:        { pos: 'verb', es: 'decir',         fr: 'dire' },
-  laugh:      { pos: 'verb', es: 'reír',          fr: 'rire' },
-  cry:        { pos: 'verb', es: 'llorar',        fr: 'pleurer' },
-  smile:      { pos: 'verb', es: 'sonreír',       fr: 'sourire' },
-  grow:       { pos: 'verb', es: 'crecer',        fr: 'grandir' },
-  change:     { pos: 'verb', es: 'cambiar',       fr: 'changer' },
-  move:       { pos: 'verb', es: 'mover',         fr: 'bouger' },
-  live:       { pos: 'verb', es: 'vivir',         fr: 'vivre' },
-  wait:       { pos: 'verb', es: 'esperar',       fr: 'attendre' },
-  stay:       { pos: 'verb', es: 'quedarse',      fr: 'rester' },
-  leave:      { pos: 'verb', es: 'partir',        fr: 'partir' },
-  arrive:     { pos: 'verb', es: 'llegar',        fr: 'arriver' },
-  meet:       { pos: 'verb', es: 'conocer',       fr: 'rencontrer' },
-  create:     { pos: 'verb', es: 'crear',         fr: 'créer' },
-  cook:       { pos: 'verb', es: 'cocinar',       fr: 'cuisiner' },
-  travel:     { pos: 'verb', es: 'viajar',        fr: 'voyager' },
-
-  // ADJECTIVES
-  beautiful:   { pos: 'adj', es: 'hermoso',       fr: 'beau' },
-  big:         { pos: 'adj', es: 'grande',        fr: 'grand' },
-  small:       { pos: 'adj', es: 'pequeño',       fr: 'petit' },
-  tall:        { pos: 'adj', es: 'alto',          fr: 'grand' },
-  old:         { pos: 'adj', es: 'viejo',         fr: 'vieux' },
-  new:         { pos: 'adj', es: 'nuevo',         fr: 'nouveau' },
-  young:       { pos: 'adj', es: 'joven',         fr: 'jeune' },
-  good:        { pos: 'adj', es: 'bueno',         fr: 'bon' },
-  bad:         { pos: 'adj', es: 'malo',          fr: 'mauvais' },
-  happy:       { pos: 'adj', es: 'feliz',         fr: 'heureux' },
-  sad:         { pos: 'adj', es: 'triste',        fr: 'triste' },
-  angry:       { pos: 'adj', es: 'enojado',       fr: 'en colère' },
-  calm:        { pos: 'adj', es: 'tranquilo',     fr: 'calme' },
-  fast:        { pos: 'adj', es: 'rápido',        fr: 'rapide' },
-  slow:        { pos: 'adj', es: 'lento',         fr: 'lent' },
-  hot:         { pos: 'adj', es: 'caliente',      fr: 'chaud' },
-  cold:        { pos: 'adj', es: 'frío',          fr: 'froid' },
-  warm:        { pos: 'adj', es: 'tibio',         fr: 'tiède' },
-  hard:        { pos: 'adj', es: 'duro',          fr: 'dur' },
-  soft:        { pos: 'adj', es: 'suave',         fr: 'doux' },
-  strong:      { pos: 'adj', es: 'fuerte',        fr: 'fort' },
-  weak:        { pos: 'adj', es: 'débil',         fr: 'faible' },
-  rich:        { pos: 'adj', es: 'rico',          fr: 'riche' },
-  poor:        { pos: 'adj', es: 'pobre',         fr: 'pauvre' },
-  smart:       { pos: 'adj', es: 'inteligente',   fr: 'intelligent' },
-  funny:       { pos: 'adj', es: 'gracioso',      fr: 'drôle' },
-  serious:     { pos: 'adj', es: 'serio',         fr: 'sérieux' },
-  kind:        { pos: 'adj', es: 'amable',        fr: 'gentil' },
-  brave:       { pos: 'adj', es: 'valiente',      fr: 'courageux' },
-  tired:       { pos: 'adj', es: 'cansado',       fr: 'fatigué' },
-  clean:       { pos: 'adj', es: 'limpio',        fr: 'propre' },
-  dirty:       { pos: 'adj', es: 'sucio',         fr: 'sale' },
-  dark:        { pos: 'adj', es: 'oscuro',        fr: 'sombre' },
-  heavy:       { pos: 'adj', es: 'pesado',        fr: 'lourd' },
-  deep:        { pos: 'adj', es: 'profundo',      fr: 'profond' },
-  wide:        { pos: 'adj', es: 'ancho',         fr: 'large' },
-  long:        { pos: 'adj', es: 'largo',         fr: 'long' },
-  easy:        { pos: 'adj', es: 'fácil',         fr: 'facile' },
-  difficult:   { pos: 'adj', es: 'difícil',       fr: 'difficile' },
-  interesting: { pos: 'adj', es: 'interesante',   fr: 'intéressant' },
-  boring:      { pos: 'adj', es: 'aburrido',      fr: 'ennuyeux' },
-  strange:     { pos: 'adj', es: 'extraño',       fr: 'étrange' },
-  free:        { pos: 'adj', es: 'libre',         fr: 'libre' },
-  busy:        { pos: 'adj', es: 'ocupado',       fr: 'occupé' },
-  quiet:       { pos: 'adj', es: 'tranquilo',     fr: 'tranquille' },
-  loud:        { pos: 'adj', es: 'ruidoso',       fr: 'bruyant' },
-  sweet:       { pos: 'adj', es: 'dulce',         fr: 'sucré' },
-  fresh:       { pos: 'adj', es: 'fresco',        fr: 'frais' },
-  different:   { pos: 'adj', es: 'diferente',     fr: 'différent' },
-  true:        { pos: 'adj', es: 'verdadero',     fr: 'vrai' },
-  perfect:     { pos: 'adj', es: 'perfecto',      fr: 'parfait' },
-  special:     { pos: 'adj', es: 'especial',      fr: 'spécial' },
-  natural:     { pos: 'adj', es: 'natural',       fr: 'naturel' },
-  bright:      { pos: 'adj', es: 'brillante',     fr: 'brillant' },
-  clear:       { pos: 'adj', es: 'claro',         fr: 'clair' },
-
-  // ADVERBS
-  very:          { pos: 'adv', es: 'muy',               fr: 'très' },
-  really:        { pos: 'adv', es: 'realmente',         fr: 'vraiment' },
-  quite:         { pos: 'adv', es: 'bastante',          fr: 'assez' },
-  almost:        { pos: 'adv', es: 'casi',              fr: 'presque' },
-  always:        { pos: 'adv', es: 'siempre',           fr: 'toujours' },
-  never:         { pos: 'adv', es: 'nunca',             fr: 'jamais' },
-  often:         { pos: 'adv', es: 'a menudo',          fr: 'souvent' },
-  sometimes:     { pos: 'adv', es: 'a veces',           fr: 'parfois' },
-  usually:       { pos: 'adv', es: 'normalmente',       fr: 'habituellement' },
-  already:       { pos: 'adv', es: 'ya',                fr: 'déjà' },
-  still:         { pos: 'adv', es: 'todavía',           fr: 'encore' },
-  again:         { pos: 'adv', es: 'otra vez',          fr: 'encore' },
-  just:          { pos: 'adv', es: 'justo',             fr: 'juste' },
-  only:          { pos: 'adv', es: 'solo',              fr: 'seulement' },
-  also:          { pos: 'adv', es: 'también',           fr: 'aussi' },
-  here:          { pos: 'adv', es: 'aquí',              fr: 'ici' },
-  there:         { pos: 'adv', es: 'allí',              fr: 'là' },
-  now:           { pos: 'adv', es: 'ahora',             fr: 'maintenant' },
-  soon:          { pos: 'adv', es: 'pronto',            fr: 'bientôt' },
-  later:         { pos: 'adv', es: 'más tarde',         fr: 'plus tard' },
-  early:         { pos: 'adv', es: 'temprano',          fr: 'tôt' },
-  late:          { pos: 'adv', es: 'tarde',             fr: 'tard' },
-  quickly:       { pos: 'adv', es: 'rápidamente',       fr: 'rapidement' },
-  slowly:        { pos: 'adv', es: 'lentamente',        fr: 'lentement' },
-  well:          { pos: 'adv', es: 'bien',              fr: 'bien' },
-  together:      { pos: 'adv', es: 'juntos',            fr: 'ensemble' },
-  alone:         { pos: 'adv', es: 'solo',              fr: 'seul' },
-  finally:       { pos: 'adv', es: 'finalmente',        fr: 'enfin' },
-  suddenly:      { pos: 'adv', es: 'de repente',        fr: 'soudainement' },
-  perhaps:       { pos: 'adv', es: 'quizás',            fr: 'peut-être' },
-  probably:      { pos: 'adv', es: 'probablemente',     fr: 'probablement' },
-  maybe:         { pos: 'adv', es: 'tal vez',           fr: 'peut-être' },
-  actually:      { pos: 'adv', es: 'en realidad',       fr: 'en fait' },
-  nearly:        { pos: 'adv', es: 'casi',              fr: 'presque' },
-  everywhere:    { pos: 'adv', es: 'en todas partes',   fr: 'partout' },
-  forever:       { pos: 'adv', es: 'para siempre',      fr: 'pour toujours' },
-  immediately:   { pos: 'adv', es: 'inmediatamente',    fr: 'immédiatement' },
-};
+async function loadDict() {
+  const res = await fetch('/shared/dict/en_es_fr.json');
+  DICT = await res.json();
+}
 
 // ── Lemmatizer ────────────────────────────────────────────────────────────────
 function lemmatize(word) {
@@ -289,7 +58,7 @@ function lemmatize(word) {
     if (DICT[stem + 'e']) return stem + 'e';
   }
 
-  // -ly: quickly is already in dict, but handle adjective→adverb derivations
+  // -ly: handle adjective→adverb derivations
   if (word.length > 3 && word.endsWith('ly')) {
     const stem = word.slice(0, -2);
     if (DICT[stem]) return stem;
@@ -310,15 +79,11 @@ function matchCase(original, translated) {
 // ── Core analyzer ─────────────────────────────────────────────────────────────
 function analyzeText(text, lang, enabledPos) {
   const tokens = text.match(/([a-zA-Z']+|[^a-zA-Z']+)/g) || [];
-
-  // inventory: { noun: [{en, tr}], verb: [...], adj: [...], adv: [...] }
   const inventory = { noun: [], verb: [], adj: [], adv: [] };
   const seen = new Set();
-
   let html = '';
 
   for (const token of tokens) {
-    // non-word token — pass through as-is
     if (!/[a-zA-Z]/.test(token)) {
       html += escapeHtml(token);
       continue;
@@ -330,21 +95,20 @@ function analyzeText(text, lang, enabledPos) {
     if (baseKey && DICT[baseKey] && enabledPos.has(DICT[baseKey].pos)) {
       const entry = DICT[baseKey];
       const translation = matchCase(token, entry[lang]);
-      const posClass = entry.pos === 'adj' ? 'adj' : entry.pos;
+      const posClass = entry.pos;
 
       html += `<span class="word ${posClass}">${escapeHtml(translation)}<span class="src">[${escapeHtml(token)}]</span></span>`;
 
       const key = `${entry.pos}:${baseKey}`;
       if (!seen.has(key)) {
         seen.add(key);
-        inventory[entry.pos === 'adj' ? 'adj' : entry.pos].push({ en: baseKey, tr: entry[lang] });
+        inventory[entry.pos].push({ en: baseKey, tr: entry[lang] });
       }
     } else {
       html += escapeHtml(token);
     }
   }
 
-  // sort inventory alphabetically
   for (const pos of ['noun', 'verb', 'adj', 'adv']) {
     inventory[pos].sort((a, b) => a.en.localeCompare(b.en));
   }
@@ -357,15 +121,15 @@ function escapeHtml(str) {
 }
 
 // ── UI ────────────────────────────────────────────────────────────────────────
-const tabs        = document.querySelectorAll('.tab-btn');
-const panels      = document.querySelectorAll('.tab-panel');
-const analyzeBtn  = document.getElementById('analyze-btn');
-const textarea    = document.getElementById('text-input');
-const langBtns    = document.querySelectorAll('.lang-btn');
-const posBtns     = document.querySelectorAll('.pos-btn');
-const annotated   = document.getElementById('annotated-text');
-const invTable    = document.getElementById('inv-tbody');
-const countEl     = document.getElementById('word-count');
+const tabs       = document.querySelectorAll('.tab-btn');
+const panels     = document.querySelectorAll('.tab-panel');
+const analyzeBtn = document.getElementById('analyze-btn');
+const textarea   = document.getElementById('text-input');
+const langBtns   = document.querySelectorAll('.lang-btn');
+const posBtns    = document.querySelectorAll('.pos-btn');
+const annotated  = document.getElementById('annotated-text');
+const invTable   = document.getElementById('inv-tbody');
+const countEl    = document.getElementById('word-count');
 
 function switchTab(id) {
   tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
@@ -392,9 +156,7 @@ langBtns.forEach(b => {
 });
 
 posBtns.forEach(b => {
-  b.addEventListener('click', () => {
-    b.classList.toggle('active');
-  });
+  b.addEventListener('click', () => b.classList.toggle('active'));
 });
 
 analyzeBtn.addEventListener('click', () => {
@@ -407,7 +169,6 @@ analyzeBtn.addEventListener('click', () => {
 
   annotated.innerHTML = html;
 
-  // build inventory table
   const maxRows = Math.max(
     inventory.noun.length,
     inventory.verb.length,
@@ -418,20 +179,15 @@ analyzeBtn.addEventListener('click', () => {
   invTable.innerHTML = '';
   for (let i = 0; i < maxRows; i++) {
     const tr = document.createElement('tr');
-    const cols = [
-      { pos: 'noun', data: inventory.noun[i] },
-      { pos: 'verb', data: inventory.verb[i] },
-      { pos: 'adj',  data: inventory.adj[i] },
-      { pos: 'adv',  data: inventory.adv[i] },
-    ];
-    for (const col of cols) {
+    for (const pos of ['noun', 'verb', 'adj', 'adv']) {
       const tdEn = document.createElement('td');
       const tdTr = document.createElement('td');
-      if (col.data) {
-        tdEn.textContent = col.data.en;
-        tdEn.className = `col-en ${col.pos}`;
-        tdTr.textContent = col.data.tr;
-        tdTr.className = `col-tr ${col.pos}`;
+      const item = inventory[pos][i];
+      if (item) {
+        tdEn.textContent = item.en;
+        tdEn.className = `col-en ${pos}`;
+        tdTr.textContent = item.tr;
+        tdTr.className = `col-tr ${pos}`;
       }
       tr.appendChild(tdEn);
       tr.appendChild(tdTr);
@@ -439,9 +195,16 @@ analyzeBtn.addEventListener('click', () => {
     invTable.appendChild(tr);
   }
 
-  // count swapped words
   const total = inventory.noun.length + inventory.verb.length + inventory.adj.length + inventory.adv.length;
   countEl.textContent = `${total} word${total !== 1 ? 's' : ''} translated`;
 
   switchTab('results');
+});
+
+// Load dictionary then enable the button
+analyzeBtn.disabled = true;
+analyzeBtn.textContent = 'Loading…';
+loadDict().then(() => {
+  analyzeBtn.disabled = false;
+  analyzeBtn.textContent = 'Analyze →';
 });

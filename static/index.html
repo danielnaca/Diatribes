@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Diatribes</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="header-top">
+                <h1>Diatribes</h1>
+                <button id="words-btn">Words (0)</button>
+            </div>
+            <div class="controls">
+                <div class="slider-group">
+                    <span class="lang-label">EN</span>
+                    <input type="range" id="slider" min="0" max="100" value="30" step="5">
+                    <span class="lang-label">ES</span>
+                    <span id="slider-value">30%</span>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="correction-toggle" checked>
+                    <span>Corrections</span>
+                </label>
+            </div>
+        </header>
+
+        <main id="conversation"></main>
+
+        <footer>
+            <div class="input-row">
+                <input type="text" id="text-input" placeholder="Type instead...">
+                <button id="send-btn">Send</button>
+            </div>
+            <button id="mic-btn" aria-label="Record"></button>
+            <button id="skip-btn" hidden>Skip retry</button>
+            <div id="status">Tap mic to speak</div>
+        </footer>
+    </div>
+
+    <div id="words-panel" hidden>
+        <div class="panel-header">
+            <h2>Trouble Words</h2>
+            <button id="close-panel">&times;</button>
+        </div>
+        <ul id="words-list"></ul>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

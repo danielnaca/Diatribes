@@ -1,0 +1,187 @@
+[
+  {
+    "target": 0,
+    "avg_actual": 0.0,
+    "avg_error": 0.0,
+    "measurements": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response": "I love exploring new places and trying different cuisines! What about you - do you have any favorite weekend activities?",
+        "actual": 0.0,
+        "error": 0.0
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response": "I really love pasta dishes, especially creamy carbonara with fresh herbs. What about you - do you have a favorite dish you like to cook or order?",
+        "actual": 0.0,
+        "error": 0.0
+      },
+      {
+        "prompt": "What's the weather like today?",
+        "response": "I don't actually know what the weather is like where you are! What's it like outside your window right now?",
+        "actual": 0.0,
+        "error": 0.0
+      },
+      {
+        "prompt": "Do you like to travel?",
+        "response": "I love hearing about different places! What's the most interesting place you've visited recently?",
+        "actual": 0.0,
+        "error": 0.0
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response": "I really love jazz and classical music - there's something about the complexity and emotion in those genres that fascinates me. What about you, do you have a favorite style of music?",
+        "actual": 0.0,
+        "error": 0.0
+      }
+    ]
+  },
+  {
+    "target": 25,
+    "avg_actual": 18.18,
+    "avg_error": 8.82,
+    "measurements": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response": "J'adore exploring new quartiers in the city! Usually I'll grab a croissant and just wander around, maybe visit a petit musée or sit in a parc.",
+        "actual": 21.4,
+        "error": 3.6000000000000014
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response": "Oh j'adore les croissants! There's something so parfait about a buttery croissant with my café du matin.",
+        "actual": 30.0,
+        "error": 5.0
+      },
+      {
+        "prompt": "What's the weather like today?",
+        "response": "I don't actually know the météo where you are! What's it like outside your fenêtre right now?",
+        "actual": 10.0,
+        "error": 15.0
+      },
+      {
+        "prompt": "Do you like to travel?",
+        "response": "Oh absolument! I love discovering nouveaux endroits and trying the cuisine locale. What about you - do you have a destination préférée?",
+        "actual": 17.4,
+        "error": 7.600000000000001
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response": "I absolutely love musique électronique and jazz! There's something about the rythme that just makes me want to danser. What about you - do you have a genre préféré?",
+        "actual": 12.1,
+        "error": 12.9
+      }
+    ]
+  },
+  {
+    "target": 50,
+    "avg_actual": 24.160000000000004,
+    "avg_error": 25.839999999999996,
+    "measurements": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response": "J'adore exploring new cafés and reading un bon livre. And you, qu'est-ce que tu fais usually pendant le weekend?",
+        "actual": 36.4,
+        "error": 13.600000000000001
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response": "Oh j'adore les tacos! There's something about the combination of fresh ingredients et les épices that just makes me so happy.",
+        "actual": 21.7,
+        "error": 28.3
+      },
+      {
+        "prompt": "What's the weather like today?",
+        "response": "Je don't actually know what the weather is like où tu es! What's it looking like outside ton window?",
+        "actual": 17.4,
+        "error": 32.6
+      },
+      {
+        "prompt": "Do you like to travel?",
+        "response": "Oh absolutely! J'adore découvrir new places et meeting different people. What about toi — do you have une destination préférée?",
+        "actual": 29.2,
+        "error": 20.8
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response": "Oh j'adore so many types! Right now je suis really into indie folk - there's something about les acoustic guitars that just makes me feel so peaceful, tu sais?",
+        "actual": 16.1,
+        "error": 33.9
+      }
+    ]
+  },
+  {
+    "target": 75,
+    "avg_actual": 55.116,
+    "avg_error": 19.884,
+    "measurements": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response": "J'aime vraiment me balader dans les parcs ou cafés — there's something so relaxing about it! Et toi, tu fais quoi pendant tes weekends?",
+        "actual": 42.3,
+        "error": 32.7
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response": "Oh j'adore les croissants frais avec du café le matin — there's something so perfect about that combination! Et toi, qu'est-ce que tu préfères manger?",
+        "actual": 42.9,
+        "error": 32.1
+      },
+      {
+        "prompt": "What's the weather like today?",
+        "response": "Je ne sais pas exactement quel temps il fait chez toi today! Comment est le weather dans ta région?",
+        "actual": 73.68,
+        "error": 1.3199999999999932
+      },
+      {
+        "prompt": "Do you like to travel?",
+        "response": "Ah oui, j'adore voyager! C'est amazing de découvrir de nouveaux endroits et cultures — et toi, tu aimes explorer?",
+        "actual": 54.2,
+        "error": 20.799999999999997
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response": "J'adore la musique jazz — il y a quelque chose de so soulful dans les improvisations. Et toi, tu écoutes quel genre de music généralement?",
+        "actual": 62.5,
+        "error": 12.5
+      }
+    ]
+  },
+  {
+    "target": 100,
+    "avg_actual": 83.082,
+    "avg_error": 16.918,
+    "measurements": [
+      {
+        "prompt": "What do you like to do on weekends?",
+        "response": "J'adore me promener dans les parcs et découvrir de nouveaux cafés ! Et toi, qu'est-ce que tu fais pendant tes week-ends ?",
+        "actual": 62.5,
+        "error": 37.5
+      },
+      {
+        "prompt": "Tell me about your favorite food.",
+        "response": "J'adore les croissants frais avec du beurre et de la confiture ! Et toi, quel est ton plat préféré ?",
+        "actual": 80.0,
+        "error": 20.0
+      },
+      {
+        "prompt": "What's the weather like today?",
+        "response": "Je ne sais pas quel temps il fait chez toi aujourd'hui ! Ici il fait plutôt frais - et toi, tu as du beau temps ?",
+        "actual": 92.0,
+        "error": 8.0
+      },
+      {
+        "prompt": "Do you like to travel?",
+        "response": "Oui, j'adore voyager ! Et toi, quelle est ta destination préférée ?",
+        "actual": 90.91,
+        "error": 9.090000000000003
+      },
+      {
+        "prompt": "What kind of music do you enjoy?",
+        "response": "J'adore la musique électronique et le jazz ! Et toi, quel genre de musique écoutes-tu le plus souvent ?",
+        "actual": 90.0,
+        "error": 10.0
+      }
+    ]
+  }
+]

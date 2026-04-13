@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Diatribes — Text Analyzer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        [hidden] { display: none !important; }
+
+        :root {
+            --bg:         #111;
+            --surface:    #1a1a1a;
+            --surface2:   #222;
+            --border:     #2a2a2a;
+            --primary:    #e94560;
+            --text:       #eee;
+            --text-dim:   #999;
+            --text-faint: #555;
+
+            --noun-color: #5b9cf6;
+            --verb-color: #4ade80;
+            --adj-color:  #fb923c;
+            --adv-color:  #c084fc;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        /* ── Page shell ── */
+        #page {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ── Nav bar ── */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            flex-shrink: 0;
+        }
+
+        .nav-back {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.15s;
+        }
+        .nav-back:hover { color: var(--text); }
+
+        nav h1 {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-spacer { width: 60px; }
+
+        /* ── Tab bar ── */
+        .tab-bar {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            flex-shrink: 0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-dim);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.15s, border-color 0.15s;
+        }
+
+        .tab-btn.active {
+            color: var(--text);
+            border-bottom-color: var(--primary);
+        }
+
+        /* ── Panels ── */
+        .tab-panel {
+            display: none;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .tab-panel.active { display: flex; flex-direction: column; }
+
+        /* ── INPUT PANEL ── */
+        #panel-input {
+            gap: 0;
+        }
+
+        .input-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .control-label {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* pill buttons (lang + pos) */
+        .pill-group { display: flex; gap: 4px; flex-wrap: wrap; }
+
+        .lang-btn, .pos-btn {
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: none;
+            color: var(--text-dim);
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            white-space: nowrap;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .pos-btn[data-pos="noun"].active  { background: var(--noun-color); border-color: var(--noun-color); color: #000; }
+        .pos-btn[data-pos="verb"].active  { background: var(--verb-color); border-color: var(--verb-color); color: #000; }
+        .pos-btn[data-pos="adj"].active   { background: var(--adj-color);  border-color: var(--adj-color);  color: #000; }
+        .pos-btn[data-pos="adv"].active   { background: var(--adv-color);  border-color: var(--adv-color);  color: #000; }
+
+        .input-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            padding: 16px;
+            gap: 12px;
+        }
+
+        #text-input {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.6;
+            padding: 14px 16px;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+            transition: border-color 0.15s;
+        }
+
+        #text-input:focus { border-color: #444; }
+        #text-input::placeholder { color: var(--text-faint); }
+
+        .input-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        #analyze-btn {
+            padding: 10px 28px;
+            background: var(--primary);
+            border: none;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.15s, transform 0.1s;
+        }
+
+        #analyze-btn:hover  { opacity: 0.88; }
+        #analyze-btn:active { transform: scale(0.97); }
+
+        /* ── RESULTS PANEL ── */
+        #panel-results {
+            flex-direction: row;
+        }
+
+        /* left: annotated text */
+        .results-text {
+            flex: 3;
+            overflow-y: auto;
+            padding: 20px;
+            line-height: 1.8;
+            font-size: 15px;
+            border-right: 1px solid var(--border);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .results-text-inner {
+            max-width: 620px;
+        }
+
+        /* translated word chips */
+        span.word {
+            display: inline;
+            font-weight: 600;
+        }
+
+        span.word.noun { color: var(--noun-color); }
+        span.word.verb { color: var(--verb-color); }
+        span.word.adj  { color: var(--adj-color); }
+        span.word.adv  { color: var(--adv-color); }
+
+        span.src {
+            font-size: 11px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.35);
+            margin-left: 2px;
+        }
+
+        /* right: inventory */
+        .results-inventory {
+            flex: 2;
+            overflow: auto;
+            padding: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .inv-header {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .inv-header h2 {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-dim);
+        }
+
+        #word-count {
+            font-size: 12px;
+            color: var(--text-faint);
+        }
+
+        /* inventory table */
+        .inv-scroll { overflow-x: auto; }
+
+        #inv-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 480px;
+        }
+
+        #inv-table thead th {
+            padding: 6px 10px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        th.noun-h  { color: var(--noun-color); }
+        th.verb-h  { color: var(--verb-color); }
+        th.adj-h   { color: var(--adj-color); }
+        th.adv-h   { color: var(--adv-color); }
+
+        #inv-table tbody td {
+            padding: 5px 10px;
+            border-bottom: 1px solid #1e1e1e;
+            white-space: nowrap;
+        }
+
+        td.col-en { color: var(--text-dim); }
+
+        td.col-tr.noun { color: var(--noun-color); font-weight: 500; }
+        td.col-tr.verb { color: var(--verb-color); font-weight: 500; }
+        td.col-tr.adj  { color: var(--adj-color);  font-weight: 500; }
+        td.col-tr.adv  { color: var(--adv-color);  font-weight: 500; }
+
+        /* subtle col dividers */
+        td.col-tr.noun, th.noun-h + th { border-right: 1px solid var(--border); }
+        td.col-tr.verb, th.verb-h + th { border-right: 1px solid var(--border); }
+        td.col-tr.adj,  th.adj-h + th  { border-right: 1px solid var(--border); }
+
+        /* ── Legend ── */
+        .legend {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding: 10px 16px;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 5px; color: var(--text-dim); }
+        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .legend-dot.noun { background: var(--noun-color); }
+        .legend-dot.verb { background: var(--verb-color); }
+        .legend-dot.adj  { background: var(--adj-color); }
+        .legend-dot.adv  { background: var(--adv-color); }
+
+        /* ── Mobile: stack results vertically ── */
+        @media (max-width: 640px) {
+            #panel-results { flex-direction: column; }
+            .results-text { border-right: none; border-bottom: 1px solid var(--border); max-height: 50vh; }
+            .results-inventory { max-height: 50vh; }
+        }
+    </style>
+</head>
+<body>
+<div id="page">
+
+    <!-- Nav -->
+    <nav>
+        <a href="/" class="nav-back">← Back</a>
+        <h1>Text Analyzer</h1>
+        <div class="nav-spacer"></div>
+    </nav>
+
+    <!-- Tab bar -->
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="input">Input</button>
+        <button class="tab-btn" data-tab="results">Results</button>
+    </div>
+
+    <!-- INPUT panel -->
+    <div class="tab-panel active" id="panel-input">
+        <div class="input-controls">
+            <div class="control-group">
+                <span class="control-label">Language</span>
+                <div class="pill-group">
+                    <button class="lang-btn active" data-lang="es">Spanish</button>
+                    <button class="lang-btn" data-lang="fr">French</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <span class="control-label">Swap</span>
+                <div class="pill-group">
+                    <button class="pos-btn active" data-pos="noun">Nouns</button>
+                    <button class="pos-btn active" data-pos="verb">Verbs</button>
+                    <button class="pos-btn active" data-pos="adj">Adjectives</button>
+                    <button class="pos-btn active" data-pos="adv">Adverbs</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-body">
+            <textarea id="text-input" placeholder="Paste any block of text here…" spellcheck="false"></textarea>
+            <div class="input-footer">
+                <button id="analyze-btn">Analyze →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULTS panel -->
+    <div class="tab-panel" id="panel-results">
+
+        <!-- Left: annotated text -->
+        <div class="results-text">
+            <div class="results-text-inner" id="annotated-text">
+                <span style="color: var(--text-faint); font-style: italic;">Analyzed text will appear here.</span>
+            </div>
+        </div>
+
+        <!-- Right: inventory -->
+        <div class="results-inventory">
+            <div class="inv-header">
+                <h2>Vocabulary</h2>
+                <span id="word-count"></span>
+            </div>
+            <div class="inv-scroll">
+                <table id="inv-table">
+                    <thead>
+                        <tr>
+                            <th class="noun-h">Noun</th>
+                            <th class="noun-h">→</th>
+                            <th class="verb-h">Verb</th>
+                            <th class="verb-h">→</th>
+                            <th class="adj-h">Adj</th>
+                            <th class="adj-h">→</th>
+                            <th class="adv-h">Adv</th>
+                            <th class="adv-h">→</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inv-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot noun"></div> Noun</div>
+        <div class="legend-item"><div class="legend-dot verb"></div> Verb</div>
+        <div class="legend-item"><div class="legend-dot adj"></div> Adjective</div>
+        <div class="legend-item"><div class="legend-dot adv"></div> Adverb</div>
+    </div>
+
+</div>
+<script src="/static/translator.js"></script>
+</body>
+</html>

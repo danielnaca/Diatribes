@@ -26,7 +26,7 @@ LANG_CODE = {"Spanish": "es", "French": "fr"}
 
 POS_MAP = {"nouns": "noun", "verbs": "verb", "adjectives": "adj", "adverbs": "adv"}
 
-def _lemmatize(word: str) -> str | None:
+def _lemmatize(word: str):
     if word in POS_DICT:
         return word
     # -ing
@@ -311,13 +311,8 @@ Respond ONLY with valid JSON, no markdown fences:
         rewrite_ms = round((time.monotonic() - t1) * 1000)
         result["response"] = rewrite.content[0].text.strip()
 
-    elif approach == "pos" and pos_list:
-        lang_code = LANG_CODE.get(language)
-        if lang_code:
-            enabled_pos = {POS_MAP[p] for p in pos_list if p in POS_MAP}
-            t1 = time.monotonic()
-            result["response"] = pos_swap(result["response"], lang_code, enabled_pos)
-            rewrite_ms = round((time.monotonic() - t1) * 1000)
+    # pos approach: swap handled on the frontend (deterministic dict lookup)
+    # server returns plain English so Claude sees clean conversation history
 
     result["timings"] = {"claude_ms": claude_ms, "rewrite_ms": rewrite_ms}
     return result

@@ -251,13 +251,34 @@ select:focus { border-color: var(--primary); }
     transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.pos-checks label:has(input:checked) {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: #fff;
+.pos-checks label:has(input[value="nouns"]:checked) {
+    background: #5b9cf6; border-color: #5b9cf6; color: #000;
+}
+.pos-checks label:has(input[value="verbs"]:checked) {
+    background: #4ade80; border-color: #4ade80; color: #000;
+}
+.pos-checks label:has(input[value="adjectives"]:checked) {
+    background: #fb923c; border-color: #fb923c; color: #000;
+}
+.pos-checks label:has(input[value="adverbs"]:checked) {
+    background: #c084fc; border-color: #c084fc; color: #000;
 }
 
 .pos-checks input[type="checkbox"] { display: none; }
+
+/* ── POS word colors (used in chat bubbles + text analyzer) ── */
+
+span.word             { font-weight: 600; }
+span.word.noun        { color: #5b9cf6; }
+span.word.verb        { color: #4ade80; }
+span.word.adj         { color: #fb923c; }
+span.word.adv         { color: #c084fc; }
+span.src {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.35);
+    margin-left: 2px;
+}
 
 /* ── Divider ── */
 

@@ -43,6 +43,9 @@ const STOP_SVG = '<svg viewBox="0 0 24 24" width="28" height="28"><rect x="6" y=
 
 micBtn.innerHTML = MIC_SVG;
 
+// Pre-load dictionary for POS swap
+DSWAP.load();
+
 // ── Segmented control helper ──────────────────────────────────────
 function initSeg(container, onChange) {
     container.querySelectorAll('.seg-btn').forEach(btn => {
@@ -136,10 +139,10 @@ skipBtn.addEventListener('click', () => {
     if (appState === 'CORRECTION' && pending) {
         speechSynthesis.cancel();
         skipBtn.hidden = true;
-        addMsg('assistant', pending.response);
+        addMsg('assistant', pending._displayHtml || pending.response, !!pending._displayHtml);
         history.push({ role: 'assistant', content: pending.response });
         setState('PROCESSING');
-        speak(pending.response, () => setState('IDLE'));
+        speak(pending._speakText || pending.response, () => setState('IDLE'));
         pending = null;
     }
 });
@@ -253,22 +256,34 @@ async function handleUserText(text) {
             wordsBtn.textContent = 'Words (' + troubleWords.length + ')';
         }
 
+        // For POS swap: apply deterministic swap on the frontend
+        let displayHtml = null;
+        let speakText = data.response;
+        if (approachSelect.value === 'pos') {
+            const { html, plain } = DSWAP.swapFromUI(
+                data.response,
+                languageSelect.value,
+                getPosSelections()
+            );
+            displayHtml = html;
+            speakText   = plain;
+        }
+
         if (data.correction && correctionsMode !== 'off') {
             addMsg('correction', data.correction);
             if (correctionsMode === 'repeat') {
-                pending = data;
+                pending = { ...data, _displayHtml: displayHtml, _speakText: speakText };
                 skipBtn.hidden = false;
                 speak(data.correction, () => setState('CORRECTION'));
             } else {
-                // 'correct' mode: show correction then immediately continue
-                addMsg('assistant', data.response);
+                addMsg('assistant', displayHtml || data.response, !!displayHtml);
                 history.push({ role: 'assistant', content: data.response });
-                speak(data.response, () => setState('IDLE'));
+                speak(speakText, () => setState('IDLE'));
             }
         } else {
-            addMsg('assistant', data.response);
+            addMsg('assistant', displayHtml || data.response, !!displayHtml);
             history.push({ role: 'assistant', content: data.response });
-            speak(data.response, () => setState('IDLE'));
+            speak(speakText, () => setState('IDLE'));
         }
     } catch (e) {
         setStatus('Error: ' + e.message);
@@ -277,7 +292,7 @@ async function handleUserText(text) {
 }
 
 // ── UI helpers ────────────────────────────────────────────────────
-function addMsg(type, text) {
+function addMsg(type, text, isHtml = false) {
     const div = document.createElement('div');
     div.className = 'msg ' + type;
     if (type === 'correction') {
@@ -288,6 +303,8 @@ function addMsg(type, text) {
         const span = document.createElement('span');
         span.textContent = text;
         div.appendChild(span);
+    } else if (isHtml) {
+        div.innerHTML = text;
     } else {
         div.textContent = text;
     }

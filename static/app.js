@@ -1,8 +1,6 @@
 const conversation = document.getElementById('conversation');
 const micBtn = document.getElementById('mic-btn');
 const statusEl = document.getElementById('status');
-const slider = document.getElementById('slider');
-const sliderValue = document.getElementById('slider-value');
 const lengthSlider = document.getElementById('length-slider');
 const textInput = document.getElementById('text-input');
 const sendBtn = document.getElementById('send-btn');
@@ -25,7 +23,6 @@ const languageSelect = document.getElementById('language-select');
 const correctionsSeg = document.getElementById('corrections-seg');
 const dialogSeg = document.getElementById('dialog-seg');
 const approachSelect = document.getElementById('approach-select');
-const mixRow = document.getElementById('mix-row');
 const posRow = document.getElementById('pos-row');
 const posChecks = document.getElementById('pos-checks');
 
@@ -80,8 +77,7 @@ initSeg(correctionsSeg, null);
 
 // ── Approach selector ─────────────────────────────────────────────
 const APPROACH_DESC = {
-    free_mix:     'Words from both languages blended freely. The slider controls the ratio.',
-    pos:          'Swaps some words into the target language by part of speech. Pick which ones.',
+    pos:          'Swaps words into the target language by part of speech. Pick which ones.',
     sentence_alt: 'Sentences alternate: one in English, one in the target language, and so on.',
     immersion:    'Replies entirely in the target language, with English hints in [brackets] for harder words.',
     translation:  'Every English sentence is immediately followed by its translation.',
@@ -90,7 +86,6 @@ const APPROACH_DESC = {
 const approachDescEl = document.getElementById('approach-desc');
 
 function applyApproach(val) {
-    mixRow.hidden = (val !== 'free_mix');
     posRow.hidden = (val !== 'pos');
     approachDescEl.textContent = APPROACH_DESC[val] || '';
 }
@@ -104,11 +99,6 @@ function getPosSelections() {
 
 // Apply initial dialog mode
 applyDialogMode(segValue(dialogSeg));
-
-// ── Slider ────────────────────────────────────────────────────────
-slider.addEventListener('input', () => {
-    sliderValue.textContent = slider.value + '%';
-});
 
 // ── Text input ────────────────────────────────────────────────────
 sendBtn.addEventListener('click', () => {
@@ -231,7 +221,6 @@ async function handleUserText(text) {
     try {
         const fd = new FormData();
         fd.append('user_text', text);
-        fd.append('slider_value', slider.value);
         fd.append('length_value', lengthSlider.value);
         fd.append('correction_on', correctionsMode !== 'off');
         fd.append('language', languageSelect.value);

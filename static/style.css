@@ -145,36 +145,6 @@ h1 {
     color: var(--text-dim);
 }
 
-/* ── Sliders ── */
-
-.slider-group {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    min-width: 0;
-}
-
-.slider-end {
-    font-size: 13px;
-    color: var(--text-dim);
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.slider-group input[type="range"] {
-    flex: 1;
-    min-width: 0;
-    accent-color: var(--primary);
-}
-
-#slider-value {
-    font-size: 13px;
-    color: var(--text-dim);
-    min-width: 30px;
-    text-align: right;
-}
-
 /* ── Segmented controls ── */
 
 .seg {

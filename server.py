@@ -158,12 +158,11 @@ async def speak(text: str = Form(...), voice: str = Form(default="nova"), langua
 @app.post("/api/respond")
 async def respond(
     user_text: str = Form(...),
-    slider_value: int = Form(default=30),
     length_value: int = Form(default=2),
     correction_on: bool = Form(default=True),
     language: str = Form(default="French"),
     conversation_history: str = Form(default="[]"),
-    approach: str = Form(default="free_mix"),
+    approach: str = Form(default="pos"),
     pos_selections: str = Form(default="[]"),
 ):
     history = json.loads(conversation_history)
@@ -190,47 +189,9 @@ async def respond(
         5: "Feel free to be expansive — go into detail, ask follow-ups, elaborate.",
     }
 
-    def mix_instruction(pct: int) -> str:
-        L = language
-        if pct == 0:
-            return f"Respond ENTIRELY IN ENGLISH. Zero {L} words. Pure English only."
-        elif pct <= 15:
-            return (
-                f"Respond in English. Drop in the occasional {L} word — a noun, a greeting, "
-                f"a short phrase — maybe once per sentence at most. Mostly English."
-            )
-        elif pct <= 35:
-            return (
-                f"Respond mostly in English but weave in {L} words and phrases regularly. "
-                f"Roughly 1 in 4 words should be {L} — nouns, adjectives, short clauses."
-            )
-        elif pct <= 65:
-            return (
-                f"Respond in a genuine half-and-half mix — {L} and English roughly equal, "
-                f"blended naturally within sentences. Neither language should dominate."
-            )
-        elif pct <= 85:
-            return (
-                f"Respond primarily in {L}. English should be a minority — only a word or short phrase "
-                f"per sentence at most. Most of each sentence should be {L}."
-            )
-        elif pct < 100:
-            return (
-                f"Respond almost entirely in {L}. You may use one or two English words total "
-                f"in the whole response, no more. Everything else must be {L}."
-            )
-        else:
-            return (
-                f"Respond ENTIRELY IN {L.upper()}. Every single word must be {L}. "
-                f"No English whatsoever — not even small words like 'I', 'a', 'the', 'and', 'is'. "
-                f"You are a native {L} speaker responding naturally in your language."
-            )
-
     # Build language rule based on approach
     L = language
-    if approach == "free_mix":
-        lang_rule = f"LANGUAGE RULE (highest priority — follow this above all else):\n{mix_instruction(slider_value)}"
-    elif approach == "pos":
+    if approach == "pos":
         lang_rule = "Respond naturally in English. Have a genuine, engaging conversation."
     elif approach == "sentence_alt":
         lang_rule = (
@@ -293,23 +254,6 @@ Respond ONLY with valid JSON, no markdown fences:
 
     # Second pass rewrite based on approach
     rewrite_ms = None
-
-    if approach == "free_mix" and slider_value > 0:
-        t1 = time.monotonic()
-        rewrite = anthropic_client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=512,
-            system=(
-                f"You are a text rewriter. Rewrite the given text so that approximately {slider_value}% "
-                f"of the words are in {language} and the rest in English. "
-                f"Preserve the meaning and tone exactly. "
-                f"At 100% use only {language}. At 0% use only English. "
-                f"Return ONLY the rewritten text — no explanation, no quotes, nothing else."
-            ),
-            messages=[{"role": "user", "content": result["response"]}],
-        )
-        rewrite_ms = round((time.monotonic() - t1) * 1000)
-        result["response"] = rewrite.content[0].text.strip()
 
     # pos approach: swap handled on the frontend (deterministic dict lookup)
     # server returns plain English so Claude sees clean conversation history

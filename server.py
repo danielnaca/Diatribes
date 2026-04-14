@@ -17,6 +17,72 @@ from openai import OpenAI
 
 app = FastAPI()
 
+# ── Deterministic POS swapper ─────────────────────────────────────────────────
+_DICT_PATH = os.path.join(os.path.dirname(__file__), "shared", "dict", "en_es_fr.json")
+with open(_DICT_PATH, encoding="utf-8") as _f:
+    POS_DICT: dict = json.load(_f)
+
+LANG_CODE = {"Spanish": "es", "French": "fr"}
+
+POS_MAP = {"nouns": "noun", "verbs": "verb", "adjectives": "adj", "adverbs": "adv"}
+
+def _lemmatize(word: str) -> str | None:
+    if word in POS_DICT:
+        return word
+    # -ing
+    if len(word) > 4 and word.endswith("ing"):
+        stem = word[:-3]
+        if stem in POS_DICT: return stem
+        if len(stem) > 2 and stem[-1] == stem[-2]:
+            s = stem[:-1]
+            if s in POS_DICT: return s
+        if stem + "e" in POS_DICT: return stem + "e"
+    # -ed
+    if len(word) > 3 and word.endswith("ed"):
+        stem = word[:-2]
+        if stem in POS_DICT: return stem
+        if stem + "e" in POS_DICT: return stem + "e"
+        if len(stem) > 1 and stem[-1] == stem[-2]:
+            s = stem[:-1]
+            if s in POS_DICT: return s
+    # -es
+    if len(word) > 3 and word.endswith("es"):
+        stem = word[:-2]
+        if stem in POS_DICT: return stem
+    # -s
+    if len(word) > 2 and word.endswith("s"):
+        stem = word[:-1]
+        if stem in POS_DICT: return stem
+    # -est / -er
+    if len(word) > 4 and word.endswith("est"):
+        stem = word[:-3]
+        if stem in POS_DICT: return stem
+        if stem + "e" in POS_DICT: return stem + "e"
+    if len(word) > 3 and word.endswith("er"):
+        stem = word[:-2]
+        if stem in POS_DICT: return stem
+        if stem + "e" in POS_DICT: return stem + "e"
+    return None
+
+def pos_swap(text: str, lang_code: str, enabled_pos: set[str]) -> str:
+    tokens = re.findall(r"[a-zA-Z']+|[^a-zA-Z']+", text)
+    out = []
+    for token in tokens:
+        if not any(c.isalpha() for c in token):
+            out.append(token)
+            continue
+        lower = token.replace("'", "").lower()
+        base = _lemmatize(lower)
+        if base and POS_DICT.get(base, {}).get("pos") in enabled_pos:
+            translation = POS_DICT[base].get(lang_code, token)
+            # preserve capitalisation
+            if token[0].isupper():
+                translation = translation[0].upper() + translation[1:]
+            out.append(translation)
+        else:
+            out.append(token)
+    return "".join(out)
+
 BUILD_TIME = datetime.now().strftime("%H:%M:%S")
 
 anthropic_client = Anthropic()
@@ -246,28 +312,12 @@ Respond ONLY with valid JSON, no markdown fences:
         result["response"] = rewrite.content[0].text.strip()
 
     elif approach == "pos" and pos_list:
-        pos_str = " and ".join(pos_list)
-        pos_bullets = "\n".join(
-            f"- Replace every {p} with its {language} equivalent" for p in pos_list
-        )
-        keep = [p for p in ["nouns", "verbs", "adjectives", "adverbs"] if p not in pos_list]
-        keep_str = ", ".join(keep) if keep else "nothing"
-        t1 = time.monotonic()
-        rewrite = anthropic_client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=512,
-            system=(
-                f"You are a linguistics post-processor. You will receive a completed English text.\n"
-                f"Your task: identify all {pos_str} in the text and replace each with its {language} equivalent.\n"
-                f"{pos_bullets}\n"
-                f"Keep everything else in English: {keep_str}, plus articles, pronouns, prepositions, conjunctions.\n\n"
-                f"Work through the sentence carefully — scan the whole thing before making changes.\n\n"
-                f"Return ONLY the final transformed text. No explanation."
-            ),
-            messages=[{"role": "user", "content": f"Text to transform:\n\n{result['response']}"}],
-        )
-        rewrite_ms = round((time.monotonic() - t1) * 1000)
-        result["response"] = rewrite.content[0].text.strip()
+        lang_code = LANG_CODE.get(language)
+        if lang_code:
+            enabled_pos = {POS_MAP[p] for p in pos_list if p in POS_MAP}
+            t1 = time.monotonic()
+            result["response"] = pos_swap(result["response"], lang_code, enabled_pos)
+            rewrite_ms = round((time.monotonic() - t1) * 1000)
 
     result["timings"] = {"claude_ms": claude_ms, "rewrite_ms": rewrite_ms}
     return result

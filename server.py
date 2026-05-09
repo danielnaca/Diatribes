@@ -267,6 +267,74 @@ async def get_trouble_words():
     return {"words": trouble_words}
 
 
+# ── Book chapter summarizer ───────────────────────────────────────────────────
+CHAPTER_PATTERNS = [
+    re.compile(
+        r"^\s*chapter\s+(?:\d+|[ivxlcdm]+|one|two|three|four|five|six|seven|eight|"
+        r"nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|"
+        r"eighteen|nineteen|twenty|twenty[-\s]one|twenty[-\s]two|twenty[-\s]three|"
+        r"twenty[-\s]four|twenty[-\s]five)\b.*$",
+        re.IGNORECASE | re.MULTILINE,
+    ),
+    re.compile(r"^\s*part\s+(?:\d+|[ivxlcdm]+)\b.*$", re.IGNORECASE | re.MULTILINE),
+    re.compile(r"^\s*#{1,3}\s+\S.*$", re.MULTILINE),
+]
+
+
+def split_into_chapters(text: str) -> list[dict]:
+    for pat in CHAPTER_PATTERNS:
+        matches = list(pat.finditer(text))
+        if len(matches) >= 2:
+            chapters = []
+            for i, m in enumerate(matches):
+                start = m.start()
+                end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+                title = m.group(0).strip().lstrip("#").strip()
+                body = text[start:end].strip()
+                chapters.append({"index": i, "title": title, "body": body})
+            return chapters
+    # Fallback: ~5000-word chunks
+    words = text.split()
+    if not words:
+        return []
+    chunks = [" ".join(words[i:i + 5000]) for i in range(0, len(words), 5000)]
+    return [
+        {"index": i, "title": f"Section {i + 1}", "body": c}
+        for i, c in enumerate(chunks)
+    ]
+
+
+@app.post("/api/book/parse")
+async def parse_book(file: UploadFile = File(...)):
+    raw = await file.read()
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        text = raw.decode("latin-1", errors="replace")
+    chapters = split_into_chapters(text)
+    return {"filename": file.filename, "chapters": chapters}
+
+
+@app.post("/api/book/summarize")
+async def summarize_chapter(payload: dict):
+    title = (payload.get("title") or "Chapter").strip()
+    body = (payload.get("body") or "").strip()
+    if not body:
+        raise HTTPException(400, "empty chapter body")
+    body = body[:60000]
+    response = anthropic_client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=600,
+        system=(
+            "You are a thoughtful literary editor. Summarize the given chapter in "
+            "4–6 sentences. Capture key plot beats, character development, and "
+            "tone. Plain prose, no bullet points, no preamble."
+        ),
+        messages=[{"role": "user", "content": f"Title: {title}\n\n{body}"}],
+    )
+    return {"summary": response.content[0].text.strip()}
+
+
 @app.get("/api/build-time")
 async def get_build_time():
     static_dir = os.path.join(os.path.dirname(__file__), "static")

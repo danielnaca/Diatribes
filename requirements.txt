@@ -5,5 +5,5 @@ anthropic
 openai
 python-multipart
 requests
-readability-lxml
+trafilatura
 feedparser

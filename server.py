@@ -406,24 +406,22 @@ async def get_build_time():
 
 @app.post("/api/fetch-article")
 async def fetch_article(url: str = Form(...)):
-    import requests as _req
-    from readability import Document
-    from lxml import html as lhtml
+    import json as _json
+    import trafilatura
 
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; Diatribes/1.0)"}
-    try:
-        resp = _req.get(url, headers=headers, timeout=10)
-        resp.raise_for_status()
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    downloaded = trafilatura.fetch_url(url)
+    if not downloaded:
+        raise HTTPException(status_code=400, detail="Could not fetch URL")
 
-    doc = Document(resp.text)
-    title = doc.title()
-    content = doc.summary()
+    result = trafilatura.extract(downloaded, with_metadata=True, output_format="json",
+                                  include_comments=False, include_tables=False)
+    if not result:
+        raise HTTPException(status_code=400, detail="Could not extract article content")
 
-    tree = lhtml.fromstring(content)
-    paragraphs = [p.text_content().strip() for p in tree.xpath("//p") if p.text_content().strip()]
-
+    data = _json.loads(result)
+    title = data.get("title") or data.get("sitename") or url
+    text  = data.get("text") or ""
+    paragraphs = [p.strip() for p in text.split("\n") if p.strip()]
     excerpt = (paragraphs[0][:150] + "…") if paragraphs else ""
     return {"title": title, "url": url, "excerpt": excerpt, "paragraphs": paragraphs}
 
@@ -432,9 +430,10 @@ async def fetch_article(url: str = Form(...)):
 async def fetch_feed(url: str = Form(...)):
     import feedparser
     import requests as _req
+    import re as _re
     import time as _time
+    from html import unescape as _unescape
     from urllib.parse import urlparse
-    from lxml import html as lhtml
 
     headers = {"User-Agent": "Mozilla/5.0 (compatible; Diatribes/1.0)"}
     try:
@@ -451,15 +450,15 @@ async def fetch_feed(url: str = Form(...)):
     domain = urlparse(site_url).netloc or urlparse(url).netloc
     favicon = f"https://www.google.com/s2/favicons?domain={domain}&sz=32"
 
+    def strip_html(html_text: str) -> str:
+        return _unescape(_re.sub(r"<[^>]+>", "", html_text)).strip()
+
     items = []
     for entry in feed.entries[:30]:
         summary = entry.get("summary", "")
         excerpt = ""
         if summary:
-            try:
-                text = lhtml.fromstring(summary).text_content().strip()
-            except Exception:
-                text = summary
+            text = strip_html(summary)
             excerpt = text[:150] + ("…" if len(text) > 150 else "")
 
         date_str = ""

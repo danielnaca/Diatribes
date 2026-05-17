@@ -104,71 +104,22 @@ struct APIClient {
         }
     }
 
-    // MARK: TTS
+    // MARK: TTS — routed through server so API keys stay server-side
 
     func speak(text: String, voice: String, language: String, speakingRate: Double = 1.0) async throws -> Data {
-        if voice.hasPrefix("google-") {
-            return try await speakGoogle(text: text, voice: voice, speakingRate: speakingRate)
-        } else {
-            return try await speakOpenAI(text: text, voice: voice, language: language)
-        }
-    }
-
-    private func speakGoogle(text: String, voice: String, speakingRate: Double) async throws -> Data {
-        // voice key format: "google-fr-a" → languageCode "fr-FR", name "fr-FR-Neural2-A"
-        let parts = voice.split(separator: "-") // ["google", "fr", "a"]
-        guard parts.count == 3 else { throw APIError.noData }
-        let lang = String(parts[1]).lowercased()          // "fr"
-        let letter = String(parts[2]).uppercased()        // "A"
-        let bcp47 = "\(lang)-\(lang.uppercased())"        // "fr-FR"
-        let voiceName = "\(bcp47)-Neural2-\(letter)"      // "fr-FR-Neural2-A"
-
-        let apiKey = Config.googleTTSKey
-        let urlStr = "https://texttospeech.googleapis.com/v1/text:synthesize?key=\(apiKey)"
-        let url = URL(string: urlStr)!
+        let url = URL(string: "\(Config.serverBase)/api/speak")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
-        let payload: [String: Any] = [
-            "input": ["text": text],
-            "voice": ["languageCode": bcp47, "name": voiceName],
-            "audioConfig": ["audioEncoding": "MP3", "speakingRate": speakingRate]
-        ]
-        request.httpBody = try JSONSerialization.data(withJSONObject: payload)
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-        if let http = response as? HTTPURLResponse, http.statusCode != 200 {
-            throw APIError.httpError(http.statusCode)
-        }
-
-        struct GoogleTTSResponse: Codable { let audioContent: String }
-        let decoded = try JSONDecoder().decode(GoogleTTSResponse.self, from: data)
-        guard let mp3 = Data(base64Encoded: decoded.audioContent) else { throw APIError.noData }
-        return mp3
-    }
-
-    private func speakOpenAI(text: String, voice: String, language: String) async throws -> Data {
-        let url = URL(string: "https://api.openai.com/v1/audio/speech")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(Config.openAIKey)", forHTTPHeaderField: "Authorization")
-
-        let instructions = """
-        You are a native \(language) speaker who learned English as a second language. \
-        Your \(language) accent is always present — it never disappears, not even on a single word. \
-        Every English word you say carries the full rhythm, intonation, and phonology of a native \(language) speaker. \
-        You cannot turn your accent off.
-        """
-
-        let payload: [String: Any] = [
-            "model": Config.ttsModel,
-            "voice": voice,
-            "input": text,
-            "instructions": instructions
-        ]
-        request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+        var body = Data()
+        body.appendFormField(name: "text",         value: text,                     boundary: boundary)
+        body.appendFormField(name: "voice",        value: voice,                    boundary: boundary)
+        body.appendFormField(name: "language",     value: language,                 boundary: boundary)
+        body.appendFormField(name: "speaking_rate", value: String(speakingRate),    boundary: boundary)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = body
 
         let (data, response) = try await URLSession.shared.data(for: request)
         if let http = response as? HTTPURLResponse, http.statusCode != 200 {

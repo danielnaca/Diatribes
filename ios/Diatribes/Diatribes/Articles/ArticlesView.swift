@@ -8,13 +8,11 @@ struct ArticlesView: View {
             VStack(spacing: 0) {
                 tabBar
                 Divider()
-                TabView(selection: $selectedTab) {
+                if selectedTab == 0 {
                     SavedArticlesView()
-                        .tag(0)
+                } else {
                     FeedsView()
-                        .tag(1)
                 }
-                .tabViewStyle(.page(indexDisplayMode: .never))
             }
             .navigationTitle("Articles")
             .navigationBarTitleDisplayMode(.inline)
@@ -32,7 +30,7 @@ struct ArticlesView: View {
 
     private func tabButton(title: String, tag: Int) -> some View {
         Button {
-            withAnimation { selectedTab = tag }
+            withAnimation(.easeInOut(duration: 0.15)) { selectedTab = tag }
         } label: {
             Text(title)
                 .font(.subheadline.weight(.medium))

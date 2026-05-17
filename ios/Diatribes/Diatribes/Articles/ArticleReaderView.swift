@@ -5,75 +5,82 @@ struct ArticleReaderView: View {
     let source: String
     let paragraphs: [String]
 
-    @Environment(\.dismiss) private var dismiss
     @AppStorage("language")          private var language      = "French"
     @AppStorage("highlightsOn")      private var highlightsOn  = true
     @AppStorage("enabledPOSRaw")     private var enabledPOSRaw = "noun,verb,adj,adv"
 
     @State private var showOptions = false
+    @State private var tappedWord: WordTapInfo?
 
     private var enabledPOS: Set<String> {
         Set(enabledPOSRaw.split(separator: ",").map(String.init))
     }
-
     private var langCode: String { language == "Spanish" ? "es" : "fr" }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    // Title + source header
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(title)
-                            .font(.title2.bold())
-                        Text(hostName(from: source))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 16)
-                    .padding(.bottom, 20)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(title)
+                        .font(.title2.bold())
+                    Text(hostName(from: source))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
+                .padding(.bottom, 20)
 
-                    Divider()
-                        .padding(.horizontal, 20)
-
-                    // Body paragraphs
-                    VStack(alignment: .leading, spacing: 16) {
-                        ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, para in
-                            let swapped = DictSwap.shared.swap(
-                                text: para,
-                                langCode: langCode,
-                                enabledPOS: enabledPOS,
-                                highlightsOn: highlightsOn
-                            )
-                            Text(swapped.attributed)
-                                .font(.body)
-                                .lineSpacing(4)
-                        }
-                    }
+                Divider()
                     .padding(.horizontal, 20)
-                    .padding(.top, 20)
-                    .padding(.bottom, 48)
-                }
-                .frame(maxWidth: 680)
-                .frame(maxWidth: .infinity)
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Done") { dismiss() }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showOptions = true
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
+
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, para in
+                        let swapped = DictSwap.shared.swap(
+                            text: para,
+                            langCode: langCode,
+                            enabledPOS: enabledPOS,
+                            highlightsOn: highlightsOn
+                        )
+                        Text(swapped.attributed)
+                            .font(.body)
+                            .lineSpacing(4)
                     }
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 48)
             }
-            .sheet(isPresented: $showOptions) {
-                ArticleOptionsSheet()
+            .frame(maxWidth: 680)
+            .frame(maxWidth: .infinity)
+        }
+        .navigationTitle(hostName(from: source))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showOptions = true
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                }
             }
+        }
+        .environment(\.openURL, OpenURLAction { url in
+            guard url.scheme == "diatribes",
+                  let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                  let en   = comps.queryItems?.first(where: { $0.name == "en"   })?.value,
+                  let tr   = comps.queryItems?.first(where: { $0.name == "tr"   })?.value,
+                  let pos  = comps.queryItems?.first(where: { $0.name == "pos"  })?.value,
+                  let lang = comps.queryItems?.first(where: { $0.name == "lang" })?.value
+            else { return .systemAction }
+            tappedWord = WordTapInfo(english: en, translation: tr, pos: pos, language: lang)
+            return .handled
+        })
+        .sheet(isPresented: $showOptions) {
+            ArticleOptionsSheet()
+        }
+        .sheet(item: $tappedWord) { info in
+            WordPopupSheet(info: info)
         }
     }
 
@@ -90,7 +97,7 @@ struct ArticleOptionsSheet: View {
     @AppStorage("enabledPOSRaw") private var enabledPOSRaw = "noun,verb,adj,adv"
 
     private var enabledPOS: Set<String> {
-        get { Set(enabledPOSRaw.split(separator: ",").map(String.init)) }
+        Set(enabledPOSRaw.split(separator: ",").map(String.init))
     }
 
     private func setEnabled(_ key: String, _ on: Bool) {

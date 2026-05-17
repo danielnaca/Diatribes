@@ -68,3 +68,14 @@ struct FeedItem: Codable, Identifiable {
 
     var id: String { guid }
 }
+
+// Navigation value for pushing ArticleReaderView
+struct ArticleReaderData: Identifiable, Hashable {
+    let id         = UUID()
+    let title:      String
+    let source:     String
+    let paragraphs: [String]
+
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
+    static func == (lhs: ArticleReaderData, rhs: ArticleReaderData) -> Bool { lhs.id == rhs.id }
+}

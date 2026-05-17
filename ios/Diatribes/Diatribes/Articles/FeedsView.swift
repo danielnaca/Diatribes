@@ -12,8 +12,7 @@ struct FeedsView: View {
     @State private var isLoading   = false
     @State private var isAdding    = false
     @State private var errorMsg: String?
-    @State private var readerArticle: (title: String, source: String, paragraphs: [String])?
-    @State private var showReader   = false
+    @State private var readerArticle: ArticleReaderData?
 
     enum FeedsLevel { case subscriptions, articles }
 
@@ -33,10 +32,8 @@ struct FeedsView: View {
                 articleList
             }
         }
-        .sheet(isPresented: $showReader) {
-            if let a = readerArticle {
-                ArticleReaderView(title: a.title, source: a.source, paragraphs: a.paragraphs)
-            }
+        .navigationDestination(item: $readerArticle) { data in
+            ArticleReaderView(title: data.title, source: data.source, paragraphs: data.paragraphs)
         }
     }
 
@@ -251,8 +248,7 @@ struct FeedsView: View {
         defer { isLoading = false }
         do {
             let fetched = try await APIClient.shared.fetchArticle(urlString: item.url)
-            readerArticle = (title: fetched.title, source: fetched.url, paragraphs: fetched.paragraphs)
-            showReader = true
+            readerArticle = ArticleReaderData(title: fetched.title, source: fetched.url, paragraphs: fetched.paragraphs)
         } catch {
             errorMsg = "Couldn't load article."
         }

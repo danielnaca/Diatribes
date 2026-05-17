@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChatView: View {
     @EnvironmentObject private var vm: ChatViewModel
+    @State private var tappedWord: WordTapInfo?
 
     var body: some View {
         NavigationStack {
@@ -25,6 +26,9 @@ struct ChatView: View {
                 ChatOptionsSheet()
                     .environmentObject(vm)
             }
+            .sheet(item: $tappedWord) { info in
+                WordPopupSheet(info: info)
+            }
         }
     }
 
@@ -47,6 +51,17 @@ struct ChatView: View {
                     withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
                 }
             }
+            .environment(\.openURL, OpenURLAction { url in
+                guard url.scheme == "diatribes",
+                      let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                      let en  = comps.queryItems?.first(where: { $0.name == "en"  })?.value,
+                      let tr  = comps.queryItems?.first(where: { $0.name == "tr"  })?.value,
+                      let pos = comps.queryItems?.first(where: { $0.name == "pos" })?.value,
+                      let lang = comps.queryItems?.first(where: { $0.name == "lang" })?.value
+                else { return .systemAction }
+                tappedWord = WordTapInfo(english: en, translation: tr, pos: pos, language: lang)
+                return .handled
+            })
         }
     }
 
@@ -99,6 +114,7 @@ struct ChatView: View {
             .clipShape(Circle())
         }
         .disabled(vm.isProcessing)
+        .padding(.top, 6)
         .padding(.trailing, 6)
         .padding(.bottom, 6)
         .animation(.easeInOut(duration: 0.15), value: vm.isRecording)

@@ -84,6 +84,13 @@ final class DictSwap {
                     tAttr.font = .body.bold()
                 }
 
+                // Encode word info in a custom URL so views can intercept taps
+                let enEnc  = word.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? word
+                let trEnc  = translation.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? translation
+                if let tapURL = URL(string: "diatribes://word?en=\(enEnc)&tr=\(trEnc)&pos=\(entry.pos)&lang=\(langCode)") {
+                    tAttr.link = tapURL
+                }
+
                 attributed += tAttr
                 plainParts.append(translation)
             } else {

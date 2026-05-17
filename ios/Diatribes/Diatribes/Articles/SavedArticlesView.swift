@@ -9,7 +9,6 @@ struct SavedArticlesView: View {
     @State private var urlText   = ""
     @State private var isLoading = false
     @State private var errorMsg: String?
-    @State private var selected: SavedArticle?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -20,13 +19,6 @@ struct SavedArticlesView: View {
             } else {
                 articleList
             }
-        }
-        .sheet(item: $selected) { article in
-            ArticleReaderView(
-                title: article.title,
-                source: article.url,
-                paragraphs: article.paragraphs
-            )
         }
     }
 
@@ -69,8 +61,12 @@ struct SavedArticlesView: View {
                     .listRowSeparator(.hidden)
             }
             ForEach(articles) { article in
-                Button {
-                    selected = article
+                NavigationLink {
+                    ArticleReaderView(
+                        title: article.title,
+                        source: article.url,
+                        paragraphs: article.paragraphs
+                    )
                 } label: {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(article.title)
@@ -87,7 +83,6 @@ struct SavedArticlesView: View {
                     }
                     .padding(.vertical, 4)
                 }
-                .buttonStyle(.plain)
             }
             .onDelete(perform: deleteArticles)
         }

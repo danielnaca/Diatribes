@@ -47,30 +47,32 @@ struct FlashcardsView: View {
     // MARK: POS filter
 
     private var posFilterBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ForEach(posTags, id: \.key) { tag in
-                    let isOn = filterPOS.contains(tag.key)
-                    Button {
-                        if isOn { filterPOS.remove(tag.key) }
-                        else     { filterPOS.insert(tag.key) }
-                    } label: {
-                        Text(tag.label)
-                            .font(.subheadline.weight(.medium))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(isOn ? posColor(tag.key) : Color(.systemGray5))
-                            .foregroundStyle(isOn ? .white : .primary)
-                            .clipShape(Capsule())
+        VStack(spacing: 0) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(posTags, id: \.key) { tag in
+                        let isOn = filterPOS.contains(tag.key)
+                        Button {
+                            if isOn { filterPOS.remove(tag.key) }
+                            else     { filterPOS.insert(tag.key) }
+                        } label: {
+                            Text(tag.label)
+                                .font(.subheadline.weight(.medium))
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(isOn ? posColor(tag.key) : Color(.systemGray5))
+                                .foregroundStyle(isOn ? .white : .primary)
+                                .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
                 }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
+            .background(Color(.systemBackground))
+            Divider()
         }
-        .background(Color(.systemBackground))
-        Divider()
     }
 
     // MARK: Card list

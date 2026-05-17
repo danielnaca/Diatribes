@@ -4,147 +4,384 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Diatribes</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/app.css">
 </head>
 <body>
-    <div id="app">
 
-        <div class="chat-col">
-            <main id="conversation"></main>
-            <footer>
-                <div class="input-row" id="input-row">
-                    <input type="text" id="text-input" placeholder="Type a message...">
-                    <button id="send-btn">Send</button>
-                </div>
-                <button id="mic-btn" aria-label="Record"></button>
+<!-- ── Sidebar overlay ── -->
+<div id="sidebar-overlay"></div>
+
+<!-- ── Sidebar ── -->
+<nav id="sidebar">
+    <div class="sidebar-brand">Diatribes</div>
+    <ul class="sidebar-nav">
+        <li class="nav-item active" data-view="chat">
+            <span class="nav-icon">💬</span> Chat
+        </li>
+        <li class="nav-item" data-view="flashcards">
+            <span class="nav-icon">🃏</span> Flashcards
+        </li>
+        <li class="nav-item" data-view="articles">
+            <span class="nav-icon">📰</span> Articles
+        </li>
+        <li class="nav-item" data-view="voice-test">
+            <span class="nav-icon">🎙</span> Voice Test
+        </li>
+        <li class="nav-item" data-view="settings">
+            <span class="nav-icon">⚙</span> Settings
+        </li>
+    </ul>
+</nav>
+
+<!-- ── App shell ── -->
+<div id="app">
+
+    <!-- ════════════════════════════════════════════
+         CHAT VIEW
+    ═══════════════════════════════════════════════ -->
+    <div id="view-chat" class="view active">
+        <header class="view-header">
+            <button class="hamburger" id="hamburger">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <rect y="5"  width="24" height="2" rx="1"/>
+                    <rect y="11" width="24" height="2" rx="1"/>
+                    <rect y="17" width="24" height="2" rx="1"/>
+                </svg>
+            </button>
+            <span class="header-title">Chat</span>
+            <button class="icon-btn" id="options-btn" title="Options">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+                </svg>
+            </button>
+        </header>
+
+        <main id="conversation"></main>
+
+        <footer class="chat-footer">
+            <div class="chat-input-bar">
+                <input type="text" id="text-input" placeholder="Message…" autocomplete="off">
+                <button id="action-btn" aria-label="Record or send"></button>
+            </div>
+            <div class="chat-footer-meta">
                 <button id="skip-btn" hidden>Skip retry</button>
-                <div id="status">Tap mic to speak</div>
-            </footer>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         FLASHCARDS VIEW
+    ═══════════════════════════════════════════════ -->
+    <div id="view-flashcards" class="view">
+        <header class="view-header">
+            <button class="hamburger">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <rect y="5"  width="24" height="2" rx="1"/>
+                    <rect y="11" width="24" height="2" rx="1"/>
+                    <rect y="17" width="24" height="2" rx="1"/>
+                </svg>
+            </button>
+            <span class="header-title">Flashcards</span>
+            <button class="icon-btn" id="review-btn">Review</button>
+        </header>
+
+        <div class="fc-filters">
+            <button class="filter-btn active" data-pos="all">All</button>
+            <button class="filter-btn noun" data-pos="noun">Nouns</button>
+            <button class="filter-btn verb" data-pos="verb">Verbs</button>
+            <button class="filter-btn adj"  data-pos="adj">Adjs</button>
+            <button class="filter-btn adv"  data-pos="adv">Advs</button>
         </div>
 
-        <aside class="control-col">
-            <div class="control-col-inner">
+        <div id="fc-list"></div>
+        <div id="fc-empty" hidden>
+            <p>No saved words yet.</p>
+            <p>Tap highlighted words in chat to save them.</p>
+        </div>
+    </div>
 
-                <div class="header-title">
-                    <h1>Diatribes</h1>
-                    <div style="display:flex;gap:6px;align-items:center;">
-                        <a href="/static/translator.html" id="analyzer-btn">Analyzer →</a>
-                        <button id="words-btn">Words (0)</button>
-                    </div>
+    <!-- ════════════════════════════════════════════
+         ARTICLES VIEW
+    ═══════════════════════════════════════════════ -->
+    <div id="view-articles" class="view">
+        <header class="view-header">
+            <button class="hamburger">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <rect y="5"  width="24" height="2" rx="1"/>
+                    <rect y="11" width="24" height="2" rx="1"/>
+                    <rect y="17" width="24" height="2" rx="1"/>
+                </svg>
+            </button>
+            <span class="header-title">Articles</span>
+            <button class="icon-btn" id="art-options-btn" title="Options">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+                </svg>
+            </button>
+        </header>
+
+        <div class="art-tabs">
+            <button class="art-tab active" data-tab="saved">Saved</button>
+            <button class="art-tab" data-tab="feeds">Feeds</button>
+        </div>
+
+        <!-- Saved pane -->
+        <div id="art-pane-saved" class="art-pane">
+            <div class="art-add-bar">
+                <input type="url" id="art-url-input" placeholder="Paste article URL…" autocomplete="off">
+                <button id="art-add-btn">Save</button>
+            </div>
+            <div id="art-saved-list"></div>
+            <div id="art-saved-empty" hidden>
+                <p>No saved articles yet.</p>
+                <p>Paste a URL above to save one.</p>
+            </div>
+        </div>
+
+        <!-- Feeds pane -->
+        <div id="art-pane-feeds" class="art-pane" hidden>
+            <div class="art-add-bar" id="feed-add-bar">
+                <input type="url" id="feed-url-input" placeholder="Paste RSS feed URL…" autocomplete="off">
+                <button id="feed-add-btn">Add</button>
+            </div>
+            <div id="art-feeds-list"></div>
+            <div id="art-feeds-empty" hidden>
+                <p>No feeds yet.</p>
+                <p>Paste an RSS URL above to add one.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         VOICE TEST VIEW
+    ═══════════════════════════════════════════════ -->
+    <div id="view-voice-test" class="view">
+        <header class="view-header">
+            <button class="hamburger">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <rect y="5"  width="24" height="2" rx="1"/>
+                    <rect y="11" width="24" height="2" rx="1"/>
+                    <rect y="17" width="24" height="2" rx="1"/>
+                </svg>
+            </button>
+            <span class="header-title">Voice Test</span>
+            <span></span>
+        </header>
+        <iframe src="/static/voice-test.html" style="flex:1;border:none;width:100%;background:#111;"></iframe>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         SETTINGS VIEW
+    ═══════════════════════════════════════════════ -->
+    <div id="view-settings" class="view">
+        <header class="view-header">
+            <button class="hamburger">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <rect y="5"  width="24" height="2" rx="1"/>
+                    <rect y="11" width="24" height="2" rx="1"/>
+                    <rect y="17" width="24" height="2" rx="1"/>
+                </svg>
+            </button>
+            <span class="header-title">Settings</span>
+            <span></span>
+        </header>
+
+        <div class="settings-body">
+            <div class="settings-section">
+                <div class="settings-label">Language</div>
+                <div class="seg" id="lang-seg">
+                    <button class="seg-btn active" data-value="French">French</button>
+                    <button class="seg-btn" data-value="Spanish">Spanish</button>
                 </div>
+            </div>
 
-                <div class="setting-row">
-                    <span class="setting-label">Language</span>
-                    <select id="language-select">
-                        <option value="French" selected>French</option>
-                        <option value="Spanish">Spanish</option>
-                        <option value="Italian">Italian</option>
-                        <option value="German">German</option>
-                        <option value="Portuguese">Portuguese</option>
-                        <option value="Japanese">Japanese</option>
-                        <option value="Mandarin">Mandarin</option>
-                        <option value="Arabic">Arabic</option>
-                        <option value="Dutch">Dutch</option>
-                        <option value="Russian">Russian</option>
-                        <option value="Korean">Korean</option>
-                    </select>
-                </div>
-
-                <div class="setting-row">
-                    <span class="setting-label">Answers</span>
-                    <div class="slider-group">
-                        <span class="slider-end">Brief</span>
-                        <input type="range" id="length-slider" min="1" max="5" value="2" step="1">
-                        <span class="slider-end">Long</span>
-                    </div>
-                </div>
-
-                <div class="setting-row">
-                    <span class="setting-label">Corrections</span>
-                    <div class="seg" id="corrections-seg">
-                        <button class="seg-btn" data-value="off">Off</button>
-                        <button class="seg-btn active" data-value="correct">Correct</button>
-                        <button class="seg-btn" data-value="repeat">Correct &amp; repeat</button>
-                    </div>
-                </div>
-
-                <div class="setting-row">
-                    <span class="setting-label">Voice</span>
-                    <select id="voice-select">
-                        <option value="browser">Browser</option>
-                        <option value="nova" selected>Nova</option>
+            <div class="settings-section">
+                <div class="settings-label">Voice</div>
+                <select id="voice-select">
+                    <optgroup label="Google Neural2">
+                        <option value="google-fr-a">Google FR — female</option>
+                        <option value="google-fr-b">Google FR — male</option>
+                        <option value="google-fr-c">Google FR — female 2</option>
+                        <option value="google-es-a">Google ES — female</option>
+                        <option value="google-es-b">Google ES — male</option>
+                    </optgroup>
+                    <optgroup label="OpenAI">
+                        <option value="nova">Nova</option>
                         <option value="alloy">Alloy</option>
                         <option value="echo">Echo</option>
                         <option value="fable">Fable</option>
                         <option value="onyx">Onyx</option>
                         <option value="shimmer">Shimmer</option>
-                    </select>
-                </div>
-
-                <div class="setting-row">
-                    <span class="setting-label">Dialog</span>
-                    <div class="seg" id="dialog-seg">
-                        <button class="seg-btn" data-value="voice">Voice</button>
-                        <button class="seg-btn" data-value="text">Text</button>
-                        <button class="seg-btn active" data-value="both">Text &amp; voice</button>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
-
-                <!-- Approach selector + dynamic controls -->
-                <div class="setting-row">
-                    <span class="setting-label">Approach</span>
-                    <select id="approach-select">
-                        <option value="pos" selected>POS swap</option>
-                        <option value="sentence_alt">Alternating</option>
-                        <option value="immersion">Immersion</option>
-                        <option value="translation">Translations</option>
-                    </select>
-                </div>
-
-                <p id="approach-desc" class="approach-desc"></p>
-
-                <!-- POS swap controls -->
-                <div id="pos-row" class="setting-row" hidden>
-                    <span class="setting-label">Swap</span>
-                    <div class="pos-checks" id="pos-checks">
-                        <label><input type="checkbox" value="nouns" checked> Nouns</label>
-                        <label><input type="checkbox" value="verbs" checked> Verbs</label>
-                        <label><input type="checkbox" value="adjectives" checked> Adjs</label>
-                        <label><input type="checkbox" value="adverbs" checked> Advs</label>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="meta-grid">
-                    <span class="meta-item"><span id="server-time">—</span><span class="meta-label">server</span></span>
-                    <span class="meta-item"><span id="frontend-time">—</span><span class="meta-label">frontend</span></span>
-                </div>
-
-                <div class="meta-grid" id="timings-row" hidden>
-                    <span class="meta-item"><span id="t-whisper">—</span><span class="meta-label">whisper</span></span>
-                    <span class="meta-item"><span id="t-claude">—</span><span class="meta-label">claude</span></span>
-                    <span class="meta-item"><span id="t-rewrite">—</span><span class="meta-label">rewrite</span></span>
-                    <span class="meta-item"><span id="t-tts">—</span><span class="meta-label">tts</span></span>
-                    <span class="meta-item"><span id="t-total">—</span><span class="meta-label">total</span></span>
-                </div>
-
+                    </optgroup>
+                </select>
             </div>
-        </aside>
 
-    </div>
+            <div class="settings-divider"></div>
 
-    <div id="words-panel" hidden>
-        <div class="panel-header">
-            <h2>Trouble Words</h2>
-            <button id="close-panel">&times;</button>
+            <div class="settings-section">
+                <div class="settings-label">How it works</div>
+                <div class="how-it-works">
+                    <p>You can speak or type in any language — that's fine. The AI always responds according to the mix level you set in the chat options, no matter what you said.</p>
+                    <ul>
+                        <li><strong>Native</strong> — The AI responds in plain English. No foreign words at all.</li>
+                        <li><strong>Light</strong> — The AI responds in English, and the app automatically swaps nouns into French.</li>
+                        <li><strong>Medium</strong> — Same as Light, but the app swaps whichever word types you've toggled on (nouns, verbs, adjectives, adverbs).</li>
+                        <li><strong>Strong</strong> — The AI alternates: one sentence in English, the next in French, and so on.</li>
+                        <li><strong>Immersion</strong> — The AI responds entirely in French, with English hints in brackets for harder words.</li>
+                    </ul>
+                    <p>On Light and Medium, the French words are inserted by the app — not the AI. Tap any highlighted word to see the English original and save it to your flashcards.</p>
+                </div>
+            </div>
         </div>
-        <ul id="words-list"></ul>
     </div>
 
-    <script src="/static/dict-swap.js"></script>
-    <script src="/static/app.js"></script>
+</div><!-- /#app -->
+
+<!-- ════════════════════════════════════════════
+     CHAT OPTIONS SHEET (slide-up)
+═══════════════════════════════════════════════ -->
+<div id="options-overlay" hidden></div>
+<div id="options-sheet" hidden>
+    <div class="sheet-handle"></div>
+
+    <div class="sheet-section">
+        <div class="sheet-label">Mix</div>
+        <div class="mix-slider-wrap">
+            <div class="mix-labels">
+                <span>Native</span><span>Light</span><span>Medium</span><span>Strong</span><span>Immersion</span>
+            </div>
+            <input type="range" id="mix-slider" min="1" max="5" step="1" value="3">
+        </div>
+    </div>
+
+    <div class="sheet-section" id="pos-section">
+        <div class="sheet-label">Swap</div>
+        <div class="pos-pills">
+            <label class="pos-pill noun"><input type="checkbox" value="nouns" checked> Nouns</label>
+            <label class="pos-pill verb"><input type="checkbox" value="verbs" checked> Verbs</label>
+            <label class="pos-pill adj" ><input type="checkbox" value="adjectives" checked> Adjectives</label>
+            <label class="pos-pill adv" ><input type="checkbox" value="adverbs" checked> Adverbs</label>
+        </div>
+    </div>
+
+    <div class="sheet-section">
+        <div class="sheet-label">Speed — <span id="sheet-speed-val">1.0×</span></div>
+        <input type="range" id="sheet-speed-slider" min="0.5" max="1.5" step="0.05" value="1.0">
+        <div class="sheet-hint">Google voices only</div>
+    </div>
+
+    <div class="sheet-section">
+        <div class="sheet-label">Highlights</div>
+        <div class="seg" id="highlight-seg">
+            <button class="seg-btn active" data-value="on">On</button>
+            <button class="seg-btn" data-value="off">Off</button>
+        </div>
+    </div>
+
+    <div class="sheet-section">
+        <div class="sheet-label">Corrections</div>
+        <div class="seg" id="corrections-seg">
+            <button class="seg-btn" data-value="off">Off</button>
+            <button class="seg-btn active" data-value="correct">Correct</button>
+            <button class="seg-btn" data-value="repeat">Correct &amp; repeat</button>
+        </div>
+    </div>
+
+    <div class="sheet-section">
+        <div class="sheet-label">Answer length</div>
+        <div class="seg" id="length-seg">
+            <button class="seg-btn active" data-value="1">Brief</button>
+            <button class="seg-btn" data-value="3">Medium</button>
+            <button class="seg-btn" data-value="5">Long</button>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     FLASHCARD REVIEW OVERLAY
+═══════════════════════════════════════════════ -->
+<div id="review-overlay" hidden>
+    <div id="review-screen">
+        <button id="review-close">✕</button>
+        <div id="review-progress"></div>
+
+        <div id="review-dir-pick">
+            <p>Review direction</p>
+            <button class="dir-btn" data-dir="foreign-to-english">Foreign → English</button>
+            <button class="dir-btn" data-dir="english-to-foreign">English → Foreign</button>
+            <button class="dir-btn" data-dir="both">Both</button>
+        </div>
+
+        <div id="review-card" hidden>
+            <div id="card-front"></div>
+            <div id="card-back" hidden></div>
+            <button id="reveal-btn">Reveal</button>
+            <div id="grade-btns" hidden>
+                <button class="grade-btn hard" data-grade="hard">Hard</button>
+                <button class="grade-btn easy" data-grade="easy">Easy</button>
+            </div>
+        </div>
+
+        <div id="review-done" hidden>
+            <p>Session complete 🎉</p>
+            <button id="review-again">Again</button>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     ARTICLE READER OVERLAY
+═══════════════════════════════════════════════ -->
+<div id="reader-overlay" hidden>
+    <div id="reader-header">
+        <button id="reader-back">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+        </button>
+        <div id="reader-title-wrap">
+            <div id="reader-title"></div>
+            <div id="reader-source"></div>
+        </div>
+        <button class="icon-btn" id="reader-options-btn" title="Options">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+            </svg>
+        </button>
+    </div>
+    <div id="reader-body"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     ARTICLES OPTIONS SHEET
+═══════════════════════════════════════════════ -->
+<div id="art-options-overlay" hidden></div>
+<div id="art-options-sheet" hidden>
+    <div class="sheet-handle"></div>
+
+    <div class="sheet-section">
+        <div class="sheet-label">Swap</div>
+        <div class="pos-pills" id="art-pos-pills">
+            <label class="pos-pill noun"><input type="checkbox" value="nouns" checked> Nouns</label>
+            <label class="pos-pill verb"><input type="checkbox" value="verbs" checked> Verbs</label>
+            <label class="pos-pill adj" ><input type="checkbox" value="adjectives" checked> Adjectives</label>
+            <label class="pos-pill adv" ><input type="checkbox" value="adverbs" checked> Adverbs</label>
+        </div>
+    </div>
+
+    <div class="sheet-section">
+        <div class="sheet-label">Highlights</div>
+        <div class="seg" id="art-highlight-seg">
+            <button class="seg-btn active" data-value="on">On</button>
+            <button class="seg-btn" data-value="off">Off</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/dict-swap.js"></script>
+<script src="/static/settings.js"></script>
+<script src="/static/chat.js"></script>
+<script src="/static/flashcards.js"></script>
+<script src="/static/articles.js"></script>
 </body>
 </html>

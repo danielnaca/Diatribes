@@ -4,3 +4,6 @@ python-dotenv
 anthropic
 openai
 python-multipart
+requests
+readability-lxml
+feedparser

@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import sqlite3
 import tempfile
 import time
 from datetime import datetime
@@ -88,7 +89,35 @@ BUILD_TIME = datetime.now().strftime("%H:%M:%S")
 anthropic_client = Anthropic()
 openai_client = OpenAI()
 
-trouble_words: list[str] = []
+# ── Words database ────────────────────────────────────────────────────────────
+_DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "words.db"))
+
+def _db():
+    conn = sqlite3.connect(_DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def _init_db():
+    with _db() as conn:
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS words (
+                id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                english     TEXT    NOT NULL,
+                translation TEXT    NOT NULL,
+                language    TEXT    NOT NULL,
+                pos         TEXT    NOT NULL,
+                date_saved  TEXT    NOT NULL DEFAULT (datetime('now')),
+                tries       INTEGER NOT NULL DEFAULT 0,
+                successes   INTEGER NOT NULL DEFAULT 0,
+                hidden      INTEGER NOT NULL DEFAULT 0
+            )
+        """)
+        conn.commit()
+
+try:
+    _init_db()
+except Exception:
+    pass
 
 
 @app.post("/api/transcribe")
@@ -123,15 +152,46 @@ async def transcribe(audio: UploadFile = File(...)):
         os.unlink(temp_path)
 
 
-ALLOWED_VOICES = {"alloy", "echo", "fable", "onyx", "nova", "shimmer"}
+OPENAI_VOICES = {"alloy", "echo", "fable", "onyx", "nova", "shimmer"}
+
+# Google Neural2 voice name → (languageCode, voiceName)
+GOOGLE_VOICES = {
+    "google-fr-a": ("fr-FR", "fr-FR-Neural2-A"),  # female
+    "google-fr-b": ("fr-FR", "fr-FR-Neural2-B"),  # male
+    "google-fr-c": ("fr-FR", "fr-FR-Neural2-C"),  # female
+    "google-es-a": ("es-ES", "es-ES-Neural2-A"),  # female
+    "google-es-b": ("es-ES", "es-ES-Neural2-B"),  # male
+}
 
 @app.post("/api/speak")
-async def speak(text: str = Form(...), voice: str = Form(default="nova"), language: str = Form(default="French")):
-    if voice not in ALLOWED_VOICES:
-        voice = "nova"
-    # Strip bracket hints (immersion mode) and asterisks (translation pairs) that shouldn't be spoken
+async def speak(text: str = Form(...), voice: str = Form(default="nova"), language: str = Form(default="French"), speaking_rate: float = Form(default=1.0)):
+    # Strip bracket hints (immersion mode) and asterisks (translation pairs)
     text = re.sub(r'\s*\[.*?\]', '', text).strip()
     text = text.replace('*', '')
+
+    if voice in GOOGLE_VOICES:
+        lang_code, voice_name = GOOGLE_VOICES[voice]
+        try:
+            t0 = time.monotonic()
+            resp = __import__('requests').post(
+                f"https://texttospeech.googleapis.com/v1/text:synthesize?key={os.environ['GOOGLE_TTS_KEY']}",
+                json={
+                    "input": {"text": text},
+                    "voice": {"languageCode": lang_code, "name": voice_name},
+                    "audioConfig": {"audioEncoding": "MP3", "speakingRate": max(0.25, min(4.0, speaking_rate))},
+                },
+            )
+            resp.raise_for_status()
+            import base64
+            audio = base64.b64decode(resp.json()["audioContent"])
+            tts_ms = round((time.monotonic() - t0) * 1000)
+            return Response(content=audio, media_type="audio/mpeg", headers={"X-TTS-Ms": str(tts_ms)})
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    # OpenAI fallback
+    if voice not in OPENAI_VOICES:
+        voice = "nova"
     try:
         t0 = time.monotonic()
         response = openai_client.audio.speech.create(
@@ -139,10 +199,11 @@ async def speak(text: str = Form(...), voice: str = Form(default="nova"), langua
             voice=voice,
             input=text,
             instructions=(
-                f"You are a native {language} speaker who learned English as a second language. "
-                f"Your {language} accent is always present — it never disappears, not even on a single word. "
-                f"Every English word you say carries the full rhythm, intonation, and phonology of a native {language} speaker. "
-                f"You cannot turn your accent off. Speak naturally, as if {language} is the only language you have ever truly lived in."
+                f"Speak with a strong, authentic native {language} accent throughout. "
+                f"You grew up in {language}-speaking country and have a thick {language} accent that never goes away. "
+                f"Apply {language} phonology, rhythm, and intonation to every word — including English words. "
+                f"For example: R's are pronounced the {language} way, vowels have {language} quality, stress patterns follow {language} rules. "
+                f"Never slip into an American or British accent, not even for a single word."
             ),
         )
         tts_ms = round((time.monotonic() - t0) * 1000)
@@ -192,7 +253,13 @@ async def respond(
     # Build language rule based on approach
     L = language
     if approach == "pos":
-        lang_rule = "Respond naturally in English. Have a genuine, engaging conversation."
+        lang_rule = (
+            f"OUTPUT LANGUAGE — THIS IS YOUR MOST IMPORTANT RULE: Write your response in English and English only. "
+            f"You are strictly forbidden from using any {L} words, phrases, or sentences in the 'response' field. "
+            f"It does not matter what language the user writes in. Even if they write entirely in {L}, you must respond in English. "
+            f"The {L} word substitution is handled automatically by the app after you reply — you do not need to do it. "
+            f"Your only job is to write natural, engaging English."
+        )
     elif approach == "sentence_alt":
         lang_rule = (
             f"LANGUAGE RULE (highest priority): Alternate languages sentence by sentence. "
@@ -216,6 +283,8 @@ async def respond(
     else:
         lang_rule = "Respond naturally in English."
 
+    pos_reminder = f"\nREMINDER: Your 'response' must be in English only — no {L} words whatsoever." if approach == "pos" else ""
+
     system_prompt = f"""{lang_rule}
 
 You are a friendly conversational partner helping someone practice {language}. Have genuine, interesting conversations — be curious and engaged.
@@ -225,7 +294,7 @@ LENGTH: {length_instructions[max(1, min(5, length_value))]}
 {correction_block}
 
 Respond ONLY with valid JSON, no markdown fences:
-{{"correction": "corrected full message or null", "response": "your reply", "trouble_words": ["words"] or null}}"""
+{{"correction": "corrected full message or null", "response": "your reply", "trouble_words": ["words"] or null}}{pos_reminder}"""
 
     messages = history + [{"role": "user", "content": user_text}]
 
@@ -247,11 +316,6 @@ Respond ONLY with valid JSON, no markdown fences:
             "trouble_words": None,
         }
 
-    if result.get("trouble_words"):
-        for w in result["trouble_words"]:
-            if w.lower() not in [tw.lower() for tw in trouble_words]:
-                trouble_words.append(w)
-
     # Second pass rewrite based on approach
     rewrite_ms = None
 
@@ -262,9 +326,69 @@ Respond ONLY with valid JSON, no markdown fences:
     return result
 
 
-@app.get("/api/trouble-words")
-async def get_trouble_words():
-    return {"words": trouble_words}
+@app.post("/api/words")
+async def save_word(
+    english: str = Form(...),
+    translation: str = Form(...),
+    language: str = Form(...),
+    pos: str = Form(...),
+):
+    with _db() as conn:
+        existing = conn.execute(
+            "SELECT id FROM words WHERE english=? AND language=?",
+            (english.lower(), language)
+        ).fetchone()
+        if existing:
+            return {"id": existing["id"], "already_saved": True}
+        cursor = conn.execute(
+            "INSERT INTO words (english, translation, language, pos) VALUES (?,?,?,?)",
+            (english.lower(), translation, language, pos)
+        )
+        conn.commit()
+        return {"id": cursor.lastrowid, "already_saved": False}
+
+
+@app.get("/api/words")
+async def list_words(language: str = None):
+    with _db() as conn:
+        if language:
+            rows = conn.execute(
+                "SELECT * FROM words WHERE language=? ORDER BY date_saved DESC",
+                (language,)
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT * FROM words ORDER BY date_saved DESC"
+            ).fetchall()
+        return {"words": [dict(r) for r in rows]}
+
+
+@app.delete("/api/words/{word_id}")
+async def delete_word(word_id: int):
+    with _db() as conn:
+        conn.execute("DELETE FROM words WHERE id=?", (word_id,))
+        conn.commit()
+    return {"ok": True}
+
+
+@app.patch("/api/words/{word_id}")
+async def update_word(
+    word_id: int,
+    tries: int = Form(default=None),
+    successes: int = Form(default=None),
+    hidden: int = Form(default=None),
+):
+    updates = {}
+    if tries is not None: updates["tries"] = tries
+    if successes is not None: updates["successes"] = successes
+    if hidden is not None: updates["hidden"] = hidden
+    if not updates:
+        return {"ok": True}
+    set_clause = ", ".join(f"{k}=?" for k in updates)
+    with _db() as conn:
+        conn.execute(f"UPDATE words SET {set_clause} WHERE id=?", (*updates.values(), word_id))
+        conn.commit()
+    return {"ok": True}
 
 
 @app.get("/api/build-time")
@@ -278,6 +402,89 @@ async def get_build_time():
     frontend_time = datetime.fromtimestamp(latest).strftime("%H:%M:%S")
     return {"server": BUILD_TIME, "frontend": frontend_time}
 
+
+
+@app.post("/api/fetch-article")
+async def fetch_article(url: str = Form(...)):
+    import requests as _req
+    from readability import Document
+    from lxml import html as lhtml
+
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; Diatribes/1.0)"}
+    try:
+        resp = _req.get(url, headers=headers, timeout=10)
+        resp.raise_for_status()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    doc = Document(resp.text)
+    title = doc.title()
+    content = doc.summary()
+
+    tree = lhtml.fromstring(content)
+    paragraphs = [p.text_content().strip() for p in tree.xpath("//p") if p.text_content().strip()]
+
+    excerpt = (paragraphs[0][:150] + "…") if paragraphs else ""
+    return {"title": title, "url": url, "excerpt": excerpt, "paragraphs": paragraphs}
+
+
+@app.post("/api/fetch-feed")
+async def fetch_feed(url: str = Form(...)):
+    import feedparser
+    import requests as _req
+    import time as _time
+    from urllib.parse import urlparse
+    from lxml import html as lhtml
+
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; Diatribes/1.0)"}
+    try:
+        resp = _req.get(url, headers=headers, timeout=10)
+        resp.raise_for_status()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    feed = feedparser.parse(resp.content)
+    if not feed.entries:
+        raise HTTPException(status_code=400, detail="No entries found in feed")
+
+    site_url = feed.feed.get("link", url)
+    domain = urlparse(site_url).netloc or urlparse(url).netloc
+    favicon = f"https://www.google.com/s2/favicons?domain={domain}&sz=32"
+
+    items = []
+    for entry in feed.entries[:30]:
+        summary = entry.get("summary", "")
+        excerpt = ""
+        if summary:
+            try:
+                text = lhtml.fromstring(summary).text_content().strip()
+            except Exception:
+                text = summary
+            excerpt = text[:150] + ("…" if len(text) > 150 else "")
+
+        date_str = ""
+        if getattr(entry, "published_parsed", None):
+            try:
+                date_str = _time.strftime("%Y-%m-%dT%H:%M:%SZ", entry.published_parsed)
+            except Exception:
+                date_str = entry.get("published", "")
+        else:
+            date_str = entry.get("published", "")
+
+        items.append({
+            "title": entry.get("title", "Untitled"),
+            "url": entry.get("link", ""),
+            "excerpt": excerpt,
+            "date": date_str,
+            "guid": entry.get("id", entry.get("link", "")),
+        })
+
+    return {
+        "title": feed.feed.get("title", domain),
+        "site_url": site_url,
+        "favicon": favicon,
+        "items": items,
+    }
 
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

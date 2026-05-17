@@ -1,0 +1,2842 @@
+{
+  "absolutely": {
+    "es": "absolutamente",
+    "fr": "absolument",
+    "pos": "adv"
+  },
+  "accept": {
+    "es": "aceptar",
+    "fr": "accepter",
+    "pos": "verb"
+  },
+  "achieve": {
+    "es": "lograr",
+    "fr": "réaliser",
+    "pos": "verb"
+  },
+  "actually": {
+    "es": "en realidad",
+    "fr": "en fait",
+    "pos": "adv"
+  },
+  "adventure": {
+    "es": "aventura",
+    "fr": "aventure",
+    "pos": "noun"
+  },
+  "afterwards": {
+    "es": "después",
+    "fr": "ensuite",
+    "pos": "adv"
+  },
+  "again": {
+    "es": "otra vez",
+    "fr": "encore",
+    "pos": "adv"
+  },
+  "agree": {
+    "es": "estar de acuerdo",
+    "fr": "être d'accord",
+    "pos": "verb"
+  },
+  "air": {
+    "es": "aire",
+    "fr": "air",
+    "pos": "noun"
+  },
+  "alive": {
+    "es": "vivo",
+    "fr": "vivant",
+    "pos": "adj"
+  },
+  "allow": {
+    "es": "permitir",
+    "fr": "permettre",
+    "pos": "verb"
+  },
+  "almost": {
+    "es": "casi",
+    "fr": "presque",
+    "pos": "adv"
+  },
+  "alone": {
+    "es": "solo",
+    "fr": "seul",
+    "pos": "adv"
+  },
+  "already": {
+    "es": "ya",
+    "fr": "déjà",
+    "pos": "adv"
+  },
+  "also": {
+    "es": "también",
+    "fr": "aussi",
+    "pos": "adv"
+  },
+  "always": {
+    "es": "siempre",
+    "fr": "toujours",
+    "pos": "adv"
+  },
+  "ancient": {
+    "es": "antiguo",
+    "fr": "ancien",
+    "pos": "adj"
+  },
+  "anger": {
+    "es": "ira",
+    "fr": "colère",
+    "pos": "noun"
+  },
+  "angry": {
+    "es": "enojado",
+    "fr": "en colère",
+    "pos": "adj"
+  },
+  "answer": {
+    "es": "respuesta",
+    "fr": "réponse",
+    "pos": "noun"
+  },
+  "appear": {
+    "es": "aparecer",
+    "fr": "apparaître",
+    "pos": "verb"
+  },
+  "arrive": {
+    "es": "llegar",
+    "fr": "arriver",
+    "pos": "verb"
+  },
+  "art": {
+    "es": "arte",
+    "fr": "art",
+    "pos": "noun"
+  },
+  "ashamed": {
+    "es": "avergonzado",
+    "fr": "honteux",
+    "pos": "adj"
+  },
+  "ask": {
+    "es": "preguntar",
+    "fr": "demander",
+    "pos": "verb"
+  },
+  "author": {
+    "es": "autor",
+    "fr": "auteur",
+    "pos": "noun"
+  },
+  "back": {
+    "es": "espalda",
+    "fr": "dos",
+    "pos": "noun"
+  },
+  "bad": {
+    "es": "malo",
+    "fr": "mauvais",
+    "pos": "adj"
+  },
+  "badly": {
+    "es": "mal",
+    "fr": "mal",
+    "pos": "adv"
+  },
+  "bag": {
+    "es": "bolsa",
+    "fr": "sac",
+    "pos": "noun"
+  },
+  "beautiful": {
+    "es": "hermoso",
+    "fr": "beau",
+    "pos": "adj"
+  },
+  "beauty": {
+    "es": "belleza",
+    "fr": "beauté",
+    "pos": "noun"
+  },
+  "become": {
+    "es": "convertirse",
+    "fr": "devenir",
+    "pos": "verb"
+  },
+  "begin": {
+    "es": "comenzar",
+    "fr": "commencer",
+    "pos": "verb"
+  },
+  "beginning": {
+    "es": "comienzo",
+    "fr": "début",
+    "pos": "noun"
+  },
+  "believe": {
+    "es": "creer",
+    "fr": "croire",
+    "pos": "verb"
+  },
+  "big": {
+    "es": "grande",
+    "fr": "grand",
+    "pos": "adj"
+  },
+  "birth": {
+    "es": "nacimiento",
+    "fr": "naissance",
+    "pos": "noun"
+  },
+  "blood": {
+    "es": "sangre",
+    "fr": "sang",
+    "pos": "noun"
+  },
+  "boat": {
+    "es": "barco",
+    "fr": "bateau",
+    "pos": "noun"
+  },
+  "body": {
+    "es": "cuerpo",
+    "fr": "corps",
+    "pos": "noun"
+  },
+  "book": {
+    "es": "libro",
+    "fr": "livre",
+    "pos": "noun"
+  },
+  "bored": {
+    "es": "aburrido",
+    "fr": "ennuyé",
+    "pos": "adj"
+  },
+  "boring": {
+    "es": "aburrido",
+    "fr": "ennuyeux",
+    "pos": "adj"
+  },
+  "bottle": {
+    "es": "botella",
+    "fr": "bouteille",
+    "pos": "noun"
+  },
+  "box": {
+    "es": "caja",
+    "fr": "boîte",
+    "pos": "noun"
+  },
+  "brain": {
+    "es": "cerebro",
+    "fr": "cerveau",
+    "pos": "noun"
+  },
+  "brave": {
+    "es": "valiente",
+    "fr": "courageux",
+    "pos": "adj"
+  },
+  "bread": {
+    "es": "pan",
+    "fr": "pain",
+    "pos": "noun"
+  },
+  "break": {
+    "es": "romper",
+    "fr": "casser",
+    "pos": "verb"
+  },
+  "breath": {
+    "es": "aliento",
+    "fr": "souffle",
+    "pos": "noun"
+  },
+  "breathe": {
+    "es": "respirar",
+    "fr": "respirer",
+    "pos": "verb"
+  },
+  "breeze": {
+    "es": "brisa",
+    "fr": "brise",
+    "pos": "noun"
+  },
+  "bridge": {
+    "es": "puente",
+    "fr": "pont",
+    "pos": "noun"
+  },
+  "bright": {
+    "es": "brillante",
+    "fr": "brillant",
+    "pos": "adj"
+  },
+  "bring": {
+    "es": "traer",
+    "fr": "apporter",
+    "pos": "verb"
+  },
+  "broad": {
+    "es": "amplio",
+    "fr": "large",
+    "pos": "adj"
+  },
+  "broken": {
+    "es": "roto",
+    "fr": "cassé",
+    "pos": "adj"
+  },
+  "build": {
+    "es": "construir",
+    "fr": "construire",
+    "pos": "verb"
+  },
+  "busy": {
+    "es": "ocupado",
+    "fr": "occupé",
+    "pos": "adj"
+  },
+  "buy": {
+    "es": "comprar",
+    "fr": "acheter",
+    "pos": "verb"
+  },
+  "calm": {
+    "es": "tranquilo",
+    "fr": "calme",
+    "pos": "adj"
+  },
+  "car": {
+    "es": "coche",
+    "fr": "voiture",
+    "pos": "noun"
+  },
+  "carefully": {
+    "es": "cuidadosamente",
+    "fr": "soigneusement",
+    "pos": "adv"
+  },
+  "carry": {
+    "es": "llevar",
+    "fr": "porter",
+    "pos": "verb"
+  },
+  "cat": {
+    "es": "gato",
+    "fr": "chat",
+    "pos": "noun"
+  },
+  "catch": {
+    "es": "atrapar",
+    "fr": "attraper",
+    "pos": "verb"
+  },
+  "celebrate": {
+    "es": "celebrar",
+    "fr": "célébrer",
+    "pos": "verb"
+  },
+  "center": {
+    "es": "centro",
+    "fr": "centre",
+    "pos": "noun"
+  },
+  "century": {
+    "es": "siglo",
+    "fr": "siècle",
+    "pos": "noun"
+  },
+  "certainly": {
+    "es": "ciertamente",
+    "fr": "certainement",
+    "pos": "adv"
+  },
+  "chance": {
+    "es": "oportunidad",
+    "fr": "chance",
+    "pos": "noun"
+  },
+  "change": {
+    "es": "cambiar",
+    "fr": "changer",
+    "pos": "verb"
+  },
+  "chapter": {
+    "es": "capítulo",
+    "fr": "chapitre",
+    "pos": "noun"
+  },
+  "character": {
+    "es": "personaje",
+    "fr": "personnage",
+    "pos": "noun"
+  },
+  "check": {
+    "es": "revisar",
+    "fr": "vérifier",
+    "pos": "verb"
+  },
+  "cheek": {
+    "es": "mejilla",
+    "fr": "joue",
+    "pos": "noun"
+  },
+  "chest": {
+    "es": "pecho",
+    "fr": "poitrine",
+    "pos": "noun"
+  },
+  "child": {
+    "es": "niño",
+    "fr": "enfant",
+    "pos": "noun"
+  },
+  "choice": {
+    "es": "elección",
+    "fr": "choix",
+    "pos": "noun"
+  },
+  "choose": {
+    "es": "elegir",
+    "fr": "choisir",
+    "pos": "verb"
+  },
+  "city": {
+    "es": "ciudad",
+    "fr": "ville",
+    "pos": "noun"
+  },
+  "clean": {
+    "es": "limpio",
+    "fr": "propre",
+    "pos": "adj"
+  },
+  "clear": {
+    "es": "claro",
+    "fr": "clair",
+    "pos": "adj"
+  },
+  "clearly": {
+    "es": "claramente",
+    "fr": "clairement",
+    "pos": "adv"
+  },
+  "climb": {
+    "es": "escalar",
+    "fr": "grimper",
+    "pos": "verb"
+  },
+  "close": {
+    "es": "cerrar",
+    "fr": "fermer",
+    "pos": "verb"
+  },
+  "closed": {
+    "es": "cerrado",
+    "fr": "fermé",
+    "pos": "adj"
+  },
+  "cloud": {
+    "es": "nube",
+    "fr": "nuage",
+    "pos": "noun"
+  },
+  "coffee": {
+    "es": "café",
+    "fr": "café",
+    "pos": "noun"
+  },
+  "cold": {
+    "es": "frío",
+    "fr": "froid",
+    "pos": "adj"
+  },
+  "collect": {
+    "es": "coleccionar",
+    "fr": "collecter",
+    "pos": "verb"
+  },
+  "color": {
+    "es": "color",
+    "fr": "couleur",
+    "pos": "noun"
+  },
+  "come": {
+    "es": "venir",
+    "fr": "venir",
+    "pos": "verb"
+  },
+  "common": {
+    "es": "común",
+    "fr": "commun",
+    "pos": "adj"
+  },
+  "compare": {
+    "es": "comparar",
+    "fr": "comparer",
+    "pos": "verb"
+  },
+  "completely": {
+    "es": "completamente",
+    "fr": "complètement",
+    "pos": "adv"
+  },
+  "computer": {
+    "es": "computadora",
+    "fr": "ordinateur",
+    "pos": "noun"
+  },
+  "confidence": {
+    "es": "confianza",
+    "fr": "confiance",
+    "pos": "noun"
+  },
+  "confused": {
+    "es": "confundido",
+    "fr": "confus",
+    "pos": "adj"
+  },
+  "connect": {
+    "es": "conectar",
+    "fr": "connecter",
+    "pos": "verb"
+  },
+  "consider": {
+    "es": "considerar",
+    "fr": "considérer",
+    "pos": "verb"
+  },
+  "continue": {
+    "es": "continuar",
+    "fr": "continuer",
+    "pos": "verb"
+  },
+  "cook": {
+    "es": "cocinar",
+    "fr": "cuisiner",
+    "pos": "verb"
+  },
+  "corner": {
+    "es": "esquina",
+    "fr": "coin",
+    "pos": "noun"
+  },
+  "country": {
+    "es": "país",
+    "fr": "pays",
+    "pos": "noun"
+  },
+  "cover": {
+    "es": "cubrir",
+    "fr": "couvrir",
+    "pos": "verb"
+  },
+  "create": {
+    "es": "crear",
+    "fr": "créer",
+    "pos": "verb"
+  },
+  "creative": {
+    "es": "creativo",
+    "fr": "créatif",
+    "pos": "adj"
+  },
+  "cross": {
+    "es": "cruzar",
+    "fr": "traverser",
+    "pos": "verb"
+  },
+  "cry": {
+    "es": "llorar",
+    "fr": "pleurer",
+    "pos": "verb"
+  },
+  "cup": {
+    "es": "taza",
+    "fr": "tasse",
+    "pos": "noun"
+  },
+  "dance": {
+    "es": "bailar",
+    "fr": "danser",
+    "pos": "verb"
+  },
+  "danger": {
+    "es": "peligro",
+    "fr": "danger",
+    "pos": "noun"
+  },
+  "dangerous": {
+    "es": "peligroso",
+    "fr": "dangereux",
+    "pos": "adj"
+  },
+  "dark": {
+    "es": "oscuro",
+    "fr": "sombre",
+    "pos": "adj"
+  },
+  "day": {
+    "es": "día",
+    "fr": "jour",
+    "pos": "noun"
+  },
+  "dead": {
+    "es": "muerto",
+    "fr": "mort",
+    "pos": "adj"
+  },
+  "death": {
+    "es": "muerte",
+    "fr": "mort",
+    "pos": "noun"
+  },
+  "decide": {
+    "es": "decidir",
+    "fr": "décider",
+    "pos": "verb"
+  },
+  "deep": {
+    "es": "profundo",
+    "fr": "profond",
+    "pos": "adj"
+  },
+  "deeply": {
+    "es": "profundamente",
+    "fr": "profondément",
+    "pos": "adv"
+  },
+  "definitely": {
+    "es": "definitivamente",
+    "fr": "définitivement",
+    "pos": "adv"
+  },
+  "delight": {
+    "es": "deleite",
+    "fr": "délice",
+    "pos": "noun"
+  },
+  "describe": {
+    "es": "describir",
+    "fr": "décrire",
+    "pos": "verb"
+  },
+  "desert": {
+    "es": "desierto",
+    "fr": "désert",
+    "pos": "noun"
+  },
+  "desolation": {
+    "es": "desolación",
+    "fr": "désolation",
+    "pos": "noun"
+  },
+  "destroy": {
+    "es": "destruir",
+    "fr": "détruire",
+    "pos": "verb"
+  },
+  "different": {
+    "es": "diferente",
+    "fr": "différent",
+    "pos": "adj"
+  },
+  "difficult": {
+    "es": "difícil",
+    "fr": "difficile",
+    "pos": "adj"
+  },
+  "dirty": {
+    "es": "sucio",
+    "fr": "sale",
+    "pos": "adj"
+  },
+  "disagree": {
+    "es": "estar en desacuerdo",
+    "fr": "ne pas être d'accord",
+    "pos": "verb"
+  },
+  "disaster": {
+    "es": "desastre",
+    "fr": "désastre",
+    "pos": "noun"
+  },
+  "discover": {
+    "es": "descubrir",
+    "fr": "découvrir",
+    "pos": "verb"
+  },
+  "disk": {
+    "es": "disco",
+    "fr": "disque",
+    "pos": "noun"
+  },
+  "distant": {
+    "es": "lejano",
+    "fr": "lointain",
+    "pos": "adj"
+  },
+  "doctor": {
+    "es": "médico",
+    "fr": "médecin",
+    "pos": "noun"
+  },
+  "dog": {
+    "es": "perro",
+    "fr": "chien",
+    "pos": "noun"
+  },
+  "door": {
+    "es": "puerta",
+    "fr": "porte",
+    "pos": "noun"
+  },
+  "draw": {
+    "es": "dibujar",
+    "fr": "dessiner",
+    "pos": "verb"
+  },
+  "dream": {
+    "es": "sueño",
+    "fr": "rêve",
+    "pos": "noun"
+  },
+  "drink": {
+    "es": "beber",
+    "fr": "boire",
+    "pos": "verb"
+  },
+  "drive": {
+    "es": "conducir",
+    "fr": "conduire",
+    "pos": "verb"
+  },
+  "ear": {
+    "es": "oreja",
+    "fr": "oreille",
+    "pos": "noun"
+  },
+  "early": {
+    "es": "temprano",
+    "fr": "tôt",
+    "pos": "adv"
+  },
+  "earth": {
+    "es": "tierra",
+    "fr": "terre",
+    "pos": "noun"
+  },
+  "easily": {
+    "es": "fácilmente",
+    "fr": "facilement",
+    "pos": "adv"
+  },
+  "easy": {
+    "es": "fácil",
+    "fr": "facile",
+    "pos": "adj"
+  },
+  "eat": {
+    "es": "comer",
+    "fr": "manger",
+    "pos": "verb"
+  },
+  "edge": {
+    "es": "borde",
+    "fr": "bord",
+    "pos": "noun"
+  },
+  "effort": {
+    "es": "esfuerzo",
+    "fr": "effort",
+    "pos": "noun"
+  },
+  "elegant": {
+    "es": "elegante",
+    "fr": "élégant",
+    "pos": "adj"
+  },
+  "empty": {
+    "es": "vacío",
+    "fr": "vide",
+    "pos": "adj"
+  },
+  "end": {
+    "es": "terminar",
+    "fr": "finir",
+    "pos": "verb"
+  },
+  "enjoy": {
+    "es": "disfrutar",
+    "fr": "profiter",
+    "pos": "verb"
+  },
+  "enter": {
+    "es": "entrar",
+    "fr": "entrer",
+    "pos": "verb"
+  },
+  "enterprise": {
+    "es": "empresa",
+    "fr": "entreprise",
+    "pos": "noun"
+  },
+  "escape": {
+    "es": "escapar",
+    "fr": "échapper",
+    "pos": "verb"
+  },
+  "especially": {
+    "es": "especialmente",
+    "fr": "surtout",
+    "pos": "adv"
+  },
+  "evening": {
+    "es": "tarde",
+    "fr": "soir",
+    "pos": "noun"
+  },
+  "everywhere": {
+    "es": "en todas partes",
+    "fr": "partout",
+    "pos": "adv"
+  },
+  "exactly": {
+    "es": "exactamente",
+    "fr": "exactement",
+    "pos": "adv"
+  },
+  "excited": {
+    "es": "emocionado",
+    "fr": "excité",
+    "pos": "adj"
+  },
+  "exist": {
+    "es": "existir",
+    "fr": "exister",
+    "pos": "verb"
+  },
+  "experience": {
+    "es": "experiencia",
+    "fr": "expérience",
+    "pos": "noun"
+  },
+  "explain": {
+    "es": "explicar",
+    "fr": "expliquer",
+    "pos": "verb"
+  },
+  "explore": {
+    "es": "explorar",
+    "fr": "explorer",
+    "pos": "verb"
+  },
+  "eye": {
+    "es": "ojo",
+    "fr": "œil",
+    "pos": "noun"
+  },
+  "face": {
+    "es": "cara",
+    "fr": "visage",
+    "pos": "noun"
+  },
+  "fall": {
+    "es": "caer",
+    "fr": "tomber",
+    "pos": "verb"
+  },
+  "family": {
+    "es": "familia",
+    "fr": "famille",
+    "pos": "noun"
+  },
+  "famous": {
+    "es": "famoso",
+    "fr": "célèbre",
+    "pos": "adj"
+  },
+  "fast": {
+    "es": "rápido",
+    "fr": "rapide",
+    "pos": "adj"
+  },
+  "fear": {
+    "es": "miedo",
+    "fr": "peur",
+    "pos": "noun"
+  },
+  "feel": {
+    "es": "sentir",
+    "fr": "sentir",
+    "pos": "verb"
+  },
+  "fervent": {
+    "es": "ferviente",
+    "fr": "fervent",
+    "pos": "adj"
+  },
+  "field": {
+    "es": "campo",
+    "fr": "champ",
+    "pos": "noun"
+  },
+  "fight": {
+    "es": "luchar",
+    "fr": "combattre",
+    "pos": "verb"
+  },
+  "fill": {
+    "es": "llenar",
+    "fr": "remplir",
+    "pos": "verb"
+  },
+  "finally": {
+    "es": "finalmente",
+    "fr": "enfin",
+    "pos": "adv"
+  },
+  "find": {
+    "es": "encontrar",
+    "fr": "trouver",
+    "pos": "verb"
+  },
+  "finger": {
+    "es": "dedo",
+    "fr": "doigt",
+    "pos": "noun"
+  },
+  "fire": {
+    "es": "fuego",
+    "fr": "feu",
+    "pos": "noun"
+  },
+  "flat": {
+    "es": "plano",
+    "fr": "plat",
+    "pos": "adj"
+  },
+  "floor": {
+    "es": "suelo",
+    "fr": "sol",
+    "pos": "noun"
+  },
+  "flower": {
+    "es": "flor",
+    "fr": "fleur",
+    "pos": "noun"
+  },
+  "fly": {
+    "es": "volar",
+    "fr": "voler",
+    "pos": "verb"
+  },
+  "follow": {
+    "es": "seguir",
+    "fr": "suivre",
+    "pos": "verb"
+  },
+  "food": {
+    "es": "comida",
+    "fr": "nourriture",
+    "pos": "noun"
+  },
+  "foreign": {
+    "es": "extranjero",
+    "fr": "étranger",
+    "pos": "adj"
+  },
+  "forest": {
+    "es": "bosque",
+    "fr": "forêt",
+    "pos": "noun"
+  },
+  "foretaste": {
+    "es": "anticipo",
+    "fr": "avant-goût",
+    "pos": "noun"
+  },
+  "forever": {
+    "es": "para siempre",
+    "fr": "pour toujours",
+    "pos": "adv"
+  },
+  "forget": {
+    "es": "olvidar",
+    "fr": "oublier",
+    "pos": "verb"
+  },
+  "fork": {
+    "es": "tenedor",
+    "fr": "fourchette",
+    "pos": "noun"
+  },
+  "free": {
+    "es": "libre",
+    "fr": "libre",
+    "pos": "adj"
+  },
+  "freedom": {
+    "es": "libertad",
+    "fr": "liberté",
+    "pos": "noun"
+  },
+  "fresh": {
+    "es": "fresco",
+    "fr": "frais",
+    "pos": "adj"
+  },
+  "friend": {
+    "es": "amigo",
+    "fr": "ami",
+    "pos": "noun"
+  },
+  "frost": {
+    "es": "escarcha",
+    "fr": "gel",
+    "pos": "noun"
+  },
+  "frozen": {
+    "es": "congelado",
+    "fr": "gelé",
+    "pos": "adj"
+  },
+  "full": {
+    "es": "lleno",
+    "fr": "plein",
+    "pos": "adj"
+  },
+  "funny": {
+    "es": "gracioso",
+    "fr": "drôle",
+    "pos": "adj"
+  },
+  "future": {
+    "es": "futuro",
+    "fr": "avenir",
+    "pos": "noun"
+  },
+  "game": {
+    "es": "juego",
+    "fr": "jeu",
+    "pos": "noun"
+  },
+  "garden": {
+    "es": "jardín",
+    "fr": "jardin",
+    "pos": "noun"
+  },
+  "gather": {
+    "es": "reunir",
+    "fr": "rassembler",
+    "pos": "verb"
+  },
+  "gentle": {
+    "es": "tierno",
+    "fr": "doux",
+    "pos": "adj"
+  },
+  "gift": {
+    "es": "regalo",
+    "fr": "cadeau",
+    "pos": "noun"
+  },
+  "give": {
+    "es": "dar",
+    "fr": "donner",
+    "pos": "verb"
+  },
+  "glass": {
+    "es": "vaso",
+    "fr": "verre",
+    "pos": "noun"
+  },
+  "go": {
+    "es": "ir",
+    "fr": "aller",
+    "pos": "verb"
+  },
+  "good": {
+    "es": "bueno",
+    "fr": "bon",
+    "pos": "adj"
+  },
+  "ground": {
+    "es": "suelo",
+    "fr": "sol",
+    "pos": "noun"
+  },
+  "grow": {
+    "es": "crecer",
+    "fr": "grandir",
+    "pos": "verb"
+  },
+  "habit": {
+    "es": "hábito",
+    "fr": "habitude",
+    "pos": "noun"
+  },
+  "hair": {
+    "es": "pelo",
+    "fr": "cheveux",
+    "pos": "noun"
+  },
+  "hand": {
+    "es": "mano",
+    "fr": "main",
+    "pos": "noun"
+  },
+  "happen": {
+    "es": "ocurrir",
+    "fr": "arriver",
+    "pos": "verb"
+  },
+  "happily": {
+    "es": "felizmente",
+    "fr": "heureusement",
+    "pos": "adv"
+  },
+  "happy": {
+    "es": "feliz",
+    "fr": "heureux",
+    "pos": "adj"
+  },
+  "hard": {
+    "es": "duro",
+    "fr": "dur",
+    "pos": "adj"
+  },
+  "hardly": {
+    "es": "apenas",
+    "fr": "à peine",
+    "pos": "adv"
+  },
+  "hate": {
+    "es": "odiar",
+    "fr": "haïr",
+    "pos": "verb"
+  },
+  "head": {
+    "es": "cabeza",
+    "fr": "tête",
+    "pos": "noun"
+  },
+  "health": {
+    "es": "salud",
+    "fr": "santé",
+    "pos": "noun"
+  },
+  "healthy": {
+    "es": "saludable",
+    "fr": "sain",
+    "pos": "adj"
+  },
+  "hear": {
+    "es": "escuchar",
+    "fr": "entendre",
+    "pos": "verb"
+  },
+  "heart": {
+    "es": "corazón",
+    "fr": "cœur",
+    "pos": "noun"
+  },
+  "heavy": {
+    "es": "pesado",
+    "fr": "lourd",
+    "pos": "adj"
+  },
+  "help": {
+    "es": "ayudar",
+    "fr": "aider",
+    "pos": "verb"
+  },
+  "here": {
+    "es": "aquí",
+    "fr": "ici",
+    "pos": "adv"
+  },
+  "hide": {
+    "es": "esconder",
+    "fr": "cacher",
+    "pos": "verb"
+  },
+  "hold": {
+    "es": "sostener",
+    "fr": "tenir",
+    "pos": "verb"
+  },
+  "home": {
+    "es": "hogar",
+    "fr": "foyer",
+    "pos": "noun"
+  },
+  "hope": {
+    "es": "esperanza",
+    "fr": "espoir",
+    "pos": "noun"
+  },
+  "horizon": {
+    "es": "horizonte",
+    "fr": "horizon",
+    "pos": "noun"
+  },
+  "hot": {
+    "es": "caliente",
+    "fr": "chaud",
+    "pos": "adj"
+  },
+  "hour": {
+    "es": "hora",
+    "fr": "heure",
+    "pos": "noun"
+  },
+  "house": {
+    "es": "casa",
+    "fr": "maison",
+    "pos": "noun"
+  },
+  "however": {
+    "es": "sin embargo",
+    "fr": "cependant",
+    "pos": "adv"
+  },
+  "ice": {
+    "es": "hielo",
+    "fr": "glace",
+    "pos": "noun"
+  },
+  "icy": {
+    "es": "helado",
+    "fr": "glacé",
+    "pos": "adj"
+  },
+  "idea": {
+    "es": "idea",
+    "fr": "idée",
+    "pos": "noun"
+  },
+  "imagination": {
+    "es": "imaginación",
+    "fr": "imagination",
+    "pos": "noun"
+  },
+  "imagine": {
+    "es": "imaginar",
+    "fr": "imaginer",
+    "pos": "verb"
+  },
+  "immediately": {
+    "es": "inmediatamente",
+    "fr": "immédiatement",
+    "pos": "adv"
+  },
+  "include": {
+    "es": "incluir",
+    "fr": "inclure",
+    "pos": "verb"
+  },
+  "incredible": {
+    "es": "increíble",
+    "fr": "incroyable",
+    "pos": "adj"
+  },
+  "indeed": {
+    "es": "en efecto",
+    "fr": "en effet",
+    "pos": "adv"
+  },
+  "inspire": {
+    "es": "inspirar",
+    "fr": "inspirer",
+    "pos": "verb"
+  },
+  "instead": {
+    "es": "en cambio",
+    "fr": "à la place",
+    "pos": "adv"
+  },
+  "interesting": {
+    "es": "interesante",
+    "fr": "intéressant",
+    "pos": "adj"
+  },
+  "invisible": {
+    "es": "invisible",
+    "fr": "invisible",
+    "pos": "adj"
+  },
+  "island": {
+    "es": "isla",
+    "fr": "île",
+    "pos": "noun"
+  },
+  "join": {
+    "es": "unirse",
+    "fr": "rejoindre",
+    "pos": "verb"
+  },
+  "journey": {
+    "es": "viaje",
+    "fr": "voyage",
+    "pos": "noun"
+  },
+  "joy": {
+    "es": "alegría",
+    "fr": "joie",
+    "pos": "noun"
+  },
+  "jump": {
+    "es": "saltar",
+    "fr": "sauter",
+    "pos": "verb"
+  },
+  "just": {
+    "es": "justo",
+    "fr": "juste",
+    "pos": "adv"
+  },
+  "keep": {
+    "es": "mantener",
+    "fr": "garder",
+    "pos": "verb"
+  },
+  "key": {
+    "es": "llave",
+    "fr": "clé",
+    "pos": "noun"
+  },
+  "kind": {
+    "es": "amable",
+    "fr": "gentil",
+    "pos": "adj"
+  },
+  "knife": {
+    "es": "cuchillo",
+    "fr": "couteau",
+    "pos": "noun"
+  },
+  "know": {
+    "es": "saber",
+    "fr": "savoir",
+    "pos": "verb"
+  },
+  "knowledge": {
+    "es": "conocimiento",
+    "fr": "connaissance",
+    "pos": "noun"
+  },
+  "language": {
+    "es": "idioma",
+    "fr": "langue",
+    "pos": "noun"
+  },
+  "late": {
+    "es": "tarde",
+    "fr": "tard",
+    "pos": "adv"
+  },
+  "later": {
+    "es": "más tarde",
+    "fr": "plus tard",
+    "pos": "adv"
+  },
+  "laugh": {
+    "es": "reír",
+    "fr": "rire",
+    "pos": "verb"
+  },
+  "learn": {
+    "es": "aprender",
+    "fr": "apprendre",
+    "pos": "verb"
+  },
+  "leave": {
+    "es": "partir",
+    "fr": "partir",
+    "pos": "verb"
+  },
+  "letter": {
+    "es": "carta",
+    "fr": "lettre",
+    "pos": "noun"
+  },
+  "life": {
+    "es": "vida",
+    "fr": "vie",
+    "pos": "noun"
+  },
+  "light": {
+    "es": "luz",
+    "fr": "lumière",
+    "pos": "noun"
+  },
+  "lip": {
+    "es": "labio",
+    "fr": "lèvre",
+    "pos": "noun"
+  },
+  "listen": {
+    "es": "escuchar",
+    "fr": "écouter",
+    "pos": "verb"
+  },
+  "live": {
+    "es": "vivir",
+    "fr": "vivre",
+    "pos": "verb"
+  },
+  "local": {
+    "es": "local",
+    "fr": "local",
+    "pos": "adj"
+  },
+  "lonely": {
+    "es": "solitario",
+    "fr": "solitaire",
+    "pos": "adj"
+  },
+  "long": {
+    "es": "largo",
+    "fr": "long",
+    "pos": "adj"
+  },
+  "look": {
+    "es": "mirar",
+    "fr": "regarder",
+    "pos": "verb"
+  },
+  "lose": {
+    "es": "perder",
+    "fr": "perdre",
+    "pos": "verb"
+  },
+  "lost": {
+    "es": "perdido",
+    "fr": "perdu",
+    "pos": "adj"
+  },
+  "loud": {
+    "es": "ruidoso",
+    "fr": "bruyant",
+    "pos": "adj"
+  },
+  "love": {
+    "es": "amor",
+    "fr": "amour",
+    "pos": "noun"
+  },
+  "lucky": {
+    "es": "afortunado",
+    "fr": "chanceux",
+    "pos": "adj"
+  },
+  "magnificent": {
+    "es": "magnífico",
+    "fr": "magnifique",
+    "pos": "adj"
+  },
+  "main": {
+    "es": "principal",
+    "fr": "principal",
+    "pos": "adj"
+  },
+  "make": {
+    "es": "hacer",
+    "fr": "faire",
+    "pos": "verb"
+  },
+  "man": {
+    "es": "hombre",
+    "fr": "homme",
+    "pos": "noun"
+  },
+  "maybe": {
+    "es": "tal vez",
+    "fr": "peut-être",
+    "pos": "adv"
+  },
+  "meanwhile": {
+    "es": "mientras tanto",
+    "fr": "pendant ce temps",
+    "pos": "adv"
+  },
+  "meet": {
+    "es": "conocer",
+    "fr": "rencontrer",
+    "pos": "verb"
+  },
+  "memory": {
+    "es": "recuerdo",
+    "fr": "souvenir",
+    "pos": "noun"
+  },
+  "mental": {
+    "es": "mental",
+    "fr": "mental",
+    "pos": "adj"
+  },
+  "message": {
+    "es": "mensaje",
+    "fr": "message",
+    "pos": "noun"
+  },
+  "mind": {
+    "es": "mente",
+    "fr": "esprit",
+    "pos": "noun"
+  },
+  "minute": {
+    "es": "minuto",
+    "fr": "minute",
+    "pos": "noun"
+  },
+  "miss": {
+    "es": "extrañar",
+    "fr": "manquer",
+    "pos": "verb"
+  },
+  "mistake": {
+    "es": "error",
+    "fr": "erreur",
+    "pos": "noun"
+  },
+  "modern": {
+    "es": "moderno",
+    "fr": "moderne",
+    "pos": "adj"
+  },
+  "moment": {
+    "es": "momento",
+    "fr": "moment",
+    "pos": "noun"
+  },
+  "money": {
+    "es": "dinero",
+    "fr": "argent",
+    "pos": "noun"
+  },
+  "month": {
+    "es": "mes",
+    "fr": "mois",
+    "pos": "noun"
+  },
+  "moon": {
+    "es": "luna",
+    "fr": "lune",
+    "pos": "noun"
+  },
+  "morning": {
+    "es": "mañana",
+    "fr": "matin",
+    "pos": "noun"
+  },
+  "mostly": {
+    "es": "mayormente",
+    "fr": "surtout",
+    "pos": "adv"
+  },
+  "mountain": {
+    "es": "montaña",
+    "fr": "montagne",
+    "pos": "noun"
+  },
+  "move": {
+    "es": "mover",
+    "fr": "bouger",
+    "pos": "verb"
+  },
+  "movie": {
+    "es": "película",
+    "fr": "film",
+    "pos": "noun"
+  },
+  "music": {
+    "es": "música",
+    "fr": "musique",
+    "pos": "noun"
+  },
+  "name": {
+    "es": "nombre",
+    "fr": "nom",
+    "pos": "noun"
+  },
+  "narrow": {
+    "es": "estrecho",
+    "fr": "étroit",
+    "pos": "adj"
+  },
+  "natural": {
+    "es": "natural",
+    "fr": "naturel",
+    "pos": "adj"
+  },
+  "nature": {
+    "es": "naturaleza",
+    "fr": "nature",
+    "pos": "noun"
+  },
+  "navigator": {
+    "es": "navegante",
+    "fr": "navigateur",
+    "pos": "noun"
+  },
+  "nearly": {
+    "es": "casi",
+    "fr": "presque",
+    "pos": "adv"
+  },
+  "necessary": {
+    "es": "necesario",
+    "fr": "nécessaire",
+    "pos": "adj"
+  },
+  "need": {
+    "es": "necesitar",
+    "fr": "avoir besoin",
+    "pos": "verb"
+  },
+  "nerve": {
+    "es": "nervio",
+    "fr": "nerf",
+    "pos": "noun"
+  },
+  "nervous": {
+    "es": "nervioso",
+    "fr": "nerveux",
+    "pos": "adj"
+  },
+  "never": {
+    "es": "nunca",
+    "fr": "jamais",
+    "pos": "adv"
+  },
+  "new": {
+    "es": "nuevo",
+    "fr": "nouveau",
+    "pos": "adj"
+  },
+  "night": {
+    "es": "noche",
+    "fr": "nuit",
+    "pos": "noun"
+  },
+  "noise": {
+    "es": "ruido",
+    "fr": "bruit",
+    "pos": "noun"
+  },
+  "nose": {
+    "es": "nariz",
+    "fr": "nez",
+    "pos": "noun"
+  },
+  "now": {
+    "es": "ahora",
+    "fr": "maintenant",
+    "pos": "adv"
+  },
+  "nowhere": {
+    "es": "en ningún lugar",
+    "fr": "nulle part",
+    "pos": "adv"
+  },
+  "number": {
+    "es": "número",
+    "fr": "nombre",
+    "pos": "noun"
+  },
+  "obvious": {
+    "es": "obvio",
+    "fr": "évident",
+    "pos": "adj"
+  },
+  "ocean": {
+    "es": "océano",
+    "fr": "océan",
+    "pos": "noun"
+  },
+  "office": {
+    "es": "oficina",
+    "fr": "bureau",
+    "pos": "noun"
+  },
+  "often": {
+    "es": "a menudo",
+    "fr": "souvent",
+    "pos": "adv"
+  },
+  "old": {
+    "es": "viejo",
+    "fr": "vieux",
+    "pos": "adj"
+  },
+  "only": {
+    "es": "solo",
+    "fr": "seulement",
+    "pos": "adv"
+  },
+  "open": {
+    "es": "abierto",
+    "fr": "ouvert",
+    "pos": "adj"
+  },
+  "opposite": {
+    "es": "opuesto",
+    "fr": "opposé",
+    "pos": "adj"
+  },
+  "ordinary": {
+    "es": "ordinario",
+    "fr": "ordinaire",
+    "pos": "adj"
+  },
+  "original": {
+    "es": "original",
+    "fr": "original",
+    "pos": "adj"
+  },
+  "otherwise": {
+    "es": "de otro modo",
+    "fr": "autrement",
+    "pos": "adv"
+  },
+  "pain": {
+    "es": "dolor",
+    "fr": "douleur",
+    "pos": "noun"
+  },
+  "paint": {
+    "es": "pintar",
+    "fr": "peindre",
+    "pos": "verb"
+  },
+  "pass": {
+    "es": "pasar",
+    "fr": "passer",
+    "pos": "verb"
+  },
+  "past": {
+    "es": "pasado",
+    "fr": "passé",
+    "pos": "noun"
+  },
+  "path": {
+    "es": "sendero",
+    "fr": "chemin",
+    "pos": "noun"
+  },
+  "pay": {
+    "es": "pagar",
+    "fr": "payer",
+    "pos": "verb"
+  },
+  "peace": {
+    "es": "paz",
+    "fr": "paix",
+    "pos": "noun"
+  },
+  "people": {
+    "es": "gente",
+    "fr": "gens",
+    "pos": "noun"
+  },
+  "perfect": {
+    "es": "perfecto",
+    "fr": "parfait",
+    "pos": "adj"
+  },
+  "perhaps": {
+    "es": "quizás",
+    "fr": "peut-être",
+    "pos": "adv"
+  },
+  "perpetual": {
+    "es": "perpetuo",
+    "fr": "perpétuel",
+    "pos": "adj"
+  },
+  "person": {
+    "es": "persona",
+    "fr": "personne",
+    "pos": "noun"
+  },
+  "personal": {
+    "es": "personal",
+    "fr": "personnel",
+    "pos": "adj"
+  },
+  "phenomenon": {
+    "es": "fenómeno",
+    "fr": "phénomène",
+    "pos": "noun"
+  },
+  "phone": {
+    "es": "teléfono",
+    "fr": "téléphone",
+    "pos": "noun"
+  },
+  "physical": {
+    "es": "físico",
+    "fr": "physique",
+    "pos": "adj"
+  },
+  "picture": {
+    "es": "foto",
+    "fr": "image",
+    "pos": "noun"
+  },
+  "plane": {
+    "es": "avión",
+    "fr": "avion",
+    "pos": "noun"
+  },
+  "plant": {
+    "es": "plantar",
+    "fr": "planter",
+    "pos": "verb"
+  },
+  "plate": {
+    "es": "plato",
+    "fr": "assiette",
+    "pos": "noun"
+  },
+  "play": {
+    "es": "jugar",
+    "fr": "jouer",
+    "pos": "verb"
+  },
+  "pleasure": {
+    "es": "placer",
+    "fr": "plaisir",
+    "pos": "noun"
+  },
+  "pole": {
+    "es": "polo",
+    "fr": "pôle",
+    "pos": "noun"
+  },
+  "poor": {
+    "es": "pobre",
+    "fr": "pauvre",
+    "pos": "adj"
+  },
+  "popular": {
+    "es": "popular",
+    "fr": "populaire",
+    "pos": "adj"
+  },
+  "possible": {
+    "es": "posible",
+    "fr": "possible",
+    "pos": "adj"
+  },
+  "power": {
+    "es": "poder",
+    "fr": "pouvoir",
+    "pos": "noun"
+  },
+  "powerful": {
+    "es": "poderoso",
+    "fr": "puissant",
+    "pos": "adj"
+  },
+  "practical": {
+    "es": "práctico",
+    "fr": "pratique",
+    "pos": "adj"
+  },
+  "practice": {
+    "es": "practicar",
+    "fr": "pratiquer",
+    "pos": "verb"
+  },
+  "prepare": {
+    "es": "preparar",
+    "fr": "préparer",
+    "pos": "verb"
+  },
+  "price": {
+    "es": "precio",
+    "fr": "prix",
+    "pos": "noun"
+  },
+  "private": {
+    "es": "privado",
+    "fr": "privé",
+    "pos": "adj"
+  },
+  "probably": {
+    "es": "probablemente",
+    "fr": "probablement",
+    "pos": "adv"
+  },
+  "problem": {
+    "es": "problema",
+    "fr": "problème",
+    "pos": "noun"
+  },
+  "produce": {
+    "es": "producir",
+    "fr": "produire",
+    "pos": "verb"
+  },
+  "promise": {
+    "es": "prometer",
+    "fr": "promettre",
+    "pos": "verb"
+  },
+  "protect": {
+    "es": "proteger",
+    "fr": "protéger",
+    "pos": "verb"
+  },
+  "proud": {
+    "es": "orgulloso",
+    "fr": "fier",
+    "pos": "adj"
+  },
+  "public": {
+    "es": "público",
+    "fr": "public",
+    "pos": "adj"
+  },
+  "pull": {
+    "es": "jalar",
+    "fr": "tirer",
+    "pos": "verb"
+  },
+  "pure": {
+    "es": "puro",
+    "fr": "pur",
+    "pos": "adj"
+  },
+  "purpose": {
+    "es": "propósito",
+    "fr": "but",
+    "pos": "noun"
+  },
+  "push": {
+    "es": "empujar",
+    "fr": "pousser",
+    "pos": "verb"
+  },
+  "put": {
+    "es": "poner",
+    "fr": "mettre",
+    "pos": "verb"
+  },
+  "question": {
+    "es": "pregunta",
+    "fr": "question",
+    "pos": "noun"
+  },
+  "quickly": {
+    "es": "rápidamente",
+    "fr": "rapidement",
+    "pos": "adv"
+  },
+  "quiet": {
+    "es": "tranquilo",
+    "fr": "tranquille",
+    "pos": "adj"
+  },
+  "quietly": {
+    "es": "silenciosamente",
+    "fr": "silencieusement",
+    "pos": "adv"
+  },
+  "quite": {
+    "es": "bastante",
+    "fr": "assez",
+    "pos": "adv"
+  },
+  "rain": {
+    "es": "lluvia",
+    "fr": "pluie",
+    "pos": "noun"
+  },
+  "rare": {
+    "es": "raro",
+    "fr": "rare",
+    "pos": "adj"
+  },
+  "reach": {
+    "es": "alcanzar",
+    "fr": "atteindre",
+    "pos": "verb"
+  },
+  "read": {
+    "es": "leer",
+    "fr": "lire",
+    "pos": "verb"
+  },
+  "really": {
+    "es": "realmente",
+    "fr": "vraiment",
+    "pos": "adv"
+  },
+  "reason": {
+    "es": "razón",
+    "fr": "raison",
+    "pos": "noun"
+  },
+  "receive": {
+    "es": "recibir",
+    "fr": "recevoir",
+    "pos": "verb"
+  },
+  "recommend": {
+    "es": "recomendar",
+    "fr": "recommander",
+    "pos": "verb"
+  },
+  "reflect": {
+    "es": "reflexionar",
+    "fr": "réfléchir",
+    "pos": "verb"
+  },
+  "refuse": {
+    "es": "rechazar",
+    "fr": "refuser",
+    "pos": "verb"
+  },
+  "region": {
+    "es": "región",
+    "fr": "région",
+    "pos": "noun"
+  },
+  "relaxed": {
+    "es": "relajado",
+    "fr": "détendu",
+    "pos": "adj"
+  },
+  "remember": {
+    "es": "recordar",
+    "fr": "se souvenir",
+    "pos": "verb"
+  },
+  "repair": {
+    "es": "reparar",
+    "fr": "réparer",
+    "pos": "verb"
+  },
+  "return": {
+    "es": "volver",
+    "fr": "retourner",
+    "pos": "verb"
+  },
+  "rich": {
+    "es": "rico",
+    "fr": "riche",
+    "pos": "adj"
+  },
+  "rise": {
+    "es": "levantarse",
+    "fr": "se lever",
+    "pos": "verb"
+  },
+  "risk": {
+    "es": "riesgo",
+    "fr": "risque",
+    "pos": "noun"
+  },
+  "river": {
+    "es": "río",
+    "fr": "rivière",
+    "pos": "noun"
+  },
+  "road": {
+    "es": "camino",
+    "fr": "route",
+    "pos": "noun"
+  },
+  "room": {
+    "es": "habitación",
+    "fr": "chambre",
+    "pos": "noun"
+  },
+  "rough": {
+    "es": "áspero",
+    "fr": "rugueux",
+    "pos": "adj"
+  },
+  "round": {
+    "es": "redondo",
+    "fr": "rond",
+    "pos": "adj"
+  },
+  "run": {
+    "es": "correr",
+    "fr": "courir",
+    "pos": "verb"
+  },
+  "sad": {
+    "es": "triste",
+    "fr": "triste",
+    "pos": "adj"
+  },
+  "sadly": {
+    "es": "tristemente",
+    "fr": "tristement",
+    "pos": "adv"
+  },
+  "safe": {
+    "es": "seguro",
+    "fr": "sûr",
+    "pos": "adj"
+  },
+  "sand": {
+    "es": "arena",
+    "fr": "sable",
+    "pos": "noun"
+  },
+  "save": {
+    "es": "salvar",
+    "fr": "sauver",
+    "pos": "verb"
+  },
+  "say": {
+    "es": "decir",
+    "fr": "dire",
+    "pos": "verb"
+  },
+  "school": {
+    "es": "escuela",
+    "fr": "école",
+    "pos": "noun"
+  },
+  "sea": {
+    "es": "mar",
+    "fr": "mer",
+    "pos": "noun"
+  },
+  "seat": {
+    "es": "asiento",
+    "fr": "siège",
+    "pos": "noun"
+  },
+  "secret": {
+    "es": "secreto",
+    "fr": "secret",
+    "pos": "adj"
+  },
+  "see": {
+    "es": "ver",
+    "fr": "voir",
+    "pos": "verb"
+  },
+  "seek": {
+    "es": "buscar",
+    "fr": "chercher",
+    "pos": "verb"
+  },
+  "seem": {
+    "es": "parecer",
+    "fr": "sembler",
+    "pos": "verb"
+  },
+  "send": {
+    "es": "enviar",
+    "fr": "envoyer",
+    "pos": "verb"
+  },
+  "sentence": {
+    "es": "frase",
+    "fr": "phrase",
+    "pos": "noun"
+  },
+  "serious": {
+    "es": "serio",
+    "fr": "sérieux",
+    "pos": "adj"
+  },
+  "shadow": {
+    "es": "sombra",
+    "fr": "ombre",
+    "pos": "noun"
+  },
+  "share": {
+    "es": "compartir",
+    "fr": "partager",
+    "pos": "verb"
+  },
+  "sharp": {
+    "es": "afilado",
+    "fr": "aigu",
+    "pos": "adj"
+  },
+  "ship": {
+    "es": "nave",
+    "fr": "navire",
+    "pos": "noun"
+  },
+  "shoulder": {
+    "es": "hombro",
+    "fr": "épaule",
+    "pos": "noun"
+  },
+  "show": {
+    "es": "mostrar",
+    "fr": "montrer",
+    "pos": "verb"
+  },
+  "sick": {
+    "es": "enfermo",
+    "fr": "malade",
+    "pos": "adj"
+  },
+  "significant": {
+    "es": "significativo",
+    "fr": "significatif",
+    "pos": "adj"
+  },
+  "silence": {
+    "es": "silencio",
+    "fr": "silence",
+    "pos": "noun"
+  },
+  "similar": {
+    "es": "similar",
+    "fr": "similaire",
+    "pos": "adj"
+  },
+  "simply": {
+    "es": "simplemente",
+    "fr": "simplement",
+    "pos": "adv"
+  },
+  "sing": {
+    "es": "cantar",
+    "fr": "chanter",
+    "pos": "verb"
+  },
+  "sit": {
+    "es": "sentarse",
+    "fr": "s'asseoir",
+    "pos": "verb"
+  },
+  "skin": {
+    "es": "piel",
+    "fr": "peau",
+    "pos": "noun"
+  },
+  "sky": {
+    "es": "cielo",
+    "fr": "ciel",
+    "pos": "noun"
+  },
+  "sleep": {
+    "es": "dormir",
+    "fr": "dormir",
+    "pos": "verb"
+  },
+  "slow": {
+    "es": "lento",
+    "fr": "lent",
+    "pos": "adj"
+  },
+  "slowly": {
+    "es": "lentamente",
+    "fr": "lentement",
+    "pos": "adv"
+  },
+  "small": {
+    "es": "pequeño",
+    "fr": "petit",
+    "pos": "adj"
+  },
+  "smart": {
+    "es": "inteligente",
+    "fr": "intelligent",
+    "pos": "adj"
+  },
+  "smell": {
+    "es": "olor",
+    "fr": "odeur",
+    "pos": "noun"
+  },
+  "smile": {
+    "es": "sonreír",
+    "fr": "sourire",
+    "pos": "verb"
+  },
+  "smoke": {
+    "es": "humo",
+    "fr": "fumée",
+    "pos": "noun"
+  },
+  "snow": {
+    "es": "nieve",
+    "fr": "neige",
+    "pos": "noun"
+  },
+  "social": {
+    "es": "social",
+    "fr": "social",
+    "pos": "adj"
+  },
+  "soft": {
+    "es": "suave",
+    "fr": "doux",
+    "pos": "adj"
+  },
+  "sometimes": {
+    "es": "a veces",
+    "fr": "parfois",
+    "pos": "adv"
+  },
+  "somewhere": {
+    "es": "en algún lugar",
+    "fr": "quelque part",
+    "pos": "adv"
+  },
+  "song": {
+    "es": "canción",
+    "fr": "chanson",
+    "pos": "noun"
+  },
+  "soon": {
+    "es": "pronto",
+    "fr": "bientôt",
+    "pos": "adv"
+  },
+  "sorrow": {
+    "es": "tristeza",
+    "fr": "chagrin",
+    "pos": "noun"
+  },
+  "soul": {
+    "es": "alma",
+    "fr": "âme",
+    "pos": "noun"
+  },
+  "sound": {
+    "es": "sonido",
+    "fr": "son",
+    "pos": "noun"
+  },
+  "space": {
+    "es": "espacio",
+    "fr": "espace",
+    "pos": "noun"
+  },
+  "speak": {
+    "es": "hablar",
+    "fr": "parler",
+    "pos": "verb"
+  },
+  "special": {
+    "es": "especial",
+    "fr": "spécial",
+    "pos": "adj"
+  },
+  "spend": {
+    "es": "gastar",
+    "fr": "dépenser",
+    "pos": "verb"
+  },
+  "splendour": {
+    "es": "esplendor",
+    "fr": "splendeur",
+    "pos": "noun"
+  },
+  "spoon": {
+    "es": "cuchara",
+    "fr": "cuillère",
+    "pos": "noun"
+  },
+  "sport": {
+    "es": "deporte",
+    "fr": "sport",
+    "pos": "noun"
+  },
+  "spread": {
+    "es": "extender",
+    "fr": "étendre",
+    "pos": "verb"
+  },
+  "stand": {
+    "es": "pararse",
+    "fr": "se lever",
+    "pos": "verb"
+  },
+  "star": {
+    "es": "estrella",
+    "fr": "étoile",
+    "pos": "noun"
+  },
+  "start": {
+    "es": "empezar",
+    "fr": "commencer",
+    "pos": "verb"
+  },
+  "stay": {
+    "es": "quedarse",
+    "fr": "rester",
+    "pos": "verb"
+  },
+  "still": {
+    "es": "todavía",
+    "fr": "encore",
+    "pos": "adv"
+  },
+  "stone": {
+    "es": "piedra",
+    "fr": "pierre",
+    "pos": "noun"
+  },
+  "stop": {
+    "es": "parar",
+    "fr": "arrêter",
+    "pos": "verb"
+  },
+  "storm": {
+    "es": "tormenta",
+    "fr": "tempête",
+    "pos": "noun"
+  },
+  "story": {
+    "es": "historia",
+    "fr": "histoire",
+    "pos": "noun"
+  },
+  "strange": {
+    "es": "extraño",
+    "fr": "étrange",
+    "pos": "adj"
+  },
+  "street": {
+    "es": "calle",
+    "fr": "rue",
+    "pos": "noun"
+  },
+  "strong": {
+    "es": "fuerte",
+    "fr": "fort",
+    "pos": "adj"
+  },
+  "strongly": {
+    "es": "fuertemente",
+    "fr": "fortement",
+    "pos": "adv"
+  },
+  "student": {
+    "es": "estudiante",
+    "fr": "étudiant",
+    "pos": "noun"
+  },
+  "success": {
+    "es": "éxito",
+    "fr": "succès",
+    "pos": "noun"
+  },
+  "suddenly": {
+    "es": "de repente",
+    "fr": "soudainement",
+    "pos": "adv"
+  },
+  "suffer": {
+    "es": "sufrir",
+    "fr": "souffrir",
+    "pos": "verb"
+  },
+  "suggest": {
+    "es": "sugerir",
+    "fr": "suggérer",
+    "pos": "verb"
+  },
+  "sun": {
+    "es": "sol",
+    "fr": "soleil",
+    "pos": "noun"
+  },
+  "support": {
+    "es": "apoyar",
+    "fr": "soutenir",
+    "pos": "verb"
+  },
+  "surprise": {
+    "es": "sorprender",
+    "fr": "surprendre",
+    "pos": "verb"
+  },
+  "surprised": {
+    "es": "sorprendido",
+    "fr": "surpris",
+    "pos": "adj"
+  },
+  "sweet": {
+    "es": "dulce",
+    "fr": "sucré",
+    "pos": "adj"
+  },
+  "swim": {
+    "es": "nadar",
+    "fr": "nager",
+    "pos": "verb"
+  },
+  "table": {
+    "es": "mesa",
+    "fr": "table",
+    "pos": "noun"
+  },
+  "take": {
+    "es": "tomar",
+    "fr": "prendre",
+    "pos": "verb"
+  },
+  "talk": {
+    "es": "hablar",
+    "fr": "parler",
+    "pos": "verb"
+  },
+  "tall": {
+    "es": "alto",
+    "fr": "grand",
+    "pos": "adj"
+  },
+  "taste": {
+    "es": "sabor",
+    "fr": "goût",
+    "pos": "noun"
+  },
+  "teach": {
+    "es": "enseñar",
+    "fr": "enseigner",
+    "pos": "verb"
+  },
+  "teacher": {
+    "es": "maestro",
+    "fr": "professeur",
+    "pos": "noun"
+  },
+  "team": {
+    "es": "equipo",
+    "fr": "équipe",
+    "pos": "noun"
+  },
+  "tell": {
+    "es": "contar",
+    "fr": "raconter",
+    "pos": "verb"
+  },
+  "terrible": {
+    "es": "terrible",
+    "fr": "terrible",
+    "pos": "adj"
+  },
+  "there": {
+    "es": "allí",
+    "fr": "là",
+    "pos": "adv"
+  },
+  "therefore": {
+    "es": "por lo tanto",
+    "fr": "donc",
+    "pos": "adv"
+  },
+  "thick": {
+    "es": "grueso",
+    "fr": "épais",
+    "pos": "adj"
+  },
+  "thin": {
+    "es": "delgado",
+    "fr": "mince",
+    "pos": "adj"
+  },
+  "think": {
+    "es": "pensar",
+    "fr": "penser",
+    "pos": "verb"
+  },
+  "throw": {
+    "es": "lanzar",
+    "fr": "lancer",
+    "pos": "verb"
+  },
+  "time": {
+    "es": "tiempo",
+    "fr": "temps",
+    "pos": "noun"
+  },
+  "tired": {
+    "es": "cansado",
+    "fr": "fatigué",
+    "pos": "adj"
+  },
+  "together": {
+    "es": "juntos",
+    "fr": "ensemble",
+    "pos": "adv"
+  },
+  "tongue": {
+    "es": "lengua",
+    "fr": "langue",
+    "pos": "noun"
+  },
+  "tooth": {
+    "es": "diente",
+    "fr": "dent",
+    "pos": "noun"
+  },
+  "touch": {
+    "es": "tocar",
+    "fr": "toucher",
+    "pos": "verb"
+  },
+  "train": {
+    "es": "tren",
+    "fr": "train",
+    "pos": "noun"
+  },
+  "travel": {
+    "es": "viajar",
+    "fr": "voyager",
+    "pos": "verb"
+  },
+  "tree": {
+    "es": "árbol",
+    "fr": "arbre",
+    "pos": "noun"
+  },
+  "true": {
+    "es": "verdadero",
+    "fr": "vrai",
+    "pos": "adj"
+  },
+  "truly": {
+    "es": "verdaderamente",
+    "fr": "vraiment",
+    "pos": "adv"
+  },
+  "truth": {
+    "es": "verdad",
+    "fr": "vérité",
+    "pos": "noun"
+  },
+  "try": {
+    "es": "intentar",
+    "fr": "essayer",
+    "pos": "verb"
+  },
+  "turn": {
+    "es": "girar",
+    "fr": "tourner",
+    "pos": "verb"
+  },
+  "understand": {
+    "es": "entender",
+    "fr": "comprendre",
+    "pos": "verb"
+  },
+  "use": {
+    "es": "usar",
+    "fr": "utiliser",
+    "pos": "verb"
+  },
+  "useful": {
+    "es": "útil",
+    "fr": "utile",
+    "pos": "adj"
+  },
+  "usually": {
+    "es": "normalmente",
+    "fr": "habituellement",
+    "pos": "adv"
+  },
+  "value": {
+    "es": "valor",
+    "fr": "valeur",
+    "pos": "noun"
+  },
+  "vast": {
+    "es": "vasto",
+    "fr": "vaste",
+    "pos": "adj"
+  },
+  "very": {
+    "es": "muy",
+    "fr": "très",
+    "pos": "adv"
+  },
+  "victory": {
+    "es": "victoria",
+    "fr": "victoire",
+    "pos": "noun"
+  },
+  "village": {
+    "es": "pueblo",
+    "fr": "village",
+    "pos": "noun"
+  },
+  "visit": {
+    "es": "visitar",
+    "fr": "visiter",
+    "pos": "verb"
+  },
+  "vivid": {
+    "es": "vívido",
+    "fr": "vif",
+    "pos": "adj"
+  },
+  "voice": {
+    "es": "voz",
+    "fr": "voix",
+    "pos": "noun"
+  },
+  "wait": {
+    "es": "esperar",
+    "fr": "attendre",
+    "pos": "verb"
+  },
+  "walk": {
+    "es": "caminar",
+    "fr": "marcher",
+    "pos": "verb"
+  },
+  "wall": {
+    "es": "pared",
+    "fr": "mur",
+    "pos": "noun"
+  },
+  "want": {
+    "es": "querer",
+    "fr": "vouloir",
+    "pos": "verb"
+  },
+  "war": {
+    "es": "guerra",
+    "fr": "guerre",
+    "pos": "noun"
+  },
+  "warm": {
+    "es": "tibio",
+    "fr": "tiède",
+    "pos": "adj"
+  },
+  "watch": {
+    "es": "observar",
+    "fr": "regarder",
+    "pos": "verb"
+  },
+  "water": {
+    "es": "agua",
+    "fr": "eau",
+    "pos": "noun"
+  },
+  "wave": {
+    "es": "ola",
+    "fr": "vague",
+    "pos": "noun"
+  },
+  "weak": {
+    "es": "débil",
+    "fr": "faible",
+    "pos": "adj"
+  },
+  "week": {
+    "es": "semana",
+    "fr": "semaine",
+    "pos": "noun"
+  },
+  "welfare": {
+    "es": "bienestar",
+    "fr": "bien-être",
+    "pos": "noun"
+  },
+  "well": {
+    "es": "bien",
+    "fr": "bien",
+    "pos": "adv"
+  },
+  "whole": {
+    "es": "entero",
+    "fr": "entier",
+    "pos": "adj"
+  },
+  "wide": {
+    "es": "ancho",
+    "fr": "large",
+    "pos": "adj"
+  },
+  "wild": {
+    "es": "salvaje",
+    "fr": "sauvage",
+    "pos": "adj"
+  },
+  "win": {
+    "es": "ganar",
+    "fr": "gagner",
+    "pos": "verb"
+  },
+  "window": {
+    "es": "ventana",
+    "fr": "fenêtre",
+    "pos": "noun"
+  },
+  "wine": {
+    "es": "vino",
+    "fr": "vin",
+    "pos": "noun"
+  },
+  "wisdom": {
+    "es": "sabiduría",
+    "fr": "sagesse",
+    "pos": "noun"
+  },
+  "wish": {
+    "es": "desear",
+    "fr": "souhaiter",
+    "pos": "verb"
+  },
+  "woman": {
+    "es": "mujer",
+    "fr": "femme",
+    "pos": "noun"
+  },
+  "wonder": {
+    "es": "preguntarse",
+    "fr": "se demander",
+    "pos": "verb"
+  },
+  "wonderful": {
+    "es": "maravilloso",
+    "fr": "merveilleux",
+    "pos": "adj"
+  },
+  "word": {
+    "es": "palabra",
+    "fr": "mot",
+    "pos": "noun"
+  },
+  "work": {
+    "es": "trabajar",
+    "fr": "travailler",
+    "pos": "verb"
+  },
+  "world": {
+    "es": "mundo",
+    "fr": "monde",
+    "pos": "noun"
+  },
+  "write": {
+    "es": "escribir",
+    "fr": "écrire",
+    "pos": "verb"
+  },
+  "year": {
+    "es": "año",
+    "fr": "an",
+    "pos": "noun"
+  },
+  "young": {
+    "es": "joven",
+    "fr": "jeune",
+    "pos": "adj"
+  }
+}

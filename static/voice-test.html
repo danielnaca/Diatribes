@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: #111;
+            color: #eee;
+            font-size: 15px;
+            padding: 24px;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 17px; font-weight: 700; margin-bottom: 20px; color: #eee; }
+        label { display: block; font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        select, textarea {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            color: #eee;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            font-family: inherit;
+        }
+        select { padding: 8px 12px; cursor: pointer; }
+        textarea { padding: 12px 14px; resize: vertical; line-height: 1.5; min-height: 100px; }
+        select:focus, textarea:focus { border-color: #444; }
+        .row { display: flex; gap: 12px; margin-bottom: 16px; }
+        .row > div { flex: 1; }
+        .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+        .preset {
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid #2a2a2a;
+            background: none;
+            color: #888;
+            font-size: 13px;
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .preset:hover { border-color: #444; color: #eee; }
+        #speak-btn {
+            width: 100%;
+            padding: 12px;
+            background: #e94560;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.15s;
+            margin-bottom: 16px;
+        }
+        #speak-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        #speak-btn.playing { background: #444; }
+        .history { display: flex; flex-direction: column; gap: 10px; }
+        .hist-item {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .hist-meta { font-size: 11px; color: #555; white-space: nowrap; }
+        .hist-text { flex: 1; font-size: 14px; color: #ccc; line-height: 1.4; }
+        .hist-play {
+            background: none;
+            border: 1px solid #333;
+            color: #888;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .hist-play:hover { color: #eee; border-color: #555; }
+        #status { font-size: 13px; color: #666; text-align: center; min-height: 18px; }
+        .divider { height: 1px; background: #1e1e1e; margin: 20px 0; }
+        .section-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+
+<h1>Voice Test</h1>
+
+<div style="margin-bottom:16px;display:flex;gap:12px;align-items:center;">
+    <div style="flex:1">
+        <label>Voice</label>
+    <select id="voice">
+        <optgroup label="Google Neural2 (native French/Spanish)">
+            <option value="google-fr-a">Google FR — female</option>
+            <option value="google-fr-b">Google FR — male</option>
+            <option value="google-fr-c">Google FR — female 2</option>
+            <option value="google-es-a">Google ES — female</option>
+            <option value="google-es-b">Google ES — male</option>
+        </optgroup>
+        <optgroup label="OpenAI (English + accent instruction)">
+            <option value="nova" selected>Nova</option>
+            <option value="alloy">Alloy</option>
+            <option value="echo">Echo</option>
+            <option value="fable">Fable</option>
+            <option value="onyx">Onyx</option>
+            <option value="shimmer">Shimmer</option>
+        </optgroup>
+    </select>
+    </div>
+    <div style="flex:0 0 140px">
+        <label>Speed — <span id="rate-val">1.0×</span></label>
+        <input type="range" id="rate-slider" min="0.5" max="1.5" step="0.05" value="1.0" style="width:100%;accent-color:#e94560;">
+    </div>
+</div>
+
+<div style="margin-bottom:6px"><label>Text</label></div>
+<div class="presets">
+    <button class="preset" data-text="The food here is amazing, I really love the music and the weather.">English only</button>
+    <button class="preset" data-text="The nourriture here is amazing, I really love the musique and the weather.">Light mix</button>
+    <button class="preset" data-text="The maison on the rue was very belle, with a grand jardin full of fleurs.">Medium mix</button>
+    <button class="preset" data-text="I really love this ville, the gens are so sympa and the nourriture is incroyable. Every matin I walk to the marché and buy fresh légumes.">Heavy mix</button>
+</div>
+
+<textarea id="text" placeholder="Type or pick a preset above…"></textarea>
+
+<div style="margin-top:12px;margin-bottom:16px">
+    <button id="speak-btn">▶ Speak</button>
+    <div id="status"></div>
+</div>
+
+<div class="divider"></div>
+<div class="section-label">History</div>
+<div class="history" id="history"></div>
+
+<script>
+const voiceEl   = document.getElementById('voice');
+const textEl    = document.getElementById('text');
+const speakBtn  = document.getElementById('speak-btn');
+const statusEl  = document.getElementById('status');
+const histEl    = document.getElementById('history');
+const rateSlider = document.getElementById('rate-slider');
+const rateVal    = document.getElementById('rate-val');
+
+rateSlider.addEventListener('input', () => {
+    rateVal.textContent = parseFloat(rateSlider.value).toFixed(2).replace(/\.?0+$/, '') + '×';
+});
+
+document.querySelectorAll('.preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+        textEl.value = btn.dataset.text;
+        speakBtn.click();
+    });
+});
+
+// Pre-select heavy mix and auto-play on load
+const heavyBtn = document.querySelector('.preset[data-text*="Every matin"]');
+if (heavyBtn) heavyBtn.click();
+
+let currentAudio = null;
+
+speakBtn.addEventListener('click', () => {
+    const text = textEl.value.trim();
+    if (!text) return;
+    playText(text, 'French', voiceEl.value);
+});
+
+async function playText(text, _lang, voice) {
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+
+    speakBtn.disabled = true;
+    speakBtn.classList.add('playing');
+    speakBtn.textContent = '… Loading';
+    statusEl.textContent = '';
+
+    const fd = new FormData();
+    fd.append('text', text);
+    fd.append('voice', voice);
+    fd.append('language', 'French');
+    fd.append('speaking_rate', rateSlider.value);
+
+    const t0 = performance.now();
+    try {
+        const res = await fetch('/api/speak', { method: 'POST', body: fd });
+        if (!res.ok) throw new Error('TTS failed');
+        const blob = await res.blob();
+        const ms   = Math.round(performance.now() - t0);
+        const ttsMs = res.headers.get('X-TTS-Ms');
+        statusEl.textContent = `${ttsMs}ms api · ${ms}ms total`;
+
+        addHistory(text, voice, blob);
+
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        currentAudio = audio;
+        speakBtn.textContent = '▶ Speak';
+        audio.onended = () => { URL.revokeObjectURL(url); currentAudio = null; done(); };
+        audio.onerror = () => { URL.revokeObjectURL(url); currentAudio = null; done(); };
+        audio.play();
+    } catch (e) {
+        statusEl.textContent = 'Error: ' + e.message;
+        done();
+    }
+}
+
+function done() {
+    speakBtn.disabled = false;
+    speakBtn.classList.remove('playing');
+    speakBtn.textContent = '▶ Speak';
+}
+
+function addHistory(text, voice, blob) {
+    const url = URL.createObjectURL(blob);
+    const item = document.createElement('div');
+    item.className = 'hist-item';
+    item.innerHTML = `
+        <div class="hist-text">${escHtml(text)}</div>
+        <div class="hist-meta">${voice}</div>
+        <button class="hist-play" data-url="${url}">▶ Replay</button>`;
+    item.querySelector('.hist-play').addEventListener('click', function() {
+        if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+        const a = new Audio(this.dataset.url);
+        currentAudio = a;
+        a.play();
+    });
+    histEl.prepend(item);
+}
+
+function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>

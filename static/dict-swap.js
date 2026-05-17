@@ -112,7 +112,7 @@ const DSWAP = (() => {
         const translation = matchCase(token, entry[lang]);
         const posClass    = entry.pos;
 
-        html  += `<span class="word ${posClass}">${escapeHtml(translation)}<span class="src">[${escapeHtml(token)}]</span></span>`;
+        html  += `<span class="word ${posClass}" data-src="${escapeHtml(token)}" data-tr="${escapeHtml(translation)}" data-pos="${posClass}">${escapeHtml(translation)}</span>`;
         plain += translation;
 
         const key = `${entry.pos}:${baseKey}`;

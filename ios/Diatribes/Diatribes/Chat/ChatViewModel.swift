@@ -69,13 +69,21 @@ final class ChatViewModel: ObservableObject {
         set { enabledPOSRaw = newValue.sorted().joined(separator: ",") }
     }
 
+    @AppStorage("wordDensity") var wordDensity: Double = 1.0
+
     // Chat state
     @Published var messages: [ChatMessage] = []
-    @Published var inputText       = ""
-    @Published var isProcessing    = false
-    @Published var isRecording     = false
-    @Published var showChatOptions = false
+    @Published var inputText        = ""
+    @Published var isProcessing     = false
+    @Published var isRecording      = false
+    @Published var showChatOptions  = false
     @Published var audioLevel: Float = 0.0
+    @Published var collectedWords: [WordTapInfo] = []
+
+    func collectWord(_ info: WordTapInfo) {
+        guard !collectedWords.contains(where: { $0.english.lowercased() == info.english.lowercased() && $0.language == info.language }) else { return }
+        collectedWords.append(info)
+    }
 
     private var history: [HistoryMessage] = []
     private var turnFromVoice = false
@@ -144,7 +152,8 @@ final class ChatViewModel: ObservableObject {
                 text: result.response,
                 langCode: langCode,
                 enabledPOS: enabledPOS,
-                highlightsOn: highlightsOn
+                highlightsOn: highlightsOn,
+                density: wordDensity
             )
 
             messages.append(ChatMessage(

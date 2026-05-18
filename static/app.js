@@ -31,7 +31,6 @@ let recorder = null;
 let chunks = [];
 let appState = 'IDLE';
 let pending = null;
-let troubleWords = [];
 let currentAudio = null;
 let turnTimings = {};
 
@@ -138,20 +137,109 @@ skipBtn.addEventListener('click', () => {
 });
 
 // ── Words panel ───────────────────────────────────────────────────
-wordsBtn.addEventListener('click', () => {
-    wordsList.innerHTML = '';
-    if (troubleWords.length === 0) {
-        wordsList.innerHTML = '<li style="color:var(--text-dim)">No trouble words yet</li>';
-    } else {
-        troubleWords.forEach(w => {
+async function loadWordsPanel() {
+    wordsList.innerHTML = '<li style="color:var(--text-dim)">Loading…</li>';
+    wordsPanel.hidden = false;
+    try {
+        const res = await fetch('/api/words?language=' + encodeURIComponent(languageSelect.value));
+        const data = await res.json();
+        wordsList.innerHTML = '';
+        if (!data.words.length) {
+            wordsList.innerHTML = '<li style="color:var(--text-dim)">No saved words yet — tap a highlighted word in chat to save it.</li>';
+            return;
+        }
+        data.words.forEach(w => {
             const li = document.createElement('li');
-            li.textContent = w;
+            li.className = 'word-row';
+            li.dataset.id = w.id;
+            const date = w.date_saved.slice(0, 10);
+            const posLabel = { noun: 'N', verb: 'V', adj: 'Adj', adv: 'Adv' }[w.pos] || w.pos;
+            li.innerHTML = `
+                <span class="wr-tr word ${w.pos}">${w.translation}</span>
+                <span class="wr-en">${w.english}</span>
+                <span class="wr-pos">${posLabel}</span>
+                <span class="wr-date">${date}</span>
+                <button class="wr-del" title="Remove">×</button>`;
+            li.querySelector('.wr-del').addEventListener('click', async () => {
+                await fetch('/api/words/' + w.id, { method: 'DELETE' });
+                li.remove();
+                updateWordsCount();
+            });
             wordsList.appendChild(li);
         });
+        updateWordsCount();
+    } catch (e) {
+        wordsList.innerHTML = '<li style="color:var(--text-dim)">Failed to load words.</li>';
     }
-    wordsPanel.hidden = false;
-});
+}
+
+async function updateWordsCount() {
+    try {
+        const res = await fetch('/api/words?language=' + encodeURIComponent(languageSelect.value));
+        const data = await res.json();
+        wordsBtn.textContent = `Words (${data.words.length})`;
+    } catch {}
+}
+
+wordsBtn.addEventListener('click', loadWordsPanel);
 closePanel.addEventListener('click', () => { wordsPanel.hidden = true; });
+
+// ── Tap-to-reveal swapped words ───────────────────────────────────
+let activePopup = null;
+
+conversation.addEventListener('click', async (e) => {
+    // Close existing popup if clicking elsewhere
+    if (activePopup && !activePopup.contains(e.target)) {
+        closeActivePopup();
+    }
+
+    const wordEl = e.target.closest('.word[data-src]');
+    if (!wordEl) return;
+
+    // Toggle off if already open
+    if (wordEl.classList.contains('revealed')) {
+        closeActivePopup();
+        return;
+    }
+
+    if (activePopup) closeActivePopup();
+
+    wordEl.classList.add('revealed');
+
+    const src = wordEl.dataset.src;
+    const tr  = wordEl.dataset.tr;
+    const pos = wordEl.dataset.pos;
+    const lang = languageSelect.value;
+
+    const popup = document.createElement('span');
+    popup.className = 'word-popup';
+    popup.innerHTML = `<span class="popup-src">[${src}]</span><button class="save-word-btn" title="Save to Words">+</button>`;
+    wordEl.appendChild(popup);
+    activePopup = wordEl;
+
+    popup.querySelector('.save-word-btn').addEventListener('click', async (ev) => {
+        ev.stopPropagation();
+        const btn = popup.querySelector('.save-word-btn');
+        btn.disabled = true;
+        const fd = new FormData();
+        fd.append('english', src);
+        fd.append('translation', tr);
+        fd.append('language', lang);
+        fd.append('pos', pos);
+        const res = await fetch('/api/words', { method: 'POST', body: fd });
+        const data = await res.json();
+        btn.textContent = '✓';
+        btn.classList.add('saved');
+        updateWordsCount();
+    });
+});
+
+function closeActivePopup() {
+    if (!activePopup) return;
+    activePopup.classList.remove('revealed');
+    activePopup.querySelector('.word-popup')?.remove();
+    activePopup = null;
+}
 
 // ── Recording ─────────────────────────────────────────────────────
 function startRecording(stream) {
@@ -238,12 +326,7 @@ async function handleUserText(text) {
 
         history.push({ role: 'user', content: text });
 
-        if (data.trouble_words) {
-            data.trouble_words.forEach(w => {
-                if (!troubleWords.includes(w.toLowerCase())) troubleWords.push(w.toLowerCase());
-            });
-            wordsBtn.textContent = 'Words (' + troubleWords.length + ')';
-        }
+        updateWordsCount();
 
         // For POS swap: apply deterministic swap on the frontend
         let displayHtml = null;
@@ -423,6 +506,9 @@ if ('speechSynthesis' in window) {
     speechSynthesis.getVoices();
     speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
 }
+
+// ── Init ──────────────────────────────────────────────────────────
+updateWordsCount();
 
 // ── Build times ───────────────────────────────────────────────────
 fetch('/api/build-time')

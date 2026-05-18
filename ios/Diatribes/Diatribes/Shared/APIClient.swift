@@ -148,6 +148,61 @@ struct APIClient {
         return try JSONDecoder().decode(FetchedArticle.self, from: data)
     }
 
+    // MARK: Study: lesson
+
+    func studyLesson(topic: String, language: String) async throws -> LessonContent {
+        let url = URL(string: "\(Config.serverBase)/api/study-lesson")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        var body = Data()
+        body.appendFormField(name: "topic",    value: topic,    boundary: boundary)
+        body.appendFormField(name: "language", value: language, boundary: boundary)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = body
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if let http = response as? HTTPURLResponse, http.statusCode != 200 { throw APIError.httpError(http.statusCode) }
+        return try JSONDecoder().decode(LessonContent.self, from: data)
+    }
+
+    // MARK: Study: exercises
+
+    func studyExercises(topic: String, language: String, count: Int = 5) async throws -> StudyQuiz {
+        let url = URL(string: "\(Config.serverBase)/api/study-exercise")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        var body = Data()
+        body.appendFormField(name: "topic",    value: topic,        boundary: boundary)
+        body.appendFormField(name: "language", value: language,     boundary: boundary)
+        body.appendFormField(name: "count",    value: "\(count)",   boundary: boundary)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = body
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if let http = response as? HTTPURLResponse, http.statusCode != 200 { throw APIError.httpError(http.statusCode) }
+        return try JSONDecoder().decode(StudyQuiz.self, from: data)
+    }
+
+    // MARK: Study: conjugation
+
+    func conjugate(verb: String, language: String) async throws -> ConjugationResult {
+        let url = URL(string: "\(Config.serverBase)/api/conjugate")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        var body = Data()
+        body.appendFormField(name: "verb",     value: verb,     boundary: boundary)
+        body.appendFormField(name: "language", value: language, boundary: boundary)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = body
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if let http = response as? HTTPURLResponse, http.statusCode != 200 { throw APIError.httpError(http.statusCode) }
+        return try JSONDecoder().decode(ConjugationResult.self, from: data)
+    }
+
     // MARK: Fetch feed
 
     func fetchFeed(urlString: String) async throws -> FetchedFeed {
@@ -167,6 +222,51 @@ struct APIClient {
         }
         return try JSONDecoder().decode(FetchedFeed.self, from: data)
     }
+}
+
+// MARK: - Study models
+
+struct LessonContent: Codable {
+    let title: String
+    let summary: String
+    let explanation: String
+    let examples: [LessonExample]
+    let key_points: [String]
+    let tip: String
+}
+
+struct LessonExample: Codable {
+    let foreign: String
+    let english: String
+    let note: String?
+}
+
+struct StudyQuiz: Codable {
+    let exercises: [QuizQuestion]
+}
+
+struct QuizQuestion: Codable {
+    let question: String
+    let options: [String]
+    let correct: Int
+    let explanation: String
+}
+
+struct ConjugationResult: Codable {
+    let verb: String
+    let english: String
+    let irregular: Bool
+    let tenses: [ConjugationTense]
+}
+
+struct ConjugationTense: Codable {
+    let name: String
+    let forms: [ConjugationForm]
+}
+
+struct ConjugationForm: Codable {
+    let pronoun: String
+    let form: String
 }
 
 // MARK: - Data helpers

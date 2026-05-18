@@ -8,6 +8,7 @@ struct ChatOptionsSheet: View {
         NavigationStack {
             Form {
                 posSection
+                densitySection
                 highlightsSection
                 correctionsSection
                 answerLengthSection
@@ -35,6 +36,39 @@ struct ChatOptionsSheet: View {
                 }
             }
             .padding(.vertical, 4)
+        }
+    }
+
+    // MARK: Density
+
+    private var densitySection: some View {
+        Section {
+            VStack(spacing: 8) {
+                Slider(value: $vm.wordDensity, in: 0...1, step: 0.25)
+                    .tint(Color(red: 188/255, green: 130/255, blue: 0))
+                HStack {
+                    Text("None").font(.caption).foregroundStyle(.secondary)
+                    Spacer()
+                    Text(densityLabel).font(.caption.weight(.medium))
+                    Spacer()
+                    Text("All").font(.caption).foregroundStyle(.secondary)
+                }
+            }
+        } header: {
+            Text("Word density")
+        } footer: {
+            Text("Fraction of eligible words actually swapped")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+
+    private var densityLabel: String {
+        switch vm.wordDensity {
+        case 0:    return "None"
+        case 0.25: return "Few"
+        case 0.5:  return "Half"
+        case 0.75: return "Most"
+        default:   return "All"
         }
     }
 

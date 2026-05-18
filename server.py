@@ -509,6 +509,104 @@ async def fetch_feed(url: str = Form(...)):
     }
 
 
+@app.post("/api/study-lesson")
+async def study_lesson(topic: str = Form(...), language: str = Form(...)):
+    system = f"""You are an expert {language} teacher. Create a clear, engaging grammar lesson.
+Respond ONLY with valid JSON (no markdown fences):
+{{
+  "title": "lesson title",
+  "summary": "one punchy sentence that makes the learner want to read on",
+  "explanation": "clear explanation — 2-3 short paragraphs, plain English, no jargon",
+  "examples": [
+    {{"foreign": "{language} sentence", "english": "English translation", "note": "optional grammar callout"}}
+  ],
+  "key_points": ["short bullet 1", "short bullet 2", "short bullet 3"],
+  "tip": "one thing a native speaker knows that textbooks skip"
+}}
+Include 3-4 examples. Make key_points concrete and memorable."""
+    response = anthropic_client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=1800,
+        system=system,
+        messages=[{"role": "user", "content": f"Teach me: {topic} in {language}"}],
+    )
+    try:
+        return json.loads(response.content[0].text)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Failed to parse lesson")
+
+
+@app.post("/api/study-exercise")
+async def study_exercise(topic: str = Form(...), language: str = Form(...), count: int = Form(default=5)):
+    system = f"""You are creating multiple-choice exercises for {language} learners.
+Respond ONLY with valid JSON (no markdown fences):
+{{
+  "exercises": [
+    {{
+      "question": "question or fill-in sentence with ___ for blank",
+      "options": ["A", "B", "C", "D"],
+      "correct": 0,
+      "explanation": "why this is correct — include the rule, not just the answer"
+    }}
+  ]
+}}
+Create {count} exercises on the topic: {topic}. Mix sentence completion, grammar rule questions,
+and 'which is correct?' style. Use real {language} examples. Go from easy to harder."""
+    response = anthropic_client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=2000,
+        system=system,
+        messages=[{"role": "user", "content": f"Create exercises for: {topic} in {language}"}],
+    )
+    try:
+        return json.loads(response.content[0].text)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Failed to parse exercises")
+
+
+@app.post("/api/conjugate")
+async def conjugate(verb: str = Form(...), language: str = Form(...)):
+    pronouns = {
+        "French":  ["je", "tu", "il/elle", "nous", "vous", "ils/elles"],
+        "Spanish": ["yo", "tú", "él/ella", "nosotros", "vosotros", "ellos/ellas"],
+    }.get(language, ["1sg", "2sg", "3sg", "1pl", "2pl", "3pl"])
+    tenses = {
+        "French":  ["Présent", "Passé composé", "Imparfait", "Futur simple", "Conditionnel"],
+        "Spanish": ["Presente", "Pretérito indefinido", "Imperfecto", "Futuro simple", "Condicional"],
+    }.get(language, ["Present", "Past", "Imperfect", "Future", "Conditional"])
+    system = f"""You are a {language} grammar expert.
+Respond ONLY with valid JSON (no markdown fences):
+{{
+  "verb": "infinitive",
+  "english": "to ...",
+  "irregular": true or false,
+  "tenses": [
+    {{
+      "name": "tense name",
+      "forms": [
+        {{"pronoun": "{pronouns[0]}", "form": "..."}},
+        {{"pronoun": "{pronouns[1]}", "form": "..."}},
+        {{"pronoun": "{pronouns[2]}", "form": "..."}},
+        {{"pronoun": "{pronouns[3]}", "form": "..."}},
+        {{"pronoun": "{pronouns[4]}", "form": "..."}},
+        {{"pronoun": "{pronouns[5]}", "form": "..."}}
+      ]
+    }}
+  ]
+}}
+Include these tenses in order: {", ".join(tenses)}. Mark irregular=true if the verb has irregular forms."""
+    response = anthropic_client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=1500,
+        system=system,
+        messages=[{"role": "user", "content": f"Conjugate the {language} verb: {verb}"}],
+    )
+    try:
+        return json.loads(response.content[0].text)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Failed to parse conjugation")
+
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/shared", StaticFiles(directory="shared"), name="shared")
 

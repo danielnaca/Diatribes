@@ -37,10 +37,11 @@ final class DictSwap {
     // MARK: Swap
 
     /// Swap English words with target-language translations, color-coded by POS.
-    func swap(text: String, langCode: String, enabledPOS: Set<String>, highlightsOn: Bool = true) -> SwapResult {
+    /// density (0–1): fraction of eligible words actually swapped. All recognised
+    /// dictionary words are still tappable regardless of density/POS filter.
+    func swap(text: String, langCode: String, enabledPOS: Set<String>, highlightsOn: Bool = true, density: Double = 1.0) -> SwapResult {
         load()
 
-        // Build lemma map with a separate pass
         let lemmaMap = buildLemmaMap(text: text)
 
         var attributed = AttributedString()
@@ -56,7 +57,6 @@ final class DictSwap {
                              scheme: .lexicalClass,
                              options: [.omitWhitespace]) { _, tokenRange in
 
-            // Preserve gap (whitespace / punctuation between tokens)
             if lastEnd < tokenRange.lowerBound {
                 let gap = String(text[lastEnd ..< tokenRange.lowerBound])
                 attributed += AttributedString(gap)
@@ -64,35 +64,37 @@ final class DictSwap {
             }
             lastEnd = tokenRange.upperBound
 
-            let word = String(text[tokenRange])
+            let word  = String(text[tokenRange])
             let lower = word.lowercased()
-
-            // Use NL lemma if available, otherwise fall back to surface form
             let lemma = lemmaMap[tokenRange.lowerBound] ?? lower
+            let base  = dict[lemma] != nil ? lemma : (dict[lower] != nil ? lower : nil)
 
-            // Lookup in dict by lemma first, then surface form
-            let base = dict[lemma] != nil ? lemma : (dict[lower] != nil ? lower : nil)
-
-            if let base = base,
+            if let base,
                let entry = dict[base],
-               enabledPOS.contains(entry.pos),
                let translation = entry.translation(for: langCode) {
 
-                var tAttr = AttributedString(translation)
-                if highlightsOn {
-                    tAttr.foregroundColor = colorForPOS(entry.pos)
-                    tAttr.font = .body.bold()
-                }
+                let enEnc = word.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? word
+                let trEnc = translation.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? translation
+                let tapURL = URL(string: "diatribes://word?en=\(enEnc)&tr=\(trEnc)&pos=\(entry.pos)&lang=\(langCode)")
 
-                // Encode word info in a custom URL so views can intercept taps
-                let enEnc  = word.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? word
-                let trEnc  = translation.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? translation
-                if let tapURL = URL(string: "diatribes://word?en=\(enEnc)&tr=\(trEnc)&pos=\(entry.pos)&lang=\(langCode)") {
-                    tAttr.link = tapURL
-                }
+                let shouldSwap = enabledPOS.contains(entry.pos) && Double.random(in: 0...1) < density
 
-                attributed += tAttr
-                plainParts.append(translation)
+                if shouldSwap {
+                    var tAttr = AttributedString(translation)
+                    if highlightsOn {
+                        tAttr.foregroundColor = colorForPOS(entry.pos)
+                        tAttr.font = .body.bold()
+                    }
+                    if let url = tapURL { tAttr.link = url }
+                    attributed += tAttr
+                    plainParts.append(translation)
+                } else {
+                    // Keep English text — but still tappable (link, no colour change)
+                    var wAttr = AttributedString(word)
+                    if let url = tapURL { wAttr.link = url }
+                    attributed += wAttr
+                    plainParts.append(word)
+                }
             } else {
                 attributed += AttributedString(word)
                 plainParts.append(word)

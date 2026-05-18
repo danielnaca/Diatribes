@@ -16,6 +16,11 @@ struct WordPopupSheet: View {
     @AppStorage("language")      private var language = "French"
 
     @State private var saved = false
+    @State private var showConjugation = false
+
+    private var fullLanguage: String {
+        info.language == "es" ? "Spanish" : "French"
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,25 +43,49 @@ struct WordPopupSheet: View {
             }
             .padding(.bottom, 28)
 
-            // Save button
-            Button {
-                saveFlashcard()
-            } label: {
-                Label(saved ? "Saved to flashcards" : "Add to flashcards",
-                      systemImage: saved ? "checkmark" : "plus")
-                    .font(.body.weight(.semibold))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(saved ? Color.green : posColor(info.pos))
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            VStack(spacing: 10) {
+                // Save button
+                Button {
+                    saveFlashcard()
+                } label: {
+                    Label(saved ? "Saved to flashcards" : "Add to flashcards",
+                          systemImage: saved ? "checkmark" : "plus")
+                        .font(.body.weight(.semibold))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .background(saved ? Color.green : posColor(info.pos))
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .disabled(saved)
+
+                // Conjugation button — verbs only
+                if info.pos == "verb" {
+                    Button {
+                        showConjugation = true
+                    } label: {
+                        Label("See conjugation", systemImage: "tablecells")
+                            .font(.body.weight(.medium))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(Color(.systemGray6))
+                            .foregroundStyle(.primary)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
             }
-            .disabled(saved)
             .padding(.horizontal, 24)
             .padding(.bottom, 32)
         }
-        .presentationDetents([.height(260)])
+        .presentationDetents(info.pos == "verb" ? [.height(320)] : [.height(260)])
         .presentationDragIndicator(.hidden)
+        .sheet(isPresented: $showConjugation) {
+            ConjugationSheet(
+                verb: info.translation,
+                english: "to \(info.english)",
+                language: fullLanguage
+            )
+        }
     }
 
     private var posBadge: some View {

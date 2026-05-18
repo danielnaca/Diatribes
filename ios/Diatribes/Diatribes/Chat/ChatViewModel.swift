@@ -75,11 +75,18 @@ final class ChatViewModel: ObservableObject {
     @Published var isProcessing    = false
     @Published var isRecording     = false
     @Published var showChatOptions = false
+    @Published var audioLevel: Float = 0.0
 
     private var history: [HistoryMessage] = []
     private var turnFromVoice = false
     private let recorder = AudioRecorder()
     private let player   = AudioPlayer()
+    private var cancellables = Set<AnyCancellable>()
+
+    init() {
+        recorder.$audioLevel
+            .assign(to: &$audioLevel)
+    }
 
     // MARK: Send text
 

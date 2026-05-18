@@ -43,6 +43,14 @@ struct ChatView: View {
                         MessageBubble(message: msg)
                             .id(msg.id)
                     }
+                    if vm.isProcessing {
+                        ProgressView()
+                            .scaleEffect(0.8)
+                            .padding(.horizontal, 4)
+                            .padding(.vertical, 6)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .id("thinking")
+                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 18)
@@ -52,6 +60,11 @@ struct ChatView: View {
             .onChange(of: vm.messages.count) { _ in
                 if let last = vm.messages.last {
                     withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
+                }
+            }
+            .onChange(of: vm.isProcessing) { processing in
+                if processing {
+                    withAnimation { proxy.scrollTo("thinking", anchor: .bottom) }
                 }
             }
             .environment(\.openURL, OpenURLAction { url in
@@ -83,34 +96,15 @@ struct ChatView: View {
         .background(Color(.systemBackground))
     }
 
-    // Switches between text field, waveform (recording), and thinking state
     private var inputPill: some View {
         ZStack {
             if vm.isRecording {
-                HStack(spacing: 10) {
-                    WaveformView()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 28)
-                    Text("Listening…")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .fixedSize()
-                }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .transition(.opacity.combined(with: .scale(scale: 0.97)))
-            } else if vm.isProcessing {
-                HStack(spacing: 10) {
-                    ProgressView()
-                        .scaleEffect(0.85)
-                    Text("Thinking…")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .transition(.opacity)
+                WaveformView(level: vm.audioLevel)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 28)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .transition(.opacity.combined(with: .scale(scale: 0.97)))
             } else {
                 TextField("Message…", text: $vm.inputText, axis: .vertical)
                     .lineLimit(1...5)
@@ -123,7 +117,6 @@ struct ChatView: View {
         }
         .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 24))
         .animation(.easeInOut(duration: 0.2), value: vm.isRecording)
-        .animation(.easeInOut(duration: 0.2), value: vm.isProcessing)
     }
 
     private var actionButton: some View {
@@ -141,10 +134,6 @@ struct ChatView: View {
                 if vm.isRecording {
                     Image(systemName: "stop.fill")
                         .font(.system(size: 14, weight: .bold))
-                } else if vm.isProcessing {
-                    ProgressView()
-                        .scaleEffect(0.7)
-                        .tint(.white)
                 } else if !vm.inputText.trimmingCharacters(in: .whitespaces).isEmpty {
                     Image(systemName: "arrow.up")
                         .font(.system(size: 15, weight: .bold))
@@ -157,6 +146,7 @@ struct ChatView: View {
             .frame(width: 34, height: 34)
             .background(vm.isRecording ? Color.red : Color.primary)
             .clipShape(Circle())
+            .opacity(vm.isProcessing ? 0.4 : 1.0)
         }
         .disabled(vm.isProcessing)
         .padding(.top, 6)
@@ -168,41 +158,22 @@ struct ChatView: View {
     }
 }
 
-// MARK: - Waveform
+// MARK: - Waveform (real mic levels)
 
 struct WaveformView: View {
-    private let targets: [CGFloat] = [
-        10, 22, 16, 28, 8, 24, 14, 26, 6, 20, 18, 28, 12, 24, 8,
-        22, 16, 28, 10, 20, 14, 26, 6, 22, 18, 28, 12, 24, 8, 20
-    ]
-    @State private var active = false
+    let level: Float
+    // Fixed random per-bar multipliers so each bar reacts differently
+    @State private var multipliers: [CGFloat] = (0..<26).map { _ in CGFloat.random(in: 0.25...1.0) }
 
     var body: some View {
         HStack(spacing: 3) {
-            ForEach(Array(targets.enumerated()), id: \.offset) { i, target in
-                WaveformBar(target: target, index: i, active: active)
+            ForEach(Array(multipliers.enumerated()), id: \.offset) { _, mult in
+                Capsule()
+                    .fill(Color(.systemGray3))
+                    .frame(width: 3, height: max(4, CGFloat(level) * 28 * mult + 4))
+                    .animation(.easeInOut(duration: 0.08), value: level)
             }
         }
-        .onAppear { active = true }
-        .onDisappear { active = false }
-    }
-}
-
-private struct WaveformBar: View {
-    let target: CGFloat
-    let index: Int
-    let active: Bool
-
-    var body: some View {
-        Capsule()
-            .fill(Color(.systemGray3))
-            .frame(width: 3, height: active ? target : 4)
-            .animation(
-                .easeInOut(duration: 0.35 + Double(index % 5) * 0.06)
-                    .repeatForever(autoreverses: true)
-                    .delay(Double(index) * 0.025),
-                value: active
-            )
     }
 }
 

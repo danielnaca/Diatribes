@@ -171,7 +171,6 @@ struct ChatView: View {
 // MARK: - Waveform
 
 struct WaveformView: View {
-    // Fixed target heights per bar — animation oscillates between 4pt and these values
     private let targets: [CGFloat] = [
         10, 22, 16, 28, 8, 24, 14, 26, 6, 20, 18, 28, 12, 24, 8,
         22, 16, 28, 10, 20, 14, 26, 6, 22, 18, 28, 12, 24, 8, 20
@@ -180,20 +179,30 @@ struct WaveformView: View {
 
     var body: some View {
         HStack(spacing: 3) {
-            ForEach(0..<targets.count, id: \.self) { i in
-                Capsule()
-                    .fill(Color(.systemGray3))
-                    .frame(width: 3, height: active ? targets[i] : 4)
-                    .animation(
-                        .easeInOut(duration: 0.35 + Double(i % 5) * 0.06)
-                            .repeatForever(autoreverses: true)
-                            .delay(Double(i) * 0.025),
-                        value: active
-                    )
+            ForEach(Array(targets.enumerated()), id: \.offset) { i, target in
+                WaveformBar(target: target, index: i, active: active)
             }
         }
         .onAppear { active = true }
         .onDisappear { active = false }
+    }
+}
+
+private struct WaveformBar: View {
+    let target: CGFloat
+    let index: Int
+    let active: Bool
+
+    var body: some View {
+        Capsule()
+            .fill(Color(.systemGray3))
+            .frame(width: 3, height: active ? target : 4)
+            .animation(
+                .easeInOut(duration: 0.35 + Double(index % 5) * 0.06)
+                    .repeatForever(autoreverses: true)
+                    .delay(Double(index) * 0.025),
+                value: active
+            )
     }
 }
 

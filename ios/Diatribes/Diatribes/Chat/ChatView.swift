@@ -3,6 +3,7 @@ import SwiftUI
 struct ChatView: View {
     @EnvironmentObject private var vm: ChatViewModel
     @State private var tappedWord: WordTapInfo?
+    @FocusState private var isInputFocused: Bool
 
     var body: some View {
         NavigationStack {
@@ -46,6 +47,8 @@ struct ChatView: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 18)
             }
+            .scrollDismissesKeyboard(.interactively)
+            .onTapGesture { isInputFocused = false }
             .onChange(of: vm.messages.count) { _ in
                 if let last = vm.messages.last {
                     withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
@@ -54,9 +57,9 @@ struct ChatView: View {
             .environment(\.openURL, OpenURLAction { url in
                 guard url.scheme == "diatribes",
                       let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                      let en  = comps.queryItems?.first(where: { $0.name == "en"  })?.value,
-                      let tr  = comps.queryItems?.first(where: { $0.name == "tr"  })?.value,
-                      let pos = comps.queryItems?.first(where: { $0.name == "pos" })?.value,
+                      let en   = comps.queryItems?.first(where: { $0.name == "en"   })?.value,
+                      let tr   = comps.queryItems?.first(where: { $0.name == "tr"   })?.value,
+                      let pos  = comps.queryItems?.first(where: { $0.name == "pos"  })?.value,
                       let lang = comps.queryItems?.first(where: { $0.name == "lang" })?.value
                 else { return .systemAction }
                 tappedWord = WordTapInfo(english: en, translation: tr, pos: pos, language: lang)
@@ -65,20 +68,14 @@ struct ChatView: View {
         }
     }
 
-    // MARK: iMessage-style input bar
+    // MARK: Input bar
 
     private var inputBar: some View {
         VStack(spacing: 0) {
             HStack(alignment: .bottom, spacing: 8) {
-                TextField("Message…", text: $vm.inputText, axis: .vertical)
-                    .lineLimit(1...5)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .onSubmit { vm.sendText() }
-
+                inputPill
                 actionButton
             }
-            .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 24))
             .padding(.horizontal, 12)
             .padding(.top, 10)
             .padding(.bottom, 20)
@@ -86,8 +83,52 @@ struct ChatView: View {
         .background(Color(.systemBackground))
     }
 
+    // Switches between text field, waveform (recording), and thinking state
+    private var inputPill: some View {
+        ZStack {
+            if vm.isRecording {
+                HStack(spacing: 10) {
+                    WaveformView()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 28)
+                    Text("Listening…")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fixedSize()
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .transition(.opacity.combined(with: .scale(scale: 0.97)))
+            } else if vm.isProcessing {
+                HStack(spacing: 10) {
+                    ProgressView()
+                        .scaleEffect(0.85)
+                    Text("Thinking…")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .transition(.opacity)
+            } else {
+                TextField("Message…", text: $vm.inputText, axis: .vertical)
+                    .lineLimit(1...5)
+                    .focused($isInputFocused)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .onSubmit { vm.sendText() }
+                    .transition(.opacity)
+            }
+        }
+        .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 24))
+        .animation(.easeInOut(duration: 0.2), value: vm.isRecording)
+        .animation(.easeInOut(duration: 0.2), value: vm.isProcessing)
+    }
+
     private var actionButton: some View {
         Button {
+            isInputFocused = false
             if vm.isRecording {
                 vm.toggleRecording()
             } else if !vm.inputText.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -100,6 +141,10 @@ struct ChatView: View {
                 if vm.isRecording {
                     Image(systemName: "stop.fill")
                         .font(.system(size: 14, weight: .bold))
+                } else if vm.isProcessing {
+                    ProgressView()
+                        .scaleEffect(0.7)
+                        .tint(.white)
                 } else if !vm.inputText.trimmingCharacters(in: .whitespaces).isEmpty {
                     Image(systemName: "arrow.up")
                         .font(.system(size: 15, weight: .bold))
@@ -118,7 +163,37 @@ struct ChatView: View {
         .padding(.trailing, 6)
         .padding(.bottom, 6)
         .animation(.easeInOut(duration: 0.15), value: vm.isRecording)
+        .animation(.easeInOut(duration: 0.15), value: vm.isProcessing)
         .animation(.easeInOut(duration: 0.15), value: vm.inputText.isEmpty)
+    }
+}
+
+// MARK: - Waveform
+
+struct WaveformView: View {
+    // Fixed target heights per bar — animation oscillates between 4pt and these values
+    private let targets: [CGFloat] = [
+        10, 22, 16, 28, 8, 24, 14, 26, 6, 20, 18, 28, 12, 24, 8,
+        22, 16, 28, 10, 20, 14, 26, 6, 22, 18, 28, 12, 24, 8, 20
+    ]
+    @State private var active = false
+
+    var body: some View {
+        HStack(spacing: 3) {
+            ForEach(0..<targets.count, id: \.self) { i in
+                Capsule()
+                    .fill(Color(.systemGray3))
+                    .frame(width: 3, height: active ? targets[i] : 4)
+                    .animation(
+                        .easeInOut(duration: 0.35 + Double(i % 5) * 0.06)
+                            .repeatForever(autoreverses: true)
+                            .delay(Double(i) * 0.025),
+                        value: active
+                    )
+            }
+        }
+        .onAppear { active = true }
+        .onDisappear { active = false }
     }
 }
 

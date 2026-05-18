@@ -5,5 +5,5 @@ anthropic
 openai
 python-multipart
 requests
-trafilatura
+beautifulsoup4
 feedparser

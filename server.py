@@ -406,24 +406,47 @@ async def get_build_time():
 
 @app.post("/api/fetch-article")
 async def fetch_article(url: str = Form(...)):
-    import json as _json
-    import trafilatura
+    import requests as _req
+    from bs4 import BeautifulSoup
 
-    downloaded = trafilatura.fetch_url(url)
-    if not downloaded:
-        raise HTTPException(status_code=400, detail="Could not fetch URL")
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; Diatribes/1.0)"}
+    try:
+        resp = _req.get(url, headers=headers, timeout=15)
+        resp.raise_for_status()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Could not fetch URL: {e}")
 
-    result = trafilatura.extract(downloaded, with_metadata=True, output_format="json",
-                                  include_comments=False, include_tables=False)
-    if not result:
+    soup = BeautifulSoup(resp.text, "html.parser")
+
+    # Title
+    title = ""
+    if soup.find("title"):
+        title = soup.find("title").get_text(strip=True)
+    if soup.find("h1"):
+        title = soup.find("h1").get_text(strip=True) or title
+
+    # Remove boilerplate tags
+    for tag in soup(["script", "style", "nav", "header", "footer", "aside",
+                     "figure", "figcaption", "form", "button", "iframe"]):
+        tag.decompose()
+
+    # Find the main content block (largest <article>, <main>, or biggest <div> by text)
+    candidate = soup.find("article") or soup.find("main")
+    if not candidate:
+        divs = soup.find_all("div")
+        candidate = max(divs, key=lambda d: len(d.get_text()), default=soup.body or soup)
+
+    paragraphs = []
+    for p in candidate.find_all(["p", "h2", "h3"]):
+        text = p.get_text(separator=" ", strip=True)
+        if len(text) > 30:
+            paragraphs.append(text)
+
+    if not paragraphs:
         raise HTTPException(status_code=400, detail="Could not extract article content")
 
-    data = _json.loads(result)
-    title = data.get("title") or data.get("sitename") or url
-    text  = data.get("text") or ""
-    paragraphs = [p.strip() for p in text.split("\n") if p.strip()]
     excerpt = (paragraphs[0][:150] + "…") if paragraphs else ""
-    return {"title": title, "url": url, "excerpt": excerpt, "paragraphs": paragraphs}
+    return {"title": title or url, "url": url, "excerpt": excerpt, "paragraphs": paragraphs}
 
 
 @app.post("/api/fetch-feed")

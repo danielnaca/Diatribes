@@ -13,6 +13,8 @@ struct ChatOptionsSheet: View {
                 answerLengthSection
                 speedSection
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.white)
             .navigationTitle("Chat Options")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

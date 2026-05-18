@@ -26,9 +26,11 @@ struct ChatView: View {
             .sheet(isPresented: $vm.showChatOptions) {
                 ChatOptionsSheet()
                     .environmentObject(vm)
+                    .presentationBackground(.white)
             }
             .sheet(item: $tappedWord) { info in
                 WordPopupSheet(info: info)
+                    .presentationBackground(.white)
             }
         }
     }
@@ -43,28 +45,15 @@ struct ChatView: View {
                         MessageBubble(message: msg)
                             .id(msg.id)
                     }
-                    if vm.isProcessing {
-                        ProgressView()
-                            .scaleEffect(0.8)
-                            .padding(.horizontal, 4)
-                            .padding(.vertical, 6)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .id("thinking")
-                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 18)
             }
             .scrollDismissesKeyboard(.interactively)
-            .onTapGesture { isInputFocused = false }
+            .simultaneousGesture(TapGesture().onEnded { isInputFocused = false })
             .onChange(of: vm.messages.count) { _ in
                 if let last = vm.messages.last {
                     withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
-                }
-            }
-            .onChange(of: vm.isProcessing) { processing in
-                if processing {
-                    withAnimation { proxy.scrollTo("thinking", anchor: .bottom) }
                 }
             }
             .environment(\.openURL, OpenURLAction { url in
@@ -85,7 +74,7 @@ struct ChatView: View {
 
     private var inputBar: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .bottom, spacing: 8) {
+            HStack(alignment: .center, spacing: 10) {
                 inputPill
                 actionButton
             }
@@ -105,6 +94,13 @@ struct ChatView: View {
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
                     .transition(.opacity.combined(with: .scale(scale: 0.97)))
+            } else if vm.isProcessing {
+                ProgressView()
+                    .scaleEffect(0.85)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .transition(.opacity)
             } else {
                 TextField("Message…", text: $vm.inputText, axis: .vertical)
                     .lineLimit(1...5)
@@ -117,6 +113,7 @@ struct ChatView: View {
         }
         .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 24))
         .animation(.easeInOut(duration: 0.2), value: vm.isRecording)
+        .animation(.easeInOut(duration: 0.2), value: vm.isProcessing)
     }
 
     private var actionButton: some View {
@@ -149,9 +146,6 @@ struct ChatView: View {
             .opacity(vm.isProcessing ? 0.4 : 1.0)
         }
         .disabled(vm.isProcessing)
-        .padding(.top, 6)
-        .padding(.trailing, 6)
-        .padding(.bottom, 6)
         .animation(.easeInOut(duration: 0.15), value: vm.isRecording)
         .animation(.easeInOut(duration: 0.15), value: vm.isProcessing)
         .animation(.easeInOut(duration: 0.15), value: vm.inputText.isEmpty)
@@ -162,7 +156,6 @@ struct ChatView: View {
 
 struct WaveformView: View {
     let level: Float
-    // Fixed random per-bar multipliers so each bar reacts differently
     @State private var multipliers: [CGFloat] = (0..<26).map { _ in CGFloat.random(in: 0.25...1.0) }
 
     var body: some View {

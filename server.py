@@ -86,8 +86,8 @@ def pos_swap(text: str, lang_code: str, enabled_pos: set[str]) -> str:
 
 BUILD_TIME = datetime.now().strftime("%H:%M:%S")
 
-anthropic_client = Anthropic()
-openai_client = OpenAI()
+anthropic_client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", "").strip())
+openai_client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", "").strip())
 
 # ── Words database ────────────────────────────────────────────────────────────
 _DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "words.db"))

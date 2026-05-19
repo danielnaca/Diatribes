@@ -23,7 +23,7 @@ struct SettingsView: View {
                 ForEach(supportedLanguages, id: \.self) { Text($0) }
             }
             .pickerStyle(.menu)
-            .onChange(of: language) { _ in resetVoiceForLanguage() }
+            .onChange(of: language) { resetVoiceForLanguage() }
         }
     }
 

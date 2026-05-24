@@ -1,19 +1,22 @@
-"""Paginate a logged-in listings page, filter titles by age pattern, save matches to JSON.
+"""Paginate FetLife group members, filter by age+gender pattern, save matches to JSON + HTML.
 
 Usage:
     export SITE_USERNAME=...
     export SITE_PASSWORD=...
-    python scraper.py                          # uses defaults in CONFIG
-    python scraper.py --max-pages 10           # override page cap
-    python scraper.py --min-age 25 --max-age 35
-    python scraper.py --dry-run                # don't write output; print matches
+    python scraper.py                                  # group 10001, pages 1..50
+    python scraper.py --group 10001 --max-pages 20
+    python scraper.py --min-age 25 --max-age 30
+    python scraper.py --dry-run                        # don't write output; print matches
 
-Fill in the site-specific URLs and selectors in CONFIG before running.
+Outputs:
+    matches.json  — raw match records
+    matches.html  — viewer page (nickname, matched token, profile URL opens in new tab)
 """
 
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
 import re
@@ -27,192 +30,306 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-CONFIG = {
-    # Login
-    "login_url": "https://example.com/login",
-    "login_method": "POST",
-    "username_field": "username",
-    "password_field": "password",
-    "extra_login_fields": {},  # e.g. CSRF tokens — see fetch_login_extras below
-    "login_success_indicator": "logout",  # substring expected in response when logged in
-
-    # Listings
-    "listing_url": "https://example.com/listings",
-    "page_query_param": "page",  # ?page=1, ?page=2, ...
-    "page_start": 1,
-
-    # HTML selectors (CSS)
-    "listing_item_selector": "div.listing",       # each listing card
-    "title_selector": "h2.title, .listing-title", # title inside a card
-    "link_selector": "a",                         # detail link inside a card
-
-    # Misc
-    "request_delay_seconds": 1.0,
-    "user_agent": "Mozilla/5.0 (compatible; ListingScraper/1.0)",
-}
+BASE = "https://fetlife.com"
+LOGIN_URL = f"{BASE}/login"
+USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/124.0.0.0 Safari/537.36"
+)
+REQUEST_DELAY_SECONDS = 1.5
 
 
 @dataclass
-class Listing:
+class Member:
     page: int
-    title: str
-    url: str | None
-    matched_token: str
+    nickname: str
+    title: str  # e.g. "27F Switch"
+    location: str
+    profile_url: str
+    avatar_url: str | None
+    matched_token: str  # e.g. "27F"
 
 
-def build_session(user_agent: str) -> requests.Session:
+def build_session() -> requests.Session:
     s = requests.Session()
-    s.headers.update({"User-Agent": user_agent})
+    s.headers.update(
+        {
+            "User-Agent": USER_AGENT,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+        }
+    )
     return s
 
 
-def fetch_login_extras(session: requests.Session, login_url: str) -> dict:
-    """GET the login page first to grab any hidden inputs (CSRF tokens, etc.)."""
-    resp = session.get(login_url, timeout=30)
+def fetch_authenticity_token(session: requests.Session) -> str:
+    resp = session.get(LOGIN_URL, timeout=30)
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, "html.parser")
-    form = soup.find("form")
-    extras = {}
-    if form:
-        for inp in form.find_all("input", attrs={"type": "hidden"}):
-            name = inp.get("name")
-            value = inp.get("value", "")
-            if name:
-                extras[name] = value
-    return extras
+    form = soup.find("form", id="new_user")
+    if not form:
+        raise RuntimeError("Could not find login form on /login page.")
+    token_input = form.find("input", attrs={"name": "authenticity_token"})
+    if not token_input or not token_input.get("value"):
+        raise RuntimeError("Could not find authenticity_token in login form.")
+    return token_input["value"]
 
 
 def login(session: requests.Session, username: str, password: str) -> None:
-    cfg = CONFIG
-    extras = fetch_login_extras(session, cfg["login_url"])
-    extras.update(cfg["extra_login_fields"])
+    token = fetch_authenticity_token(session)
     payload = {
-        cfg["username_field"]: username,
-        cfg["password_field"]: password,
-        **extras,
+        "authenticity_token": token,
+        "user[otp_attempt]": "step_1",
+        "user[locale]": "en",
+        "user[login]": username,
+        "user[password]": password,
+        "user[remember_me]": "1",
     }
-    resp = session.request(cfg["login_method"], cfg["login_url"], data=payload, timeout=30)
+    resp = session.post(
+        LOGIN_URL,
+        data=payload,
+        headers={"Referer": LOGIN_URL, "Origin": BASE},
+        timeout=30,
+        allow_redirects=True,
+    )
     resp.raise_for_status()
-    indicator = cfg["login_success_indicator"].lower()
-    if indicator and indicator not in resp.text.lower():
+    # After login FetLife redirects away from /login; the response should contain
+    # something that doesn't appear on the login page itself.
+    final = resp.url.rstrip("/")
+    body = resp.text.lower()
+    on_login_page = final.endswith("/login") or 'id="new_user"' in resp.text
+    looks_logged_in = "/logout" in body or "log out" in body or "/inbox" in body
+    if on_login_page or not looks_logged_in:
         raise RuntimeError(
-            f"Login appears to have failed: '{cfg['login_success_indicator']}' "
-            f"not found in response (status {resp.status_code})."
+            f"Login appears to have failed (final URL: {resp.url}). "
+            "Check credentials, or whether 2FA / captcha is required."
         )
 
 
-def fetch_page(session: requests.Session, page_num: int) -> str:
-    cfg = CONFIG
-    params = {cfg["page_query_param"]: page_num}
-    resp = session.get(cfg["listing_url"], params=params, timeout=30)
+def fetch_members_page(session: requests.Session, group_id: int, page: int) -> str:
+    url = f"{BASE}/groups/{group_id}/members"
+    resp = session.get(url, params={"page": page}, timeout=30)
     resp.raise_for_status()
     return resp.text
 
 
-def parse_listings(html: str, page_num: int) -> list[tuple[str, str | None]]:
-    cfg = CONFIG
-    soup = BeautifulSoup(html, "html.parser")
-    items = soup.select(cfg["listing_item_selector"])
-    out: list[tuple[str, str | None]] = []
-    for item in items:
-        title_el = item.select_one(cfg["title_selector"])
-        if not title_el:
+def parse_members(html_text: str) -> list[dict]:
+    soup = BeautifulSoup(html_text, "html.parser")
+    cards = soup.select("div[data-member-card]")
+    out: list[dict] = []
+    for card in cards:
+        nickname = card.get("data-member-card", "").strip()
+        if not nickname:
             continue
-        title = title_el.get_text(strip=True)
-        link_el = item.select_one(cfg["link_selector"])
-        href = link_el.get("href") if link_el else None
-        url = urljoin(cfg["listing_url"], href) if href else None
-        out.append((title, url))
+        profile_url = urljoin(BASE, f"/{nickname}")
+
+        # Title = age + gender + role, e.g. "27F Switch"
+        title_el = card.select_one("span.text-sm.font-bold.text-gray-300")
+        title = title_el.get_text(strip=True) if title_el else ""
+
+        # Location is the next text-sm font-normal div after the title
+        location = ""
+        loc_el = card.select_one("div.text-sm.font-normal.leading-normal.text-gray-300")
+        if loc_el:
+            location = loc_el.get_text(" ", strip=True)
+
+        avatar_url = None
+        img = card.find("img")
+        if img and img.get("src") and "icon-avatar-missing" not in img["src"]:
+            avatar_url = img["src"]
+
+        out.append(
+            {
+                "nickname": nickname,
+                "title": title,
+                "location": location,
+                "profile_url": profile_url,
+                "avatar_url": avatar_url,
+            }
+        )
     return out
 
 
 def make_age_pattern(min_age: int, max_age: int) -> re.Pattern[str]:
-    # Match an age within [min_age, max_age] followed by F (case-insensitive),
-    # with non-digit boundaries so 125F doesn't match 25F, and 30FT doesn't match 30F.
+    # Match an age in [min_age, max_age] immediately followed by F (case-insensitive).
+    # (?<!\d) — not preceded by another digit (so 137 doesn't match 37)
+    # (?!\w)  — not followed by a word char (so 37Female doesn't match 37F)
+    # Note: gender codes like CD/TV, MtF, GF, FtM all have a non-F char between
+    # the age and the F, so they won't match.
     ages = "|".join(str(a) for a in range(min_age, max_age + 1))
     return re.compile(rf"(?<!\d)({ages})F(?!\w)", re.IGNORECASE)
 
 
 def iter_matches(
     session: requests.Session,
+    group_id: int,
     pattern: re.Pattern[str],
     max_pages: int,
-    delay: float,
-) -> Iterable[Listing]:
-    cfg = CONFIG
-    seen_titles: set[str] = set()
+) -> Iterable[Member]:
+    seen: set[str] = set()
     consecutive_empty = 0
-    for offset in range(max_pages):
-        page_num = cfg["page_start"] + offset
-        html = fetch_page(session, page_num)
-        listings = parse_listings(html, page_num)
-        if not listings:
+    for page in range(1, max_pages + 1):
+        html_text = fetch_members_page(session, group_id, page)
+        members = parse_members(html_text)
+        if not members:
             consecutive_empty += 1
-            print(f"[page {page_num}] no listings found")
+            print(f"[page {page}] no member cards found")
             if consecutive_empty >= 2:
                 print("Two consecutive empty pages — stopping.")
                 return
         else:
             consecutive_empty = 0
-            print(f"[page {page_num}] {len(listings)} listings")
-        for title, url in listings:
-            if title in seen_titles:
-                continue
-            seen_titles.add(title)
-            m = pattern.search(title)
-            if m:
-                yield Listing(page=page_num, title=title, url=url, matched_token=m.group(0))
-        time.sleep(delay)
+            page_matches = 0
+            for m in members:
+                if m["nickname"] in seen:
+                    continue
+                seen.add(m["nickname"])
+                match = pattern.search(m["title"])
+                if match:
+                    page_matches += 1
+                    yield Member(
+                        page=page,
+                        nickname=m["nickname"],
+                        title=m["title"],
+                        location=m["location"],
+                        profile_url=m["profile_url"],
+                        avatar_url=m["avatar_url"],
+                        matched_token=match.group(0),
+                    )
+            print(f"[page {page}] {len(members)} members, {page_matches} match")
+        time.sleep(REQUEST_DELAY_SECONDS)
 
 
-def save_matches(matches: list[Listing], output_path: Path) -> None:
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    data = [asdict(m) for m in matches]
-    output_path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+HTML_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FetLife matches — group {group_id}</title>
+<style>
+  :root {{ color-scheme: dark; }}
+  body {{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0c0c0c; color: #e5e5e5; margin: 0; padding: 24px;
+  }}
+  h1 {{ font-size: 20px; font-weight: 600; margin: 0 0 4px; }}
+  .meta {{ color: #888; font-size: 13px; margin-bottom: 24px; }}
+  ul {{ list-style: none; padding: 0; margin: 0; display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 8px; }}
+  li {{ background: #1a1a1a; border-radius: 4px; padding: 12px;
+        display: flex; align-items: center; gap: 12px; }}
+  img.avatar {{ width: 60px; height: 60px; object-fit: cover; border-radius: 4px;
+                background: #333; flex: none; }}
+  .info {{ min-width: 0; flex: 1; }}
+  .name {{ font-weight: 700; }}
+  .name a {{ color: #f56565; text-decoration: none; }}
+  .name a:hover {{ text-decoration: underline; }}
+  .token {{ display: inline-block; background: #c53030; color: #fff;
+            font-size: 11px; padding: 1px 6px; border-radius: 3px; margin-left: 6px;
+            font-weight: 700; vertical-align: middle; }}
+  .title {{ color: #ccc; font-size: 13px; }}
+  .loc   {{ color: #888; font-size: 12px; }}
+</style>
+</head>
+<body>
+<h1>Matches in group {group_id}</h1>
+<div class="meta">{count} matches · ages {min_age}–{max_age} F · scanned up to page {pages}</div>
+<ul>
+{items}
+</ul>
+</body>
+</html>
+"""
+
+ITEM_TEMPLATE = """  <li>
+    {avatar}
+    <div class="info">
+      <div class="name">
+        <a href="{url}" target="_blank" rel="noopener noreferrer">{nickname}</a>
+        <span class="token">{token}</span>
+      </div>
+      <div class="title">{title}</div>
+      <div class="loc">{location}</div>
+    </div>
+  </li>"""
+
+
+def render_html(matches: list[Member], group_id: int, min_age: int, max_age: int, pages: int) -> str:
+    items = []
+    for m in matches:
+        avatar = (
+            f'<img class="avatar" src="{html.escape(m.avatar_url)}" alt="">'
+            if m.avatar_url
+            else '<div class="avatar"></div>'
+        )
+        items.append(
+            ITEM_TEMPLATE.format(
+                avatar=avatar,
+                url=html.escape(m.profile_url),
+                nickname=html.escape(m.nickname),
+                token=html.escape(m.matched_token),
+                title=html.escape(m.title),
+                location=html.escape(m.location),
+            )
+        )
+    return HTML_TEMPLATE.format(
+        group_id=group_id,
+        count=len(matches),
+        min_age=min_age,
+        max_age=max_age,
+        pages=pages,
+        items="\n".join(items),
+    )
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--group", type=int, default=2756, help="FetLife group ID")
     parser.add_argument("--min-age", type=int, default=21)
     parser.add_argument("--max-age", type=int, default=37)
     parser.add_argument("--max-pages", type=int, default=50)
-    parser.add_argument("--output", type=Path, default=Path("matches.json"))
-    parser.add_argument("--delay", type=float, default=CONFIG["request_delay_seconds"])
+    parser.add_argument("--json-out", type=Path, default=Path("matches.json"))
+    parser.add_argument("--html-out", type=Path, default=Path("matches.html"))
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
-    username = os.environ.get("SITE_USERNAME")
-    password = os.environ.get("SITE_PASSWORD")
+    username = os.environ.get("SITE_USERNAME") or os.environ.get("FETLIFE_USERNAME")
+    password = os.environ.get("SITE_PASSWORD") or os.environ.get("FETLIFE_PASSWORD")
     if not username or not password:
-        print("ERROR: set SITE_USERNAME and SITE_PASSWORD env vars.", file=sys.stderr)
-        return 2
-
-    if "example.com" in CONFIG["login_url"] or "example.com" in CONFIG["listing_url"]:
         print(
-            "ERROR: CONFIG still has example.com placeholders. "
-            "Edit scraper.py CONFIG with the real site URLs and selectors.",
+            "ERROR: set SITE_USERNAME and SITE_PASSWORD (or FETLIFE_USERNAME/PASSWORD).",
             file=sys.stderr,
         )
         return 2
 
     pattern = make_age_pattern(args.min_age, args.max_age)
-    session = build_session(CONFIG["user_agent"])
+    session = build_session()
 
-    print(f"Logging in to {CONFIG['login_url']} as {username} ...")
+    print(f"Logging in to FetLife as {username} ...")
     login(session, username, password)
-    print("Logged in. Starting pagination.")
+    print(f"Logged in. Scanning group {args.group}, up to {args.max_pages} pages.")
 
-    matches = list(iter_matches(session, pattern, args.max_pages, args.delay))
+    matches = list(iter_matches(session, args.group, pattern, args.max_pages))
 
     print(f"\nFound {len(matches)} matches.")
     for m in matches:
-        print(f"  [{m.matched_token}] {m.title}  -> {m.url}")
+        print(f"  [{m.matched_token}] {m.nickname} — {m.title} — {m.profile_url}")
 
     if args.dry_run:
         print("(dry run — not writing output)")
-    else:
-        save_matches(matches, args.output)
-        print(f"Saved to {args.output}")
+        return 0
+
+    args.json_out.parent.mkdir(parents=True, exist_ok=True)
+    args.json_out.write_text(
+        json.dumps([asdict(m) for m in matches], indent=2, ensure_ascii=False)
+    )
+    print(f"Wrote {args.json_out}")
+
+    args.html_out.parent.mkdir(parents=True, exist_ok=True)
+    args.html_out.write_text(
+        render_html(matches, args.group, args.min_age, args.max_age, args.max_pages)
+    )
+    print(f"Wrote {args.html_out}")
     return 0
 
 

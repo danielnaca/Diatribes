@@ -1,3 +1,4 @@
 .env
 __pycache__/
 matches.json
+matches.html

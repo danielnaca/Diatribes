@@ -7,7 +7,7 @@ struct FlashcardsView: View {
     @AppStorage("language") private var language = "French"
 
     @State private var filterPOS: Set<String> = ["noun", "verb", "adj", "adv"]
-    @State private var showingReview = false
+    @State private var showingReview  = false
 
     private var filtered: [Flashcard] {
         allCards.filter { $0.language == language && filterPOS.contains($0.pos) }
@@ -39,7 +39,7 @@ struct FlashcardsView: View {
                 }
             }
             .sheet(isPresented: $showingReview) {
-                FlashcardsReviewView(cards: dueCards)
+                AudioReviewView(cards: dueCards, language: language)
             }
         }
     }

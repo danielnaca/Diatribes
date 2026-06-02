@@ -8,6 +8,7 @@ struct ArticleReaderView: View {
     @AppStorage("language")          private var language      = "French"
     @AppStorage("highlightsOn")      private var highlightsOn  = true
     @AppStorage("enabledPOSRaw")     private var enabledPOSRaw = "noun,verb,adj,adv"
+    @AppStorage("wordDensity")       private var wordDensity: Double = 1.0
 
     @State private var showOptions = false
     @State private var tappedWord: WordTapInfo?
@@ -40,7 +41,8 @@ struct ArticleReaderView: View {
                             text: para,
                             langCode: langCode,
                             enabledPOS: enabledPOS,
-                            highlightsOn: highlightsOn
+                            highlightsOn: highlightsOn,
+                            density: wordDensity
                         )
                         Text(swapped.attributed)
                             .font(.body)
@@ -78,6 +80,7 @@ struct ArticleReaderView: View {
         })
         .sheet(isPresented: $showOptions) {
             ArticleOptionsSheet()
+                .presentationBackground(.white)
         }
         .sheet(item: $tappedWord) { info in
             WordPopupSheet(info: info)
@@ -95,6 +98,7 @@ struct ArticleOptionsSheet: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("highlightsOn")  private var highlightsOn  = true
     @AppStorage("enabledPOSRaw") private var enabledPOSRaw = "noun,verb,adj,adv"
+    @AppStorage("wordDensity")   private var wordDensity: Double = 1.0
 
     private var enabledPOS: Set<String> {
         Set(enabledPOSRaw.split(separator: ",").map(String.init))
@@ -104,6 +108,16 @@ struct ArticleOptionsSheet: View {
         var set = enabledPOS
         if on { set.insert(key) } else { set.remove(key) }
         enabledPOSRaw = set.sorted().joined(separator: ",")
+    }
+
+    private var densityLabel: String {
+        switch wordDensity {
+        case 0:    return "None"
+        case 0.25: return "Few"
+        case 0.5:  return "Half"
+        case 0.75: return "Most"
+        default:   return "All"
+        }
     }
 
     var body: some View {
@@ -130,6 +144,25 @@ struct ArticleOptionsSheet: View {
                     .padding(.vertical, 4)
                 }
 
+                Section {
+                    VStack(spacing: 8) {
+                        Slider(value: $wordDensity, in: 0...1, step: 0.25)
+                            .tint(Color(red: 188/255, green: 130/255, blue: 0))
+                        HStack {
+                            Text("None").font(.caption).foregroundStyle(.secondary)
+                            Spacer()
+                            Text(densityLabel).font(.caption.weight(.medium))
+                            Spacer()
+                            Text("All").font(.caption).foregroundStyle(.secondary)
+                        }
+                    }
+                } header: {
+                    Text("Word density")
+                } footer: {
+                    Text("Fraction of eligible words actually swapped")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+
                 Section("Highlights") {
                     Picker("Highlights", selection: $highlightsOn) {
                         Text("On").tag(true)
@@ -138,6 +171,8 @@ struct ArticleOptionsSheet: View {
                     .pickerStyle(.segmented)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.white)
             .navigationTitle("Article Options")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

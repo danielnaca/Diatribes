@@ -139,7 +139,7 @@ struct ChatOptionsSheet: View {
 private struct POSPill: View {
     let label: String
     let key: String
-    let vm: ChatViewModel
+    @ObservedObject var vm: ChatViewModel
 
     private var isOn: Bool { vm.enabledPOS.contains(key) }
 

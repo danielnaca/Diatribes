@@ -3,20 +3,14 @@ import SwiftUI
 struct ChatView: View {
     @EnvironmentObject private var vm: ChatViewModel
     @State private var tappedWord: WordTapInfo?
-    @State private var subTab = 0   // 0 = Speak, 1 = Words
     @FocusState private var isInputFocused: Bool
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                subTabBar
-                if subTab == 0 {
-                    messageList
-                    Divider()
-                    inputBar
-                } else {
-                    wordsList
-                }
+                messageList
+                Divider()
+                inputBar
             }
             .navigationTitle("Chat")
             .navigationBarTitleDisplayMode(.inline)
@@ -41,107 +35,6 @@ struct ChatView: View {
         }
     }
 
-    // MARK: Sub-tab bar
-
-    private var subTabBar: some View {
-        HStack(spacing: 0) {
-            subTabButton("Speak", tag: 0)
-            subTabButton("Words", tag: 1)
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-    }
-
-    private func subTabButton(_ title: String, tag: Int) -> some View {
-        Button {
-            withAnimation(.easeInOut(duration: 0.15)) { subTab = tag }
-        } label: {
-            HStack(spacing: 4) {
-                Text(title)
-                    .font(.subheadline.weight(.medium))
-                if tag == 1 && !vm.collectedWords.isEmpty {
-                    Text("\(vm.collectedWords.count)")
-                        .font(.caption2.weight(.semibold))
-                        .padding(.horizontal, 5)
-                        .padding(.vertical, 2)
-                        .background(Color(red: 188/255, green: 130/255, blue: 0))
-                        .foregroundStyle(.white)
-                        .clipShape(Capsule())
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 7)
-            .background(subTab == tag ? Color(.systemGray5) : Color.clear)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-        }
-        .buttonStyle(.plain)
-        .foregroundStyle(subTab == tag ? .primary : .secondary)
-    }
-
-    // MARK: Words list
-
-    private var wordsList: some View {
-        Group {
-            if vm.collectedWords.isEmpty {
-                ContentUnavailableView(
-                    "No words yet",
-                    systemImage: "character.bubble",
-                    description: Text("Tap any highlighted word in the conversation to save it here.")
-                )
-            } else {
-                List {
-                    ForEach(vm.collectedWords) { info in
-                        Button {
-                            tappedWord = info
-                        } label: {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(info.translation)
-                                        .font(.body.weight(.semibold))
-                                        .foregroundStyle(posColor(info.pos))
-                                    Text(info.english)
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
-                                Spacer()
-                                Text(posLabel(info.pos))
-                                    .font(.caption.weight(.medium))
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 3)
-                                    .background(posColor(info.pos).opacity(0.12))
-                                    .foregroundStyle(posColor(info.pos))
-                                    .clipShape(Capsule())
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-                .listStyle(.plain)
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
-    private func posColor(_ pos: String) -> Color {
-        switch pos {
-        case "noun": return Color(red: 0.145, green: 0.388, blue: 0.922)
-        case "verb": return Color(red: 0.086, green: 0.639, blue: 0.239)
-        case "adj":  return Color(red: 0.761, green: 0.255, blue: 0.047)
-        case "adv":  return Color(red: 0.486, green: 0.231, blue: 0.929)
-        default:     return .gray
-        }
-    }
-
-    private func posLabel(_ pos: String) -> String {
-        switch pos {
-        case "noun": return "Noun"
-        case "verb": return "Verb"
-        case "adj":  return "Adj"
-        case "adv":  return "Adv"
-        default:     return pos
-        }
-    }
-
     // MARK: Message list
 
     private var messageList: some View {
@@ -152,6 +45,11 @@ struct ChatView: View {
                         MessageBubble(message: msg)
                             .id(msg.id)
                     }
+                    if vm.isProcessing {
+                        TypingIndicator()
+                            .id("typing")
+                            .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .leading)))
+                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 18)
@@ -161,6 +59,11 @@ struct ChatView: View {
             .onChange(of: vm.messages.count) { _ in
                 if let last = vm.messages.last {
                     withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
+                }
+            }
+            .onChange(of: vm.isProcessing) { processing in
+                if processing {
+                    withAnimation { proxy.scrollTo("typing", anchor: .bottom) }
                 }
             }
             .environment(\.openURL, OpenURLAction { url in
@@ -203,13 +106,6 @@ struct ChatView: View {
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
                     .transition(.opacity.combined(with: .scale(scale: 0.97)))
-            } else if vm.isProcessing {
-                ProgressView()
-                    .scaleEffect(0.85)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
-                    .transition(.opacity)
             } else {
                 TextField("Message…", text: $vm.inputText, axis: .vertical)
                     .lineLimit(1...5)
@@ -222,7 +118,6 @@ struct ChatView: View {
         }
         .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 24))
         .animation(.easeInOut(duration: 0.2), value: vm.isRecording)
-        .animation(.easeInOut(duration: 0.2), value: vm.isProcessing)
     }
 
     private var actionButton: some View {
@@ -258,6 +153,39 @@ struct ChatView: View {
         .animation(.easeInOut(duration: 0.15), value: vm.isRecording)
         .animation(.easeInOut(duration: 0.15), value: vm.isProcessing)
         .animation(.easeInOut(duration: 0.15), value: vm.inputText.isEmpty)
+    }
+}
+
+// MARK: - Typing indicator
+
+struct TypingIndicator: View {
+    @State private var animating = false
+
+    var body: some View {
+        HStack(spacing: 5) {
+            dot(delay: 0.00)
+            dot(delay: 0.18)
+            dot(delay: 0.36)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 18))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .onAppear { animating = true }
+        .onDisappear { animating = false }
+    }
+
+    private func dot(delay: Double) -> some View {
+        Circle()
+            .fill(Color(.systemGray2))
+            .frame(width: 8, height: 8)
+            .offset(y: animating ? -5 : 5)
+            .animation(
+                .easeInOut(duration: 0.45)
+                    .repeatForever(autoreverses: true)
+                    .delay(delay),
+                value: animating
+            )
     }
 }
 

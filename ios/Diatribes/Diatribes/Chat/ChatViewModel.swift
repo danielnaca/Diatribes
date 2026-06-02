@@ -66,7 +66,10 @@ final class ChatViewModel: ObservableObject {
 
     var enabledPOS: Set<String> {
         get { Set(enabledPOSRaw.split(separator: ",").map(String.init)) }
-        set { enabledPOSRaw = newValue.sorted().joined(separator: ",") }
+        set {
+            objectWillChange.send()
+            enabledPOSRaw = newValue.sorted().joined(separator: ",")
+        }
     }
 
     @AppStorage("wordDensity") var wordDensity: Double = 1.0

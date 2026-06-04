@@ -89,10 +89,7 @@ final class DictSwap {
                     attributed += tAttr
                     plainParts.append(translation)
                 } else {
-                    // Keep English text — but still tappable (link, no colour change)
-                    var wAttr = AttributedString(word)
-                    if let url = tapURL { wAttr.link = url }
-                    attributed += wAttr
+                    attributed += AttributedString(word)
                     plainParts.append(word)
                 }
             } else {
@@ -137,13 +134,7 @@ final class DictSwap {
     // MARK: Helpers
 
     private func colorForPOS(_ pos: String) -> Color {
-        switch pos {
-        case "noun": return Color(red: 0.145, green: 0.388, blue: 0.922)   // #2563eb
-        case "verb": return Color(red: 0.086, green: 0.639, blue: 0.239)   // #16a34a
-        case "adj":  return Color(red: 0.761, green: 0.255, blue: 0.047)   // #c2410c
-        case "adv":  return Color(red: 0.486, green: 0.231, blue: 0.929)   // #7c3aed
-        default:     return .primary
-        }
+        posColor(pos)
     }
 }
 

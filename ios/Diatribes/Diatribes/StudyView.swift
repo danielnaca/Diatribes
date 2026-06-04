@@ -217,7 +217,7 @@ struct StudyView: View {
                     .textCase(.uppercase)
                     .tracking(0.5)
             }
-            .foregroundStyle(Color(red: 188/255, green: 130/255, blue: 0))
+            .foregroundStyle(Color.brandSand)
 
             Text(insight.text)
                 .font(.title3.weight(.bold))
@@ -230,7 +230,7 @@ struct StudyView: View {
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(red: 188/255, green: 130/255, blue: 0).opacity(0.08))
+        .background(Color.brandSand.opacity(0.08))
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
@@ -305,7 +305,7 @@ struct StudyView: View {
                 VStack(spacing: 8) {
                     Image(systemName: "brain.filled.head.profile")
                         .font(.system(size: 48))
-                        .foregroundStyle(Color(red: 188/255, green: 130/255, blue: 0))
+                        .foregroundStyle(Color.brandSand)
                     Text("Quick Quiz")
                         .font(.title2.weight(.bold))
                     Text("Five questions on a topic of your choice.\nImmediate feedback and explanations.")
@@ -539,7 +539,7 @@ struct LessonSheet: View {
                 }
             }
         }
-        .presentationBackground(.white)
+        .presentationBackground(Color.brandParchment)
         .task { await vm.loadLesson(topic) }
     }
 
@@ -620,13 +620,13 @@ struct LessonSheet: View {
                             .textCase(.uppercase)
                             .tracking(0.5)
                     }
-                    .foregroundStyle(Color(red: 188/255, green: 130/255, blue: 0))
+                    .foregroundStyle(Color.brandSand)
                     Text(lesson.tip)
                         .font(.subheadline)
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 .padding(16)
-                .background(Color(red: 188/255, green: 130/255, blue: 0).opacity(0.08))
+                .background(Color.brandSand.opacity(0.08))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
                 // Practice button
@@ -669,7 +669,7 @@ struct LessonSheet: View {
             if let note = example.note, !note.isEmpty {
                 Text(note)
                     .font(.caption)
-                    .foregroundStyle(Color(red: 188/255, green: 130/255, blue: 0))
+                    .foregroundStyle(Color.brandSand)
             }
         }
         .padding(14)
@@ -694,8 +694,6 @@ struct QuizSessionView: View {
 
     private var question: QuizQuestion { quiz.exercises[current] }
     private var total: Int { quiz.exercises.count }
-    private let amber = Color(red: 188/255, green: 130/255, blue: 0)
-
     var body: some View {
         if finished {
             resultsView
@@ -712,7 +710,7 @@ struct QuizSessionView: View {
                 // Progress
                 VStack(spacing: 6) {
                     ProgressView(value: Double(current), total: Double(total))
-                        .tint(amber)
+                        .tint(Color.brandSand)
                     Text("Question \(current + 1) of \(total)")
                         .font(.caption)
                         .foregroundStyle(.secondary)

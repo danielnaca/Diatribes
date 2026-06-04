@@ -26,11 +26,11 @@ struct ChatView: View {
             .sheet(isPresented: $vm.showChatOptions) {
                 ChatOptionsSheet()
                     .environmentObject(vm)
-                    .presentationBackground(.white)
+                    .presentationBackground(Color.brandParchment)
             }
             .sheet(item: $tappedWord) { info in
                 WordPopupSheet(info: info)
-                    .presentationBackground(.white)
+                    .presentationBackground(Color.brandParchment)
             }
         }
     }

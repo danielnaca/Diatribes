@@ -14,7 +14,7 @@ enum CorrectionMode: String, CaseIterable, Identifiable {
         switch self {
         case .off:              return "Off"
         case .correct:          return "Correct"
-        case .correctAndRepeat: return "Correct & repeat"
+        case .correctAndRepeat: return "Drill"
         }
     }
 }

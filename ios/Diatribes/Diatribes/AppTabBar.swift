@@ -15,7 +15,7 @@ enum AppTab: Int, CaseIterable {
 
     var icon: String {
         switch self {
-        case .chat:     return "mic"
+        case .chat:     return "waveform"
         case .read:     return "newspaper"
         case .practice: return "brain"
         case .study:    return "books.vertical"
@@ -27,7 +27,7 @@ enum AppTab: Int, CaseIterable {
 struct AppTabBar: View {
     @Binding var selectedTab: AppTab
 
-    private let active   = Color(red: 188/255, green: 130/255, blue: 0)
+    private let active   = Color.brandSand
     private let inactive = Color(red: 108/255, green: 108/255, blue: 108/255)
     private let border   = Color(red: 237/255, green: 237/255, blue: 237/255)
 
@@ -44,7 +44,7 @@ struct AppTabBar: View {
             .padding(.top, 7)
             .padding(.bottom, 30)
         }
-        .background(Color.white)
+        .background(Color.brandParchment)
     }
 
     private func tabButton(_ tab: AppTab) -> some View {

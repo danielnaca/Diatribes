@@ -15,8 +15,8 @@ struct ChatOptionsSheet: View {
                 speedSection
             }
             .scrollContentBackground(.hidden)
-            .background(Color.white)
-            .navigationTitle("Chat Options")
+            .background(Color.brandParchment)
+            .navigationTitle("Language mix")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -45,7 +45,7 @@ struct ChatOptionsSheet: View {
         Section {
             VStack(spacing: 8) {
                 Slider(value: $vm.wordDensity, in: 0...1, step: 0.25)
-                    .tint(Color(red: 188/255, green: 130/255, blue: 0))
+                    .tint(Color.brandSand)
                 HStack {
                     Text("None").font(.caption).foregroundStyle(.secondary)
                     Spacer()
@@ -143,15 +143,7 @@ private struct POSPill: View {
 
     private var isOn: Bool { vm.enabledPOS.contains(key) }
 
-    private var pillColor: Color {
-        switch key {
-        case "noun": return Color(red: 0.145, green: 0.388, blue: 0.922) // #2563eb
-        case "verb": return Color(red: 0.086, green: 0.639, blue: 0.239) // #16a34a
-        case "adj":  return Color(red: 0.761, green: 0.255, blue: 0.047) // #c2410c
-        case "adv":  return Color(red: 0.486, green: 0.231, blue: 0.929) // #7c3aed
-        default:     return .gray
-        }
-    }
+    private var pillColor: Color { posColor(key) }
 
     var body: some View {
         Button {

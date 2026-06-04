@@ -162,7 +162,6 @@ struct AudioReviewView: View {
     @StateObject private var vm: AudioReviewViewModel
     @Environment(\.dismiss) private var dismiss
 
-    private let amber = Color(red: 188/255, green: 130/255, blue: 0)
 
     init(cards: [Flashcard], language: String) {
         _vm = StateObject(wrappedValue: AudioReviewViewModel(cards: cards, language: language))
@@ -185,7 +184,7 @@ struct AudioReviewView: View {
                 }
             }
         }
-        .presentationBackground(.white)
+        .presentationBackground(Color.brandParchment)
         .task { vm.begin() }
     }
 
@@ -194,7 +193,7 @@ struct AudioReviewView: View {
     private var progressBar: some View {
         VStack(spacing: 4) {
             ProgressView(value: vm.progress)
-                .tint(amber)
+                .tint(Color.brandSand)
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
             Text("\(vm.currentIndex + 1) of \(vm.cards.count)")
@@ -400,25 +399,4 @@ struct AudioReviewView: View {
         }
     }
 
-    // MARK: Helpers
-
-    private func posColor(_ pos: String) -> Color {
-        switch pos {
-        case "noun": return Color(red: 0.145, green: 0.388, blue: 0.922)
-        case "verb": return Color(red: 0.086, green: 0.639, blue: 0.239)
-        case "adj":  return Color(red: 0.761, green: 0.255, blue: 0.047)
-        case "adv":  return Color(red: 0.486, green: 0.231, blue: 0.929)
-        default:     return .gray
-        }
-    }
-
-    private func posLabel(_ pos: String) -> String {
-        switch pos {
-        case "noun": return "Noun"
-        case "verb": return "Verb"
-        case "adj":  return "Adjective"
-        case "adv":  return "Adverb"
-        default:     return pos
-        }
-    }
 }

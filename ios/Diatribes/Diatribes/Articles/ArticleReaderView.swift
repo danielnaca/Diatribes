@@ -80,7 +80,7 @@ struct ArticleReaderView: View {
         })
         .sheet(isPresented: $showOptions) {
             ArticleOptionsSheet()
-                .presentationBackground(.white)
+                .presentationBackground(Color.brandParchment)
         }
         .sheet(item: $tappedWord) { info in
             WordPopupSheet(info: info)
@@ -147,7 +147,7 @@ struct ArticleOptionsSheet: View {
                 Section {
                     VStack(spacing: 8) {
                         Slider(value: $wordDensity, in: 0...1, step: 0.25)
-                            .tint(Color(red: 188/255, green: 130/255, blue: 0))
+                            .tint(Color.brandSand)
                         HStack {
                             Text("None").font(.caption).foregroundStyle(.secondary)
                             Spacer()
@@ -172,8 +172,8 @@ struct ArticleOptionsSheet: View {
                 }
             }
             .scrollContentBackground(.hidden)
-            .background(Color.white)
-            .navigationTitle("Article Options")
+            .background(Color.brandParchment)
+            .navigationTitle("Language mix")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -183,13 +183,4 @@ struct ArticleOptionsSheet: View {
         }
     }
 
-    private func posColor(_ pos: String) -> Color {
-        switch pos {
-        case "noun": return Color(red: 0.145, green: 0.388, blue: 0.922)
-        case "verb": return Color(red: 0.086, green: 0.639, blue: 0.239)
-        case "adj":  return Color(red: 0.761, green: 0.255, blue: 0.047)
-        case "adv":  return Color(red: 0.486, green: 0.231, blue: 0.929)
-        default:     return .gray
-        }
-    }
 }

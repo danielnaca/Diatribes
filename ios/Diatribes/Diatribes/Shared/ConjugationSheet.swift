@@ -29,7 +29,7 @@ struct ConjugationSheet: View {
                 }
             }
         }
-        .presentationBackground(.white)
+        .presentationBackground(Color.brandParchment)
         .task { await load() }
     }
 

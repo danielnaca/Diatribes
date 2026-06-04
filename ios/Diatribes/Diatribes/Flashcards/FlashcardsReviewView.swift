@@ -122,13 +122,4 @@ struct FlashcardsReviewView: View {
         index += 1
     }
 
-    private func posColor(_ pos: String) -> Color {
-        switch pos {
-        case "noun": return Color(red: 0.145, green: 0.388, blue: 0.922)
-        case "verb": return Color(red: 0.086, green: 0.639, blue: 0.239)
-        case "adj":  return Color(red: 0.761, green: 0.255, blue: 0.047)
-        case "adv":  return Color(red: 0.486, green: 0.231, blue: 0.929)
-        default:     return .gray
-        }
-    }
 }

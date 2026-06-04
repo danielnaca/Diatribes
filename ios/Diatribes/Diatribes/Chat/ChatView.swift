@@ -231,7 +231,7 @@ struct MessageBubble: View {
             .font(.body)
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
-            .background(Color(.systemGray5))
+            .background(Color(red: 241/255, green: 239/255, blue: 233/255))
             .clipShape(RoundedRectangle(cornerRadius: 18))
             .frame(maxWidth: UIScreen.main.bounds.width * 0.78, alignment: .trailing)
     }
@@ -245,6 +245,7 @@ struct MessageBubble: View {
             }
         }
         .font(.body)
+        .lineSpacing(6)
         .padding(.vertical, 2)
     }
 

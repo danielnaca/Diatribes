@@ -83,7 +83,7 @@ final class DictSwap {
                     var tAttr = AttributedString(translation)
                     if highlightsOn {
                         tAttr.foregroundColor = colorForPOS(entry.pos)
-                        tAttr.font = .body.bold()
+                        tAttr.underlineStyle = .single
                     }
                     if let url = tapURL { tAttr.link = url }
                     attributed += tAttr

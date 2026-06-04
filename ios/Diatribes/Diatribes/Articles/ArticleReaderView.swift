@@ -168,7 +168,7 @@ struct ArticleOptionsSheet: View {
                 }
             }
             .scrollContentBackground(.hidden)
-            .background(Color.brandParchment)
+            .background(Color.white)
             .navigationTitle("Language mix")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

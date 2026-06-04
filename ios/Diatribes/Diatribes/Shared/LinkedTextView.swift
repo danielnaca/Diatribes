@@ -8,15 +8,13 @@ struct LinkedTextView: UIViewRepresentable {
     let onTap: (URL) -> Void
 
     func makeUIView(context: Context) -> UITextView {
-        let tv = UITextView()
+        let tv = AutoSizingTextView()
         tv.isEditable = false
         tv.isScrollEnabled = false
         tv.backgroundColor = .clear
-        tv.linkTextAttributes = [:]   // removes blue override — runs keep their own foregroundColor
+        tv.linkTextAttributes = [:]
         tv.textContainerInset = .zero
         tv.textContainer.lineFragmentPadding = 0
-        tv.setContentHuggingPriority(.required, for: .vertical)
-        tv.setContentCompressionResistancePriority(.required, for: .vertical)
         tv.delegate = context.coordinator
         return tv
     }
@@ -38,5 +36,17 @@ struct LinkedTextView: UIViewRepresentable {
             onTap?(URL)
             return false
         }
+    }
+}
+
+private class AutoSizingTextView: UITextView {
+    override var contentSize: CGSize {
+        didSet { invalidateIntrinsicContentSize() }
+    }
+
+    override var intrinsicContentSize: CGSize {
+        let w = bounds.width.isZero ? CGFloat.greatestFiniteMagnitude : bounds.width
+        let h = sizeThatFits(CGSize(width: w, height: .greatestFiniteMagnitude)).height
+        return CGSize(width: UIView.noIntrinsicMetric, height: max(h, 16))
     }
 }

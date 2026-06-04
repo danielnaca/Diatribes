@@ -11,8 +11,6 @@ struct SettingsView: View {
                 voiceSection
                 howItWorksSection
             }
-            .scrollContentBackground(.hidden)
-            .background(Color.brandParchment)
             .navigationTitle("Settings")
         }
         .tint(Color.brandSand)

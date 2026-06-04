@@ -1,12 +1,12 @@
 import Foundation
 import NaturalLanguage
-import SwiftUI
+import UIKit
 
 // MARK: - Types
 
 struct SwapResult {
-    let attributed: AttributedString   // colored display text
-    let plain: String                  // for TTS (no markup)
+    let attributed: NSAttributedString  // colored display text (UITextView)
+    let plain: String                   // for TTS (no markup)
 }
 
 // MARK: - DictSwap
@@ -37,19 +37,24 @@ final class DictSwap {
     // MARK: Swap
 
     /// Swap English words with target-language translations, color-coded by POS.
-    /// density (0–1): fraction of eligible words actually swapped. All recognised
-    /// dictionary words are still tappable regardless of density/POS filter.
+    /// density (0–1): fraction of eligible words actually swapped.
     func swap(text: String, langCode: String, enabledPOS: Set<String>, highlightsOn: Bool = true, density: Double = 1.0) -> SwapResult {
         load()
 
         let lemmaMap = buildLemmaMap(text: text)
-
-        var attributed = AttributedString()
+        let result   = NSMutableAttributedString()
         var plainParts: [String] = []
+
+        let paraStyle = NSMutableParagraphStyle()
+        paraStyle.lineSpacing = 6
+        let baseAttrs: [NSAttributedString.Key: Any] = [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            .paragraphStyle: paraStyle,
+            .foregroundColor: UIColor.label
+        ]
 
         let tagger = NLTagger(tagSchemes: [.lexicalClass])
         tagger.string = text
-
         var lastEnd = text.startIndex
 
         tagger.enumerateTags(in: text.startIndex ..< text.endIndex,
@@ -59,7 +64,7 @@ final class DictSwap {
 
             if lastEnd < tokenRange.lowerBound {
                 let gap = String(text[lastEnd ..< tokenRange.lowerBound])
-                attributed += AttributedString(gap)
+                result.append(NSAttributedString(string: gap, attributes: baseAttrs))
                 plainParts.append(gap)
             }
             lastEnd = tokenRange.upperBound
@@ -80,37 +85,33 @@ final class DictSwap {
                 let shouldSwap = enabledPOS.contains(entry.pos) && Double.random(in: 0...1) < density
 
                 if shouldSwap {
-                    var tAttr = AttributedString(translation)
+                    var attrs = baseAttrs
+                    if let url = tapURL { attrs[.link] = url }
                     if highlightsOn {
-                        tAttr.foregroundColor = colorForPOS(entry.pos)
-                        tAttr.underlineStyle = .single
+                        attrs[.foregroundColor] = posUIColor(entry.pos)
+                        attrs[.underlineStyle]  = NSUnderlineStyle.single.rawValue
+                        attrs[.underlineColor]  = posUIColor(entry.pos)
                     }
-                    if let url = tapURL { tAttr.link = url }
-                    attributed += tAttr
+                    result.append(NSAttributedString(string: translation, attributes: attrs))
                     plainParts.append(translation)
                 } else {
-                    attributed += AttributedString(word)
+                    result.append(NSAttributedString(string: word, attributes: baseAttrs))
                     plainParts.append(word)
                 }
             } else {
-                attributed += AttributedString(word)
+                result.append(NSAttributedString(string: word, attributes: baseAttrs))
                 plainParts.append(word)
             }
-
             return true
         }
 
-        // Remaining tail (if any)
         if lastEnd < text.endIndex {
             let tail = String(text[lastEnd...])
-            attributed += AttributedString(tail)
+            result.append(NSAttributedString(string: tail, attributes: baseAttrs))
             plainParts.append(tail)
         }
 
-        return SwapResult(
-            attributed: attributed,
-            plain: plainParts.joined()
-        )
+        return SwapResult(attributed: result, plain: plainParts.joined())
     }
 
     // MARK: - Lemma pass
@@ -131,11 +132,6 @@ final class DictSwap {
         return map
     }
 
-    // MARK: Helpers
-
-    private func colorForPOS(_ pos: String) -> Color {
-        posColor(pos)
-    }
 }
 
 // MARK: - DictEntry

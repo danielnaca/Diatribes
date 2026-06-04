@@ -42,7 +42,7 @@ struct ChatView: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 12) {
                     ForEach(vm.messages) { msg in
-                        MessageBubble(message: msg)
+                        MessageBubble(message: msg, wordTapped: handleWordURL)
                             .id(msg.id)
                     }
                     if vm.isProcessing {
@@ -66,20 +66,22 @@ struct ChatView: View {
                     withAnimation { proxy.scrollTo("typing", anchor: .bottom) }
                 }
             }
-            .environment(\.openURL, OpenURLAction { url in
-                guard url.scheme == "diatribes",
-                      let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                      let en   = comps.queryItems?.first(where: { $0.name == "en"   })?.value,
-                      let tr   = comps.queryItems?.first(where: { $0.name == "tr"   })?.value,
-                      let pos  = comps.queryItems?.first(where: { $0.name == "pos"  })?.value,
-                      let lang = comps.queryItems?.first(where: { $0.name == "lang" })?.value
-                else { return .systemAction }
-                let info = WordTapInfo(english: en, translation: tr, pos: pos, language: lang)
-                vm.collectWord(info)
-                tappedWord = info
-                return .handled
-            })
         }
+    }
+
+    // MARK: Word tap
+
+    private func handleWordURL(_ url: URL) {
+        guard url.scheme == "diatribes",
+              let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let en   = comps.queryItems?.first(where: { $0.name == "en"   })?.value,
+              let tr   = comps.queryItems?.first(where: { $0.name == "tr"   })?.value,
+              let pos  = comps.queryItems?.first(where: { $0.name == "pos"  })?.value,
+              let lang = comps.queryItems?.first(where: { $0.name == "lang" })?.value
+        else { return }
+        let info = WordTapInfo(english: en, translation: tr, pos: pos, language: lang)
+        vm.collectWord(info)
+        tappedWord = info
     }
 
     // MARK: Input bar
@@ -211,6 +213,7 @@ struct WaveformView: View {
 
 struct MessageBubble: View {
     let message: ChatMessage
+    var wordTapped: (URL) -> Void = { _ in }
 
     var body: some View {
         Group {
@@ -239,13 +242,13 @@ struct MessageBubble: View {
     private var assistantText: some View {
         Group {
             if let attr = message.attributed {
-                Text(attr)
+                LinkedTextView(attributedText: attr, onTap: wordTapped)
             } else {
                 Text(message.text)
+                    .font(.body)
+                    .lineSpacing(6)
             }
         }
-        .font(.body)
-        .lineSpacing(6)
         .padding(.vertical, 2)
     }
 

@@ -44,9 +44,16 @@ struct ArticleReaderView: View {
                             highlightsOn: highlightsOn,
                             density: wordDensity
                         )
-                        Text(swapped.attributed)
-                            .font(.body)
-                            .lineSpacing(4)
+                        LinkedTextView(attributedText: swapped.attributed) { url in
+                            guard url.scheme == "diatribes",
+                                  let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                                  let en   = comps.queryItems?.first(where: { $0.name == "en" })?.value,
+                                  let tr   = comps.queryItems?.first(where: { $0.name == "tr" })?.value,
+                                  let pos  = comps.queryItems?.first(where: { $0.name == "pos" })?.value,
+                                  let lang = comps.queryItems?.first(where: { $0.name == "lang" })?.value
+                            else { return }
+                            tappedWord = WordTapInfo(english: en, translation: tr, pos: pos, language: lang)
+                        }
                     }
                 }
                 .padding(.horizontal, 20)
@@ -67,17 +74,6 @@ struct ArticleReaderView: View {
                 }
             }
         }
-        .environment(\.openURL, OpenURLAction { url in
-            guard url.scheme == "diatribes",
-                  let comps = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                  let en   = comps.queryItems?.first(where: { $0.name == "en"   })?.value,
-                  let tr   = comps.queryItems?.first(where: { $0.name == "tr"   })?.value,
-                  let pos  = comps.queryItems?.first(where: { $0.name == "pos"  })?.value,
-                  let lang = comps.queryItems?.first(where: { $0.name == "lang" })?.value
-            else { return .systemAction }
-            tappedWord = WordTapInfo(english: en, translation: tr, pos: pos, language: lang)
-            return .handled
-        })
         .sheet(isPresented: $showOptions) {
             ArticleOptionsSheet()
                 .presentationBackground(Color.brandParchment)

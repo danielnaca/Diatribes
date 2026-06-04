@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 enum MessageRole: String, Codable {
     case user
@@ -12,9 +13,9 @@ struct ChatMessage: Identifiable {
     /// Plain text content (stored in history sent to Claude)
     let text: String
     /// Optional attributed text for display (POS-colored words)
-    let attributed: AttributedString?
+    let attributed: NSAttributedString?
 
-    init(role: MessageRole, text: String, attributed: AttributedString? = nil) {
+    init(role: MessageRole, text: String, attributed: NSAttributedString? = nil) {
         self.role = role
         self.text = text
         self.attributed = attributed

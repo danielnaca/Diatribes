@@ -4,3 +4,4 @@ __pycache__/
 .DS_Store
 words.db
 daniel/
+node_modules/
